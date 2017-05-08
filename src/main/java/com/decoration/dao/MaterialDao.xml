@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2009-2012 the original author or authors. Licensed under the 
+	Apache License, Version 2.0 (the "License"); you may not use this file except 
+	in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.decoration.dao.MaterialDao">
+
+	<resultMap type="com.decoration.entity.Material" id="MaterialResult">
+		<id column="material_id" jdbcType="INTEGER" property="materialId" />
+		<result column="material_name" jdbcType="VARCHAR" property="materialName" />
+	    <result column="material_num" jdbcType="DOUBLE" property="materialNum" />
+		<result column="material_unit" jdbcType="VARCHAR" property="materialUnit" />
+		<result column="material_price" jdbcType="DOUBLE" property="materialPrice" />
+		<result column="material_brand" jdbcType="VARCHAR" property="materialBrand" />
+		<result column="mat_project_id" jdbcType="INTEGER" property="matProjectId" />
+		<result column="mat_flow_id" jdbcType="INTEGER" property="matFlowId" />
+		<result column="mat_user_id" jdbcType="INTEGER" property="matUserId" />
+		<result column="mat_buy_date" jdbcType="DATE" property="matBuyDate" />
+	</resultMap>
+	
+	<resultMap type="com.decoration.entity.MaterialEnter" id="MaterialEnterResult">
+		<id column="enter_id" jdbcType="INTEGER" property="enterId" />
+		<result column="enter_num" jdbcType="DOUBLE" property="enterNum" />
+		<result column="enter_date" jdbcType="DATE" property="enterDate" javaType="java.sql.Date"/>
+
+		<association property="enterMat" javaType="com.decoration.bean.MaterialBean">
+			<id column="material_id" jdbcType="INTEGER" property="matId" />
+			<result column="material_name" jdbcType="VARCHAR" property="matName" />
+			<result column="material_num" jdbcType="DOUBLE" property="matNum" />
+			<result column="material_unit" jdbcType="VARCHAR" property="matUnit" />
+			<result column="material_price" jdbcType="DOUBLE" property="matPrice" />
+			<result column="material_brand" jdbcType="VARCHAR" property="matBrand" />
+			<result column="mat_buy_date" jdbcType="DATE" property="matBuyDate" javaType="java.sql.Date"/>
+			<association property="matProject" javaType="com.decoration.entity.Project">
+				<id column="project_id" jdbcType="INTEGER" property="projectId" />
+				<result column="project_name" jdbcType="VARCHAR" property="projectName" />
+				<result column="customer" jdbcType="VARCHAR" property="customer" />
+				<result column="telephone" jdbcType="VARCHAR" property="telephone" />
+				<result column="address" jdbcType="VARCHAR" property="address" />
+			</association>
+			<association property="matFlow" javaType="com.decoration.entity.Flow">
+				<id column="flow_id" jdbcType="INTEGER" property="flowId" />
+				<result column="flow_name" jdbcType="VARCHAR" property="flowName" />
+			</association>
+			<association property="matUser" javaType="com.decoration.entity.User">
+			<id column="user_id" jdbcType="INTEGER" property="userId" />
+			<result column="user_name" jdbcType="VARCHAR" property="userName" />
+			<result column="password" jdbcType="VARCHAR" property="password" />
+			<result column="job_type" jdbcType="VARCHAR" property="jobType" />
+			<result column="telephone" jdbcType="VARCHAR" property="telephone" />
+			<result column="email" jdbcType="VARCHAR" property="email" />
+			</association>
+		</association>
+		
+		<association property="enterUser" javaType="com.decoration.entity.User">
+				<id column="user_id" jdbcType="INTEGER" property="userId" />
+				<result column="user_name" jdbcType="VARCHAR" property="userName" />
+				<result column="password" jdbcType="VARCHAR" property="password" />
+				<result column="job_type" jdbcType="VARCHAR" property="jobType" />
+				<result column="telephone" jdbcType="VARCHAR" property="telephone" />
+				<result column="email" jdbcType="VARCHAR" property="email" />
+		</association>
+		<association property="enterProject" javaType="com.decoration.entity.Project">
+			<id column="project_id" jdbcType="INTEGER" property="projectId" />
+			<result column="project_name" jdbcType="VARCHAR" property="projectName" />
+			<result column="customer" jdbcType="VARCHAR" property="customer" />
+			<result column="telephone" jdbcType="VARCHAR" property="telephone" />
+			<result column="address" jdbcType="VARCHAR" property="address" />
+		</association>
+	</resultMap>
+	
+	<resultMap type="com.decoration.entity.MaterialUse" id="MaterialUseResult">
+		<id column="use_id" jdbcType="INTEGER" property="useId" />
+		<result column="use_num" jdbcType="DOUBLE" property="useNum" />
+		<result column="rest_rate" jdbcType="DOUBLE" property="restRate" />
+		<result column="use_date" jdbcType="DATE" property="useDate" javaType="java.sql.Date"/>
+		<association property="useMat" javaType="com.decoration.bean.MaterialBean">
+			<id column="material_id" jdbcType="INTEGER" property="matId" />
+			<result column="material_name" jdbcType="VARCHAR" property="matName" />
+			<result column="material_num" jdbcType="DOUBLE" property="matNum" />
+			<result column="material_unit" jdbcType="VARCHAR" property="matUnit" />
+			<result column="material_price" jdbcType="DOUBLE" property="matPrice" />
+			<result column="material_brand" jdbcType="VARCHAR" property="matBrand" />
+			<result column="mat_buy_date" jdbcType="DATE" property="matBuyDate" javaType="java.sql.Date"/>
+			<association property="matProject" javaType="com.decoration.entity.Project">
+				<id column="project_id" jdbcType="INTEGER" property="projectId" />
+				<result column="project_name" jdbcType="VARCHAR" property="projectName" />
+				<result column="customer" jdbcType="VARCHAR" property="customer" />
+				<result column="telephone" jdbcType="VARCHAR" property="telephone" />
+				<result column="address" jdbcType="VARCHAR" property="address" />
+			</association>
+			<association property="matFlow" javaType="com.decoration.entity.Flow">
+				<id column="flow_id" jdbcType="INTEGER" property="flowId" />
+				<result column="flow_name" jdbcType="VARCHAR" property="flowName" />
+			</association>
+			<association property="matUser" javaType="com.decoration.entity.User">
+			<id column="user_id" jdbcType="INTEGER" property="userId" />
+			<result column="user_name" jdbcType="VARCHAR" property="userName" />
+			<result column="password" jdbcType="VARCHAR" property="password" />
+			<result column="job_type" jdbcType="VARCHAR" property="jobType" />
+			<result column="telephone" jdbcType="VARCHAR" property="telephone" />
+			<result column="email" jdbcType="VARCHAR" property="email" />
+			</association>
+		</association>
+		
+		<association property="useUser" javaType="com.decoration.entity.User">
+				<id column="user_id" jdbcType="INTEGER" property="userId" />
+				<result column="user_name" jdbcType="VARCHAR" property="userName" />
+				<result column="password" jdbcType="VARCHAR" property="password" />
+				<result column="job_type" jdbcType="VARCHAR" property="jobType" />
+				<result column="telephone" jdbcType="VARCHAR" property="telephone" />
+				<result column="email" jdbcType="VARCHAR" property="email" />
+		</association>
+		<association property="useProject" javaType="com.decoration.entity.Project">
+			<id column="project_id" jdbcType="INTEGER" property="projectId" />
+			<result column="project_name" jdbcType="VARCHAR" property="projectName" />
+			<result column="customer" jdbcType="VARCHAR" property="customer" />
+			<result column="telephone" jdbcType="VARCHAR" property="telephone" />
+			<result column="address" jdbcType="VARCHAR" property="address" />
+		</association>
+	</resultMap> 
+	
+	<resultMap type="com.decoration.bean.MaterialBean" id="MaterialBeanResult">
+		<id column="material_id" jdbcType="INTEGER" property="matId" />
+		<result column="material_name" jdbcType="VARCHAR" property="matName" />
+		<result column="material_num" jdbcType="DOUBLE" property="matNum" />
+		<result column="material_unit" jdbcType="VARCHAR" property="matUnit" />
+		<result column="material_price" jdbcType="DOUBLE" property="matPrice" />
+		<result column="material_brand" jdbcType="VARCHAR" property="matBrand" />
+		<result column="mat_buy_date" jdbcType="DATE" property="matBuyDate" javaType="java.sql.Date"/>
+		<association property="matProject" javaType="com.decoration.entity.Project">
+			<id column="project_id" jdbcType="INTEGER" property="projectId" />
+			<result column="project_name" jdbcType="VARCHAR" property="projectName" />
+			<result column="customer" jdbcType="VARCHAR" property="customer" />
+			<result column="telephone" jdbcType="VARCHAR" property="telephone" />
+			<result column="address" jdbcType="VARCHAR" property="address" />
+		</association>
+		<association property="matFlow" javaType="com.decoration.entity.Flow">
+			<id column="flow_id" jdbcType="INTEGER" property="flowId" />
+			<result column="flow_name" jdbcType="VARCHAR" property="flowName" />
+		</association>
+
+		<association property="matUser" javaType="com.decoration.entity.User">
+			<id column="user_id" jdbcType="INTEGER" property="userId" />
+			<result column="user_name" jdbcType="VARCHAR" property="userName" />
+			<result column="password" jdbcType="VARCHAR" property="password" />
+			<result column="job_type" jdbcType="VARCHAR" property="jobType" />
+			<result column="telephone" jdbcType="VARCHAR" property="telephone" />
+			<result column="email" jdbcType="VARCHAR" property="email" />
+		</association>
+
+	</resultMap>
+	
+	
+	
+<!--==================材料CRUD=====================================================================  -->	
+	
+	<insert id="saveMaterial" parameterType="com.decoration.entity.Material" useGeneratedKeys="true" keyProperty="materialId">
+		INSERT INTO t_material (
+			material_name,
+			material_num,
+			material_unit,
+			material_price,
+			material_brand,
+			mat_project_id,
+			mat_flow_id,
+			mat_user_id,
+			mat_buy_date
+		)
+		VALUES
+		(
+			 #{materialName},
+			 #{materialNum},
+			 #{materialUnit},
+			 #{materialPrice},
+			 #{materialBrand},
+			 #{matProjectId},
+			 #{matFlowId},
+			 #{matUserId},
+			 #{matBuyDate}
+		)	
+	</insert>
+	
+	<delete id="deleteMatById" parameterType="INTEGER">
+		DELETE FROM t_material
+		WHERE
+			material_id=#{materialId}
+	</delete>
+	
+	<update id="updateMaterial" parameterType="com.decoration.entity.Material">
+		UPDATE t_material
+		SET 
+			material_name = #{materialName}, 
+			material_num = #{materialNum}, 
+			material_unit=#{materialUnit}, 
+			material_price=#{materialPrice},
+			material_brand=#{materialBrand},
+			mat_project_Id=#{matProjectId},
+			mat_flow_id=#{matFlowId},
+			mat_user_id=#{matUserId},
+			mat_buy_date=#{matBuyDate}
+		WHERE
+			material_id = #{materialId}
+	</update>
+	
+	<select id="findMatById" parameterType="INTEGER" resultMap="MaterialResult">
+		SELECT *
+		FROM
+			t_material
+		WHERE
+			material_id = #{materialId} 
+	</select>
+	<select id="findMatByName" parameterType="STRING" resultMap="MaterialResult">
+		SELECT *
+		FROM
+			t_material
+		WHERE
+			material_name = #{materialName} 
+	</select>
+	
+	<select id="findMatByNameAndProjectId" parameterType="com.decoration.entity.Material" resultMap="MaterialResult">
+		SELECT *
+		FROM
+			t_material
+		WHERE
+			material_name = #{materialName} 
+		AND
+			mat_project_id = #{matProjectId}
+			
+	</select>
+	
+	<select id="findAllMat"  resultMap="MaterialResult">
+		SELECT *
+		FROM
+			t_material
+	</select>
+	
+
+
+<!--==================材料进场CRUD=====================================================================  -->	
+	<insert id="saveMatEnter" parameterType="com.decoration.entity.MaterialEnter" useGeneratedKeys="true" keyProperty="MaterialEnterResult">
+		INSERT INTO t_material_enter (
+			enter_num,
+			enter_date,
+			t_user_user_id,
+			t_flow_flow_id,
+			t_project_project_id,
+			t_material_material_id
+		)
+		VALUES
+		(
+			 #{enterNum},
+			 #{enterDate},
+			 #{enterUser.userId},
+			 #{enterMat.matFlow.flowId},
+			 #{enterProject.projectId},
+			 #{enterMat.matId}
+		)	
+	</insert>
+	
+	<delete id="deleteMatEnterById" parameterType="INTEGER">
+		DELETE FROM t_material_enter
+		WHERE
+			enter_id=#{enterId}
+	</delete>
+	
+	<update id="updateMatEnter" parameterType="com.decoration.entity.Material">
+		UPDATE t_material_enter
+		SET 
+			enter_num = #{enterNum},
+			enter_date = #{enterDate},
+			t_user_user_id = #{enterUser.userId},
+			t_flow_flow_id = #{enterMat.matFlow.flowId},
+			t_project_project_id = #{enterProject.projectId},
+			t_material_material_id = #{enterMat.matId}
+		WHERE
+			enter_id = #{enterId}
+	</update>
+	
+	<select id="findMatEnterById" parameterType="INTEGER" resultMap="MaterialEnterResult">
+		SELECT *
+		FROM
+			t_material_enter e
+		LEFT JOIN t_material m on m.material_id = e.t_material_material_id
+		LEFT JOIN t_project p on p.project_id = e.t_project_project_id
+		LEFT JOIN t_user u on u.user_id = e.t_user_user_id
+		WHERE
+			e.enter_id = #{enterId} 
+	</select>
+	
+	<select id="findAllMatEnter"  resultMap="MaterialEnterResult">
+		SELECT e.enter_id,m.material_name,e.enter_num,m.material_unit,m.material_brand,p.project_name,f.flow_name,u.user_name,e.enter_date
+		FROM t_material_enter e
+		LEFT JOIN t_material m on m.material_id = e.t_material_material_id
+		LEFT JOIN t_user u on u.user_id = e.t_user_user_id 
+		LEFT JOIN t_project p on p.project_id = e.t_project_project_id
+		LEFT JOIN t_flow f on f.flow_id = e.t_flow_flow_id
+		ORDER BY e.enter_id
+	</select>
+<!--==================材料使用CRUD=====================================================================  -->	
+	<insert id="saveMatUse" parameterType="com.decoration.entity.MaterialEnter" useGeneratedKeys="true" keyProperty="MaterialEnterResult">
+		INSERT INTO t_material_use (
+			use_num,
+			rest_rate,
+			use_date,
+			t_material_material_id,
+			t_project_project_id,
+			t_flow_flow_id,
+			t_user_user_id
+		)
+		VALUES
+		(
+			 #{useNum},
+			 #{restRate},
+			 #{useDate},
+			 #{useProject.projectId},
+			 #{useMat.matId},
+			 #{useMat.matFlow.flowId},
+			 #{useUser.userId}
+		)	
+	</insert>
+	
+	<delete id="deleteMatUseById" parameterType="INTEGER">
+		DELETE FROM t_material_use
+		WHERE
+			use_id=#{useId}
+	</delete>
+	
+	<update id="updateMatUse" parameterType="com.decoration.entity.MaterialUse">
+		UPDATE t_material_use
+		SET 
+			use_num	= #{useNum},
+			rest_rate = #{restRate},
+			use_date = #{useDate},
+			t_material_material_id = #{useMat.matId},
+			t_project_project_id = #{useProject.projectId},
+			t_flow_flow_id = #{useMat.matFlow.flowId},
+			t_user_user_id = #{useUser.userId}
+		WHERE
+			use_id = #{useId}
+	</update>
+	
+	<select id="findMatUseById" parameterType="INTEGER" resultMap="MaterialUseResult">
+		SELECT * 
+		FROM t_material_use mu
+		LEFT JOIN t_project p ON p.project_id = mu.t_project_project_id
+		LEFT JOIN t_material m ON m.material_id = mu.t_material_material_id
+		LEFT JOIN t_user u ON u.user_id = mu.t_user_user_id
+		where mu.use_id = #{useId} 
+	</select>
+	
+	<select id="findAllMatUse"  resultMap="MaterialUseResult">
+		SELECT *
+		FROM t_material_use mu
+		LEFT JOIN t_project p ON p.project_id = mu.t_project_project_id
+		LEFT JOIN t_material m ON m.material_id = mu.t_material_material_id
+		LEFT JOIN t_user u ON u.user_id = mu.t_user_user_id
+		LEFT JOIN t_flow f ON f.flow_id = mu.t_flow_flow_id
+		ORDER BY mu.use_id
+			
+	</select>
+	<!--==================MaterialBean=====================================================================  -->	
+	<select id="findMatBean"  resultMap="MaterialBeanResult">
+		SELECT m.material_id, m.material_name, m.material_num, m.material_unit,m.material_price, m.material_brand, p.project_name, f.flow_name, u.user_name ,m.mat_buy_date
+		FROM t_material m
+		LEFT JOIN t_user u
+		ON u.user_id = m.mat_user_id
+		LEFT JOIN t_project p
+		ON p.project_id = m.mat_project_id
+		left JOIN t_flow f
+		on f.flow_id = m.mat_flow_id
+		ORDER BY m.material_id
+	</select>
+	<insert id="saveMatBean" parameterType="com.decoration.bean.MaterialBean" useGeneratedKeys="true" keyProperty="materialId">
+		INSERT INTO t_material (
+			material_name,
+			material_num,
+			material_unit,
+			material_price,
+			material_brand,
+			mat_project_id,
+			mat_flow_id,
+			mat_user_id,
+			mat_buy_date
+		)
+		VALUES
+		(
+			 #{matName},
+			 #{matNum},
+			 #{matUnit},
+			 #{matPrice},
+			 #{matBrand},
+			 #{matProject.projectId},
+			 #{matFlow.flowId},
+			 #{matUser.userId},
+			 #{matBuyDate}
+		)	
+	</insert>
+	<update id="updateMatBean" parameterType="com.decoration.bean.MaterialBean">
+		UPDATE t_material
+		SET 
+			material_name = #{matName}, 
+			material_num = #{matNum}, 
+			material_unit=#{matUnit}, 
+			material_price=#{matPrice},
+			material_brand=#{matBrand},
+			mat_project_Id=#{matProject.projectId},
+			mat_flow_id=#{matFlow.flowId},
+			mat_user_id=#{matUser.userId},
+			mat_buy_date=#{matBuyDate}
+		WHERE
+			material_id = #{matId}
+	</update>
+	<select id="findMatBeanById" parameterType="INTEGER" resultMap="MaterialBeanResult">
+		SELECT *
+		FROM
+			t_material m
+		LEFT JOIN t_project p on p.project_id = m.mat_project_id
+		LEFT JOIN t_user u on u.user_id = m.mat_user_id
+		LEFT JOIN t_flow f ON f.flow_id = m.mat_flow_id
+		WHERE
+			m.material_id = #{materialId} 
+	</select>
+	<select id="findMatBeanByCondition" parameterType="string" resultMap="MaterialBeanResult">
+		SELECT m.material_id, m.material_name, m.material_num, m.material_unit,m.material_price, m.material_brand, p.project_name, f.flow_name, u.user_name ,m.mat_buy_date
+		FROM t_material m
+		LEFT JOIN t_user u
+		ON u.user_id = m.mat_user_id
+		LEFT JOIN t_project p
+		ON p.project_id = m.mat_project_id
+		left JOIN t_flow f
+		on f.flow_id = m.mat_flow_id
+		where 1=1
+ 		<if test="project.projectName!=null and project.projectName !=' '">
+			and p.project_name = #{project.projectName}
+		</if>
+		<if test="flow.flowName!=null and flow.flowName!=' '">
+			and f.flow_name = #{flow.flowName}
+		</if>
+		ORDER BY m.material_id
+	</select>
+</mapper>

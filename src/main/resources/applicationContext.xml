@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+
+	<context:annotation-config></context:annotation-config>
+
+	<!-- 指定IOC容器扫描的包 -->
+	<context:component-scan base-package="com.decoration.**">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+	
+	<!-- 读取数据源的配置文件 -->
+	<context:property-placeholder location="classpath:jdbc.properties" />
+	
+	<!-- 数据源配置 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		
+		<property name="initialSize" value="1"></property>
+		<property name="minIdle" value="1"></property>
+		<property name="maxIdle" value="10"></property>
+		<property name="maxWaitMillis" value="6000"></property>
+	</bean>
+	
+	<!-- 配置mybatis的SqlSessionFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- 扫描sql配置文件 -->
+		<property name="mapperLocations" value="classpath:com/decoration/dao/*.xml"></property>
+	</bean>
+	
+	<!-- 配置扫描Dao接口包，动态实现Dao接口, 注入到spring容器中 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- 注入sqlsessionFactory -->
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+		<!-- 给出扫描Dao接口包 -->
+		<property name="basePackage" value="com.decoration.dao"></property>
+	</bean>
+	
+	<!-- 配置事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<!-- 配置基于声明式事务，默认使用注解来管理事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+</beans>

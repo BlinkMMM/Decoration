@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2009-2012 the original author or authors. Licensed under the 
+	Apache License, Version 2.0 (the "License"); you may not use this file except 
+	in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.decoration.dao.WorkRecordDao">
+
+	<resultMap type="com.decoration.entity.WorkRecord" id="WorkRecordResult">
+		<id column="work_record_id" jdbcType="INTEGER" property="workRecordId" />
+		<result column="check_date" jdbcType="DATE" property="checkDate" javaType="java.sql.Date"/>
+		<result column="is_full_work" jdbcType="INTEGER" property="isFullWork" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+
+		<association property="recordUser" javaType="com.decoration.entity.User">
+			<id column="user_id" jdbcType="INTEGER" property="userId" />
+			<result column="user_name" jdbcType="VARCHAR" property="userName" />
+			<result column="password" jdbcType="VARCHAR" property="password" />
+			<result column="job_type" jdbcType="VARCHAR" property="jobType" />
+			<result column="telephone" jdbcType="VARCHAR" property="telephone" />
+			<result column="email" jdbcType="VARCHAR" property="email" />
+		</association>
+		<association property="recordProject" javaType="com.decoration.entity.Project">
+			<id column="project_id" jdbcType="INTEGER" property="projectId" />
+			<result column="project_name" jdbcType="VARCHAR" property="projectName" />
+			<result column="customer" jdbcType="VARCHAR" property="customer" />
+			<result column="telephone" jdbcType="VARCHAR" property="telephone" />
+			<result column="address" jdbcType="VARCHAR" property="address" />
+		</association>
+	</resultMap>
+
+
+
+	<insert id="saveWorkRecord" parameterType="com.decoration.entity.WorkRecord"
+		useGeneratedKeys="true" keyProperty="workRecordId">
+		INSERT INTO t_work_record (
+		check_date,
+		is_full_work,
+		remark,
+		t_user_user_id,
+		t_project_project_id
+		)
+		VALUES
+		(
+		#{checkDate},
+		#{isFullWork},
+		#{remark},
+		#{recordProject.projectId},
+		#{recordUser.userId}
+		)
+	</insert>
+	<delete id="deleteWorkRecordById" parameterType="INTEGER">
+		DELETE FROM
+		t_work_record
+		WHERE
+		work_record_id=#{workRecordId}
+	</delete>
+
+	<select id="findAllWorkRecord" resultMap="WorkRecordResult">
+		SELECT * 
+		FROM t_work_record r
+		LEFT JOIN t_user u
+		ON u.user_id = r.t_user_user_id
+		LEFT JOIN t_project p
+		ON p.project_id = r.t_project_project_id;
+	</select>
+	
+	<select id="findUserAllRecordByUseId" resultMap="WorkRecordResult">
+		SELECT * 
+		FROM t_work_record r
+		LEFT JOIN t_user u
+		ON u.user_id = r.t_user_user_id
+		LEFT JOIN t_project p
+		ON p.project_id = r.t_project_project_id
+		WHERE r.t_user_user_id = #{recordUser.userId};
+	</select>
+	
+	<select id="findRecordByUserIdAndDate" parameterType="com.decoration.entity.WorkRecord" resultMap="WorkRecordResult">
+		SELECT * 
+		FROM t_work_record r
+		LEFT JOIN t_user u
+		ON u.user_id = r.t_user_user_id
+		WHERE r.t_user_user_id = #{recordUser.userId}
+		AND r.check_date = #{checkDate};
+	</select>
+	
+	<select id="findRecordById"  resultMap="WorkRecordResult">
+		SELECT * 
+		FROM t_work_record r
+		WHERE r.work_record_id = #{workRecordId};
+	</select>
+
+</mapper>
