@@ -54,20 +54,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div>
 <div class="leftnav">
   <div class="leftnav-title"><strong><span class="icon-list"></span>菜单列表</strong></div>
-  <h2><span class="icon-user"></span>基本设置</h2>
+  <h2><span class="icon-user"></span>项目管理</h2>
   <ul style="display:block">
     <li><a href="material/buy"><span class="icon-caret-right" ></span>购买材料登记</a></li>
     <li><a href="material/enter"><span class="icon-caret-right"></span>材料进场登记</a></li>
     <li><a href="material/use"><span class="icon-caret-right"></span>材料使用登记</a></li>  
-    <li><a href="user/register"><span class="icon-caret-right"></span>工程进度登记</a></li>   
+    <li><a href="schedule/schedule"><span class="icon-caret-right"></span>工程进度登记</a></li>   
     <li><a href="work/record"><span class="icon-caret-right"></span>工勤统计</a></li>     
-    <li><a href="column.html"><span class="icon-caret-right"></span>财务统计</a></li>
   </ul>   
-  <h2><span class="icon-pencil-square-o"></span>栏目管理</h2>
+  <h2><span class="icon-pencil-square-o"></span>成本管理</h2>
   <ul>
-    <li><a href="list.html" target="right"><span class="icon-caret-right"></span>内容管理</a></li>
-    <li><a href="add.html" target="right"><span class="icon-caret-right"></span>添加内容</a></li>
-    <li><a href="cate.html" target="right"><span class="icon-caret-right"></span>分类管理</a></li>        
+    <li><a href="list.html"><span class="icon-caret-right"></span>材料成本</a></li>
+    <li><a href="add.html"><span class="icon-caret-right"></span>薪水成本</a></li>
+    <li><a href="cate.html"><span class="icon-caret-right"></span>总成本</a></li>        
   </ul>  
   
 </div>
@@ -90,6 +89,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!--========显示员工考勤界面  ==========-->
 <c:if test="${page == 'record'}">
 <jsp:include page="workrecord/record.jsp"></jsp:include>
+</c:if>
+<!--========显示工程进度界面  ==========-->
+<c:if test="${page == 'schedule'}">
+<jsp:include page="schedule/schedule.jsp"></jsp:include>
 </c:if>
 <!--========显示购买界面  ==========-->
 <c:if test="${page == 'addInfo'}">
@@ -122,6 +125,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!--========显示添加考勤界面  ==========-->
 <c:if test="${page == 'recordAddInfo'}">
 <jsp:include page="workrecord/addRecord.jsp"></jsp:include>
+</c:if>
+<!--========显示添加工程进度界面  ==========-->
+<c:if test="${page == 'scheduleAddInfo'}">
+<jsp:include page="schedule/addSchedule.jsp"></jsp:include>
 </c:if>
 <!--========显示尚未登录错误界面  ==========-->
 <c:if test="${page == 'errorLogin'}">

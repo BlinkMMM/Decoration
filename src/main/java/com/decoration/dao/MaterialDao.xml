@@ -159,7 +159,39 @@
 
 	</resultMap>
 	
-	
+	<!-- <resultMap type="com.decoration.bean.MaterialCostBean" id="MaterialCostBeanResult">
+		<result jdbcType="DOUBLE" property="singleMatCost" />
+		<result jdbcType="DOUBLE" property="allMatCost" />
+		
+		<association property="matBean" javaType="com.decoration.bean.MaterialBean">
+			<id column="material_id" jdbcType="INTEGER" property="matId" />
+			<result column="material_name" jdbcType="VARCHAR" property="matName" />
+			<result column="material_num" jdbcType="DOUBLE" property="matNum" />
+			<result column="material_unit" jdbcType="VARCHAR" property="matUnit" />
+			<result column="material_price" jdbcType="DOUBLE" property="matPrice" />
+			<result column="material_brand" jdbcType="VARCHAR" property="matBrand" />
+			<result column="mat_buy_date" jdbcType="DATE" property="matBuyDate" javaType="java.sql.Date"/>
+			<association property="matProject" javaType="com.decoration.entity.Project">
+				<id column="project_id" jdbcType="INTEGER" property="projectId" />
+				<result column="project_name" jdbcType="VARCHAR" property="projectName" />
+				<result column="customer" jdbcType="VARCHAR" property="customer" />
+				<result column="telephone" jdbcType="VARCHAR" property="telephone" />
+				<result column="address" jdbcType="VARCHAR" property="address" />
+			</association>
+			<association property="matFlow" javaType="com.decoration.entity.Flow">
+				<id column="flow_id" jdbcType="INTEGER" property="flowId" />
+				<result column="flow_name" jdbcType="VARCHAR" property="flowName" />
+			</association>
+			<association property="matUser" javaType="com.decoration.entity.User">
+			<id column="user_id" jdbcType="INTEGER" property="userId" />
+			<result column="user_name" jdbcType="VARCHAR" property="userName" />
+			<result column="password" jdbcType="VARCHAR" property="password" />
+			<result column="job_type" jdbcType="VARCHAR" property="jobType" />
+			<result column="telephone" jdbcType="VARCHAR" property="telephone" />
+			<result column="email" jdbcType="VARCHAR" property="email" />
+			</association>
+		</association>
+	</resultMap> -->
 	
 <!--==================材料CRUD=====================================================================  -->	
 	
@@ -447,4 +479,17 @@
 		</if>
 		ORDER BY m.material_id
 	</select>
+	
+	<!--==================MaterialCostBean=====================================================================  -->	
+<!-- 	<select id="findMatCostByProjectId" parameterType="INTEGER" resultMap="MaterialCostBeanResult">
+		SELECT m.material_id , f.flow_name,m.material_name , m.material_num * m.material_price
+		FROM t_material m
+		LEFT JOIN t_project p
+		ON p.project_id = m.mat_project_id
+		LEFT JOIN t_flow f
+		ON f.flow_id = m.mat_flow_id
+		WHERE p.project_id = #{matBean.matProject.projectId};
+	</select> -->
+	
+	
 </mapper>

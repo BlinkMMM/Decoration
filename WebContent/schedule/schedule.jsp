@@ -26,10 +26,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 <form method="post" action="" id="listform">
   <div class="panel admin-panel">
-    <div class="panel-head"><strong class="icon-reorder">显示考勤</strong> <a href="" style="float:right; display:none;">添加字段</a></div>
+    <div class="panel-head"><strong class="icon-reorder">工程进度</strong> <a href="" style="float:right; display:none;">添加字段</a></div>
     <div class="padding border-bottom">
       <ul class="search" style="padding-left:10px;">
-        <li> <a class="button border-main icon-plus-square-o" href="work/recordInfo"> 签到</a> </li>
+        <li> <a class="button border-main icon-plus-square-o" href="schedule/addScheduleInfo">添加工程进度</a> </li>
         <li>搜索：</li>
         <li>首页
           <select name="s_ishome" class="input" onchange="changesearch()" style="width:60px; line-height:17px; display:inline-block">
@@ -71,37 +71,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <table class="table table-hover text-center">
       <tr>
         <th>ID</th>
+        <th>预计工时</th>
+        <th>已完成工时</th>
+        <th>进度百分比</th>
         <th>项目</th>
-        <th>姓名</th>
-        <th width="10%">签到日期</th>
-        <th>是否满勤</th>
-        <th>备注</th>
+        <th>流程</th>
+        <th>登记人</th>
+        <th width="10%">登记日期</th>
+        <th width="310">操作</th>
       </tr>
      
-      <c:forEach var="i" items="${recordData}">
+      <c:forEach var="i" items="${scheduleData}">
       <tr>
-	      <td><c:out value="${i.workRecordId}"/><p></td>	
-	      <td><c:out value="${i.recordProject.projectName}"/><p></td>	
-	      <td><c:out value="${i.recordUser.userName}"/><p></td>	
-	      <td><c:out value="${i.checkDate}"/><p></td>	
-	      
+	      <td><c:out value="${i.scheduleId}"/><p></td>	
+	      <td><c:out value="${i.expectedDays}"/><p></td>	
+	      <td><c:out value="${i.finishedDays}"/><p></td>	
+	      <td><c:out value="${i.scheduleRate}"/><p></td>	
+	      <td><c:out value="${i.scheduleProject.projectName}"/><p></td>	
+	      <td><c:out value="${i.scheduleFlow.flowName}"/><p></td>	
+	      <td><c:out value="${i.scheduleUser.userName}"/><p></td>	
+	      <td><c:out value="${i.recordDate}"/><p></td>	
 	      <td>
-	      <c:if test="${i.isFullWork == 1}">
-	      	<c:out value="是"/><p>
-	      </c:if>
-	      <c:if test="${i.isFullWork == 0}">
-	      	<c:out value="否"/><p>
-	      </c:if>
-	      
-	      </td>	
-	      
-	      <td><c:out value="${i.remark}"/><p></td>	
-	      
-	      <td>
+	      <div class="button-group"> 
+	       <a class="button border-main" href="use/updateInfo/${i.scheduleId}"><span class="icon-edit"></span> 修改</a>
+	       <a class="button border-red" href="use/delete/${i.scheduleId}" ><span class="icon-trash-o"></span> 删除</a>
+	      </div>
 	      </td>
-	  </tr>
+	      </tr>
 	  </c:forEach>
-	  
+
       <tr>
         <td style="text-align:left; padding:19px 0;padding-left:20px;"><input type="checkbox" id="checkall"/>
           全选 </td>

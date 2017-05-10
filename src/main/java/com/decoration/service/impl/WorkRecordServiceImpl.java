@@ -6,6 +6,7 @@ package com.decoration.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,10 +43,14 @@ public class WorkRecordServiceImpl implements WorkRecordService{
 		String proName = workRecord.getRecordProject().getProjectName();
 		User user = (User)session.getAttribute("loginUser");
 		Project project = projectDao.findProByName(proName);
-		Date checkDate = workRecord.getCheckDate();
+		String remark = workRecord.getRemark();
 		if(user != null && project != null){
 			workRecord.setRecordUser(user);
 			workRecord.setRecordProject(project);
+			if(remark == null || remark.equals("")) {
+				workRecord.setRemark("无");
+			}
+			this.checkCheckDateIsValid(workRecord);
 			recordDao.saveWorkRecord(workRecord);
 			mv.addObject("page","record");
 		}else{
@@ -92,13 +97,14 @@ public class WorkRecordServiceImpl implements WorkRecordService{
 		Date checkDate = workRecord.getCheckDate();
 		
 		if(checkDate.after(currentDate)){
-			
+			System.out.println("签到日期不能迟于当前日期");
+			throw new RuntimeException();
 		}
 		
 		WorkRecord record = recordDao.findRecordByUserIdAndDate(workRecord);
-		
 		if(record != null) {
-			
+			System.out.println("不能重复签到");
+			throw new RuntimeException();
 		}
 		return mv;
 

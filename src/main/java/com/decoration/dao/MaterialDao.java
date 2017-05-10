@@ -6,6 +6,7 @@ package com.decoration.dao;
 import java.util.List;
 
 import com.decoration.bean.MaterialBean;
+import com.decoration.bean.MaterialCostBean;
 import com.decoration.entity.Material;
 import com.decoration.entity.MaterialEnter;
 import com.decoration.entity.MaterialUse;
@@ -54,4 +55,6 @@ public interface MaterialDao {
 	public MaterialBean findMatBeanById(int matBeanId);
 	public List<MaterialBean> findMatBeanByCondition(MaterialBean matBean);
 	
+	public MaterialCostBean findMatCostByProjectId(int projectId);
+	public double findAllMatCostByProjectId(int projectId);
 }

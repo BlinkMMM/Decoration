@@ -12,6 +12,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.decoration.bean.MaterialBean;
+import com.decoration.bean.MaterialCostBean;
 import com.decoration.dao.FlowDao;
 import com.decoration.dao.MaterialDao;
 import com.decoration.dao.ProjectDao;
@@ -229,5 +230,11 @@ public class TestMaterialDao {
 		MaterialBean bean = matDao.findMatBeanById(8);
 		System.out.println("bean = " + bean);
 		
+	}
+	
+	//=======成本统计================================================================
+	public void findMatCost(){
+		MaterialCostBean bean = matDao.findMatCostByProjectId(1);
+		System.out.println(bean);
 	}
 }

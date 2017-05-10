@@ -14,21 +14,22 @@ public class Schedule {
 	private int finishedDays;
 	private double scheduleRate;
 	private Date recordDate;
-	private Project schProId;
-	private Flow schFlowId;
-	private User schUserId;
+	private Project scheduleProject;
+	private Flow scheduleFlow;
+	private User scheduleUser;
 	public Schedule() {
+		
 	}
 	public Schedule(int expectedDays, int finishedDays, double scheduleRate, Date recordDate,
-			Project schProId, Flow schFlowId, User schUserId) {
+			Project scheduleProject, Flow scheduleFlow, User scheduleUser) {
 		super();
 		this.expectedDays = expectedDays;
 		this.finishedDays = finishedDays;
 		this.scheduleRate = scheduleRate;
 		this.recordDate = recordDate;
-		this.schProId = schProId;
-		this.schFlowId = schFlowId;
-		this.schUserId = schUserId;
+		this.scheduleProject = scheduleProject;
+		this.scheduleFlow = scheduleFlow;
+		this.scheduleUser = scheduleUser;
 	}
 	public int getScheduleId() {
 		return scheduleId;
@@ -60,30 +61,29 @@ public class Schedule {
 	public void setRecordDate(Date recordDate) {
 		this.recordDate = recordDate;
 	}
-	public Project getSchProId() {
-		return schProId;
+	public Project getScheduleProject() {
+		return scheduleProject;
 	}
-	public void setSchProId(Project schProId) {
-		this.schProId = schProId;
+	public void setScheduleProject(Project scheduleProject) {
+		this.scheduleProject = scheduleProject;
 	}
-	public Flow getSchFlowId() {
-		return schFlowId;
+	public Flow getScheduleFlow() {
+		return scheduleFlow;
 	}
-	public void setSchFlowId(Flow schFlowId) {
-		this.schFlowId = schFlowId;
+	public void setScheduleFlow(Flow scheduleFlow) {
+		this.scheduleFlow = scheduleFlow;
 	}
-	public User getSchUserId() {
-		return schUserId;
+	public User getScheduleUser() {
+		return scheduleUser;
 	}
-	public void setSchUserId(User schUserId) {
-		this.schUserId = schUserId;
+	public void setScheduleUser(User scheduleUser) {
+		this.scheduleUser = scheduleUser;
 	}
 	@Override
 	public String toString() {
 		return "Schedule [scheduleId=" + scheduleId + ", expectedDays=" + expectedDays + ", finishedDays="
-				+ finishedDays + ", scheduleRate=" + scheduleRate + ", recordDate=" + recordDate + ", schProId="
-				+ schProId + ", schFlowId=" + schFlowId + ", schUserId=" + schUserId + "]";
+				+ finishedDays + ", scheduleRate=" + scheduleRate + ", recordDate=" + recordDate + ", scheduleProject="
+				+ scheduleProject + ", scheduleFlow=" + scheduleFlow + ", scheduleUser=" + scheduleUser + "]";
 	}
-	
 	
 }
