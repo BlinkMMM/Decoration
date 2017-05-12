@@ -24,45 +24,37 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="js/pintuer.js"></script>
 </head>
 <body>
-<form method="post" action="" id="listform">
+
   <div class="panel admin-panel">
     <div class="panel-head"><strong class="icon-reorder">材料成本统计</strong> <a href="" style="float:right; display:none;">添加字段</a></div>
     <div class="padding border-bottom">
       <ul class="search" style="padding-left:10px;">
-        <li> <a class="button border-main icon-plus-square-o" href="use/addInfo"> 新添材料使用</a> </li>
-        <li>搜索：</li>
-        <li>首页
-          <select name="s_ishome" class="input" onchange="changesearch()" style="width:60px; line-height:17px; display:inline-block">
-            <option value="">选择</option>
-            <option value="1">是</option>
-            <option value="0">否</option>
+        <form action="cost/mat2" method="post">
+        
+        <li>请选择项目
+          <select name="projectName" class="input" onchange="changesearch()" style="width:200px; line-height:17px; display:inline-block">
+          	<option value="">选择</option>
+            <c:forEach var="i" items="${costProData}">
+      		<tr>
+	      		<td><option value="${i.projectName}"><c:out value="${i.projectName}"/></option><p></td>	
+	        </tr>
+	  		</c:forEach>
           </select>
           &nbsp;&nbsp;
-          推荐
-          <select name="s_isvouch" class="input" onchange="changesearch()"  style="width:60px; line-height:17px;display:inline-block">
-            <option value="">选择</option>
-            <option value="1">是</option>
-            <option value="0">否</option>
+          请选择流程
+          <select name="flowName" class="input" onchange="changesearch()"  style="width:200px; line-height:17px;display:inline-block">
+           	<option value="">选择</option>
+            <c:forEach var="i" items="${costFlowData}">
+      		<tr>
+	      		<td><option value="${i.flowName}"><c:out value="${i.flowName}"/></option><p></td>	
+	        </tr>
+	  		</c:forEach>
           </select>
           &nbsp;&nbsp;
-          置顶
-          <select name="s_istop" class="input" onchange="changesearch()"  style="width:60px; line-height:17px;display:inline-block">
-            <option value="">选择</option>
-            <option value="1">是</option>
-            <option value="0">否</option>
-          </select>
         </li>
-        <if condition="$iscid eq 1">
-          <li>
-            <select name="cid" class="input" style="width:200px; line-height:17px;" onchange="changesearch()">
-              <option value="">请选择分类</option>
-              <option value="">产品分类</option>
-              <option value="">产品分类</option>
-              <option value="">产品分类</option>
-              <option value="">产品分类</option>
-            </select>
-          </li>
-        </if>
+        
+        <li> <button href="cost/mat2" class="button border-main icon-search" type="submit">查看 </li>
+        </form>
         <li>
           <input type="text" placeholder="请输入搜索关键字" name="keywords" class="input" style="width:250px; line-height:17px;display:inline-block" />
           <a href="javascript:void(0)" class="button border-main icon-search" onclick="changesearch()" > 搜索</a></li>
@@ -70,37 +62,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div>
     <table class="table table-hover text-center">
       <tr>
-        <th>ID</th>
+        <th>项目</th>
+        <th>流程</th>
         <th>材料名称</th>
         <th>使用数量</th>
         <th>单位</th>
-        <th>品牌</th>
-        <th>余量</th>
-        <th>项目</th>
-        <th>流程</th>
-        <th>登记人</th>
-        <th width="10%">使用日期</th>
-        <th width="310">操作</th>
+        <th>价格</th>
+        <th>总价</th>
+
       </tr>
      
-      <c:forEach var="i" items="${useData}">
+      <c:forEach var="i"  items="${matCostData}">
       <tr>
-	      <td><c:out value="${i.useId}"/><p></td>	
-	      <td><c:out value="${i.useMat.matName}"/><p></td>	
-	      <td><c:out value="${i.useNum}"/><p></td>	
-	      <td><c:out value="${i.useMat.matUnit}"/><p></td>	
-	      <td><c:out value="${i.useMat.matBrand}"/><p></td>	
-	      <td><c:out value="${i.restRate}"/><p></td>	
-	      <td><c:out value="${i.useMat.matProject.projectName}"/><p></td>	
-	      <td><c:out value="${i.useMat.matFlow.flowName}"/><p></td>	
-	      <td><c:out value="${i.useUser.userName}"/><p></td>	
-	      <td><c:out value="${i.useDate}"/><p></td>	
-	      <td>
-	      <div class="button-group"> 
-	       <a class="button border-main" href="use/updateInfo/${i.useId}"><span class="icon-edit"></span> 修改</a>
-	       <a class="button border-red" href="use/delete/${i.useId}" ><span class="icon-trash-o"></span> 删除</a>
-	      </div>
-	      </td>
+	      <td><c:out value="${i.matBean.matProject.projectName}"/><p></td>	
+	      <td><c:out value="${i.matBean.matFlow.flowName}"/><p></td>	
+	      <td><c:out value="${i.matBean.matName}"/><p></td>	
+	      <td><c:out value="${i.matBean.matNum}"/><p></td>	
+	      <td><c:out value="${i.matBean.matUnit}"/><p></td>	
+	      <td><c:out value="${i.matBean.matPrice}"/><p></td>	
+	      <td><c:out value="${i.singleMatCost}"/><p></td>	
 	      </tr>
 	  </c:forEach>
 
@@ -124,29 +104,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <option value="0">否</option>
           </select>
           &nbsp;&nbsp;&nbsp;
-          
-          移动到：
-          <select name="movecid" style="padding:5px 15px; border:1px solid #ddd;" onchange="changecate(this)">
-            <option value="">请选择分类</option>
-            <option value="">产品分类</option>
-            <option value="">产品分类</option>
-            <option value="">产品分类</option>
-            <option value="">产品分类</option>
-          </select>
-          <select name="copynum" style="padding:5px 15px; border:1px solid #ddd;" onchange="changecopy(this)">
-            <option value="">请选择复制</option>
-            <option value="5">复制5条</option>
-            <option value="10">复制10条</option>
-            <option value="15">复制15条</option>
-            <option value="20">复制20条</option>
-          </select></td>
+  		</td>
       </tr>
       <tr>
         <td colspan="8"><div class="pagelist"> <a href="">上一页</a> <span class="current">1</span><a href="">2</a><a href="">3</a><a href="">下一页</a><a href="">尾页</a> </div></td>
       </tr>
     </table>
   </div>
-</form>
+
 <script type="text/javascript">
 
 //搜索

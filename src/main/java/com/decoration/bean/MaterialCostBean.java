@@ -14,17 +14,15 @@ import com.decoration.entity.Material;
 public class MaterialCostBean {
 	private MaterialBean matBean;
 	private double singleMatCost;
-	private double allMatCost;
 	
 	public MaterialCostBean() {
 		
 	}
 
-	public MaterialCostBean(MaterialBean matBean, double singleMatCost, double allMatCost) {
+	public MaterialCostBean(MaterialBean matBean, double singleMatCost) {
 		super();
 		this.matBean = matBean;
 		this.singleMatCost = singleMatCost;
-		this.allMatCost = allMatCost;
 	}
 
 	public MaterialBean getMatBean() {
@@ -43,20 +41,8 @@ public class MaterialCostBean {
 		this.singleMatCost = singleMatCost;
 	}
 
-	public double getAllMatCost() {
-		return allMatCost;
-	}
-
-	public void setAllMatCost(double allMatCost) {
-		this.allMatCost = allMatCost;
-	}
-
 	@Override
 	public String toString() {
-		return "MaterialCostBean [matBean=" + matBean + ", singleMatCost=" + singleMatCost + ", allMatCost="
-				+ allMatCost + "]";
+		return "MaterialCostBean [matBean=" + matBean + ", singleMatCost=" + singleMatCost + "]";
 	}
-	
-	
-	
 }

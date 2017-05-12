@@ -28,6 +28,10 @@
 		WHERE
 			flow_name = #{flowName} 
 	</select>
+	<select id="findAllFlow" parameterType="com.decoration.entity.Flow" resultMap="FlowResult">
+		SELECT *
+		FROM t_flow
+	</select>
 
 
 	

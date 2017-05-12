@@ -31,6 +31,11 @@
 		WHERE
 			project_name = #{projectName} 
 	</select>
+	<select id="findAllProject" parameterType="com.decoration.entity.Project" resultMap="ProjectResult">
+		SELECT *
+		FROM
+		t_project
+	</select>
 
 
 	

@@ -3,6 +3,8 @@
  */
 package test;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -30,5 +32,12 @@ public class TestProjectDao {
 	public void testFindProByName(){
 		Project pro = proDao.findProByName("项目1");
 		System.out.println("pro = " + pro);
+	}
+	@Test
+	public void testFindAllProject(){
+		List<Project> list = proDao.findAllProject();
+		for(Project p: list){
+			System.out.println(p);
+		}
 	}
 }

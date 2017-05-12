@@ -200,13 +200,16 @@ public class TestMaterialDao {
 	@Test
 	public void findMatByCondition(){
 		MaterialBean matBean = new MaterialBean();
-		Project project = new Project();
-		project = proDao.findProByName("项目1");
-		Flow flow = new Flow();
-		flow = flowDao.findFlowByName("木工");
+		
+		Flow flow = flowDao.findFlowByName("木工");
+		Project project = proDao.findProByName("项目1");
+		
 		matBean.setMatProject(project);
 		matBean.setMatFlow(flow);
+		System.out.println("matBean = " + matBean);
+		
 		List<MaterialBean> list = matDao.findMatBeanByCondition(matBean);
+		
 		for(MaterialBean bean:list){
 			System.out.println(bean);
 		}
@@ -233,8 +236,12 @@ public class TestMaterialDao {
 	}
 	
 	//=======成本统计================================================================
+	@Test
 	public void findMatCost(){
-		MaterialCostBean bean = matDao.findMatCostByProjectId(1);
-		System.out.println(bean);
+		List<MaterialCostBean> list = matDao.findMatCostByProjectId(1);
+		for(MaterialCostBean b : list) {
+			System.out.println(b);
+		}
+		
 	}
 }

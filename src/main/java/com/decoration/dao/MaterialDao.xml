@@ -159,9 +159,8 @@
 
 	</resultMap>
 	
-	<!-- <resultMap type="com.decoration.bean.MaterialCostBean" id="MaterialCostBeanResult">
-		<result jdbcType="DOUBLE" property="singleMatCost" />
-		<result jdbcType="DOUBLE" property="allMatCost" />
+	 <resultMap type="com.decoration.bean.MaterialCostBean" id="MaterialCostBeanResult">
+		<result column="singleMatCost" jdbcType="DOUBLE" property="singleMatCost" />
 		
 		<association property="matBean" javaType="com.decoration.bean.MaterialBean">
 			<id column="material_id" jdbcType="INTEGER" property="matId" />
@@ -191,7 +190,7 @@
 			<result column="email" jdbcType="VARCHAR" property="email" />
 			</association>
 		</association>
-	</resultMap> -->
+	</resultMap> 
 	
 <!--==================材料CRUD=====================================================================  -->	
 	
@@ -461,35 +460,47 @@
 		WHERE
 			m.material_id = #{materialId} 
 	</select>
-	<select id="findMatBeanByCondition" parameterType="string" resultMap="MaterialBeanResult">
-		SELECT m.material_id, m.material_name, m.material_num, m.material_unit,m.material_price, m.material_brand, p.project_name, f.flow_name, u.user_name ,m.mat_buy_date
+	<select id="findMatBeanByCondition" parameterType="com.decoration.bean.MaterialBean" resultMap="MaterialBeanResult">
+		SELECT m.material_id, m.material_name, m.material_num,
+		m.material_unit,m.material_price, m.material_brand, p.project_name,
+		f.flow_name, u.user_name ,m.mat_buy_date
 		FROM t_material m
 		LEFT JOIN t_user u
 		ON u.user_id = m.mat_user_id
 		LEFT JOIN t_project p
 		ON p.project_id = m.mat_project_id
 		left JOIN t_flow f
-		on f.flow_id = m.mat_flow_id
+		on f.flow_id =
+		m.mat_flow_id
 		where 1=1
- 		<if test="project.projectName!=null and project.projectName !=' '">
-			and p.project_name = #{project.projectName}
-		</if>
-		<if test="flow.flowName!=null and flow.flowName!=' '">
-			and f.flow_name = #{flow.flowName}
-		</if>
+	 <if test="matProject.projectName != null and matProject.projectName !=''">
+		and p.project_name = #{matProject.projectName}
+	</if>
+	
+	<if test="matFlow.flowName != null and matFlow.flowName!=''">
+		and f.flow_name = #{matFlow.flowName}
+	</if>
 		ORDER BY m.material_id
 	</select>
 	
 	<!--==================MaterialCostBean=====================================================================  -->	
-<!-- 	<select id="findMatCostByProjectId" parameterType="INTEGER" resultMap="MaterialCostBeanResult">
-		SELECT m.material_id , f.flow_name,m.material_name , m.material_num * m.material_price
+ 	<select id="findMatCostByProjectId" parameterType="INTEGER" resultMap="MaterialCostBeanResult">
+		SELECT * , m.material_num * m.material_price as singleMatCost
 		FROM t_material m
 		LEFT JOIN t_project p
 		ON p.project_id = m.mat_project_id
 		LEFT JOIN t_flow f
 		ON f.flow_id = m.mat_flow_id
-		WHERE p.project_id = #{matBean.matProject.projectId};
-	</select> -->
+		WHERE p.project_id = #{matBean.matProject.projectId}
+		UNION
+		(SELECT * , sum(m.material_num * m.material_price)
+		FROM t_material m
+		LEFT JOIN t_project p
+		ON p.project_id = m.mat_project_id
+		LEFT JOIN t_flow f
+		ON f.flow_id = m.mat_flow_id
+		WHERE p.project_id = #{matBean.matProject.projectId})
+	</select>
 	
 	
 </mapper>

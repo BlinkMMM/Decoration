@@ -14,6 +14,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="renderer" content="webkit">
+    
+    <meta http-equiv="pragma" content="no-cache">  
+	<meta http-equiv="cache-control" content="no-cache">  
+	<meta http-equiv="expires" content="0">   
     <title>后台管理中心</title>  
     <link rel="stylesheet" href="css/pintuer.css">
     <link rel="stylesheet" href="css/admin.css">
@@ -64,9 +68,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </ul>   
   <h2><span class="icon-pencil-square-o"></span>成本管理</h2>
   <ul>
-    <li><a href="list.html"><span class="icon-caret-right"></span>材料成本</a></li>
-    <li><a href="add.html"><span class="icon-caret-right"></span>薪水成本</a></li>
-    <li><a href="cate.html"><span class="icon-caret-right"></span>总成本</a></li>        
+    <li><a href="cost/mat"><span class="icon-caret-right"></span>材料成本</a></li>
+    <li><a href="cost/wage"><span class="icon-caret-right"></span>薪水成本</a></li>
+    <li><a href="cost/total"><span class="icon-caret-right"></span>总成本</a></li>        
   </ul>  
   
 </div>
@@ -93,6 +97,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!--========显示工程进度界面  ==========-->
 <c:if test="${page == 'schedule'}">
 <jsp:include page="schedule/schedule.jsp"></jsp:include>
+</c:if>
+<!--========显示材料成本界面  ==========-->
+<c:if test="${page == 'matCost'}">
+<jsp:include page="cost/matCost.jsp"></jsp:include>
+</c:if>
+<!--========显示员工工资成本界面  ==========-->
+<c:if test="${page == 'wageCost'}">
+<jsp:include page="cost/wageCost.jsp"></jsp:include>
+</c:if>
+<!--========显示总成本界面  ==========-->
+<c:if test="${page == 'totalCost'}">
+<jsp:include page="cost/totalCost.jsp"></jsp:include>
 </c:if>
 <!--========显示购买界面  ==========-->
 <c:if test="${page == 'addInfo'}">

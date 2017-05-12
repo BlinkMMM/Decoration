@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService{
 				// 登录成功
 				mv.addObject("result", true);
 				mv.addObject("reason", "登陆成功！");
-				session.setAttribute("loginUser", user);
+				mv.addObject("loginUser", user);
 				mv.setViewName("/home");
 			} else {
 				mv.addObject("result", false);
@@ -81,7 +81,6 @@ public class UserServiceImpl implements UserService{
 	 */
 	public ModelAndView logout(HttpSession session){
 		ModelAndView mv = new ModelAndView();
-		//session.removeAttribute("loginUser");
 		session.invalidate();
 		mv.setViewName("/user/login");
 		return mv;

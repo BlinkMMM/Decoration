@@ -3,16 +3,20 @@
  */
 package com.decoration.bean;
 
+import com.decoration.entity.Flow;
+import com.decoration.entity.Project;
+
 /**
  * @author zhenghan
  * 2017年5月9日 
  * 下午1:37:14
  *
  */
-public class CostBean {
-	private int costId;
+public class TotalCostBean {
 	private double materialCost;
 	private double salaryCost;
-	private double otherCost;
 	private double totalCost;
+	private Project totalCostProject;
+	private Flow totalCostFlow;
+	private MaterialBean materialBean;
 }

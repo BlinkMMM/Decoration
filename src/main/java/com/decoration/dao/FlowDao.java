@@ -1,5 +1,7 @@
 package com.decoration.dao;
 
+import java.util.List;
+
 import com.decoration.entity.Flow;
 
 /**
@@ -10,4 +12,6 @@ import com.decoration.entity.Flow;
  */
 public interface FlowDao {
 	public Flow findFlowByName(String flowName);
+	
+	public List<Flow> findAllFlow();
 }

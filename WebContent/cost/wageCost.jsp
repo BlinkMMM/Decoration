@@ -26,10 +26,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 <form method="post" action="" id="listform">
   <div class="panel admin-panel">
-    <div class="panel-head"><strong class="icon-reorder"> 材料使用</strong> <a href="" style="float:right; display:none;">添加字段</a></div>
+    <div class="panel-head"><strong class="icon-reorder"> 薪水成本</strong> <a href="" style="float:right; display:none;">添加字段</a></div>
     <div class="padding border-bottom">
       <ul class="search" style="padding-left:10px;">
-        <li> <a class="button border-main icon-plus-square-o" href="use/addInfo"> 新添材料使用</a> </li>
         <li>搜索：</li>
         <li>首页
           <select name="s_ishome" class="input" onchange="changesearch()" style="width:60px; line-height:17px; display:inline-block">
@@ -70,36 +69,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div>
     <table class="table table-hover text-center">
       <tr>
-        <th>ID</th>
-        <th>材料名称</th>
-        <th>使用数量</th>
-        <th>单位</th>
-        <th>品牌</th>
-        <th>余量</th>
         <th>项目</th>
-        <th>流程</th>
-        <th>登记人</th>
-        <th width="10%">使用日期</th>
-        <th width="310">操作</th>
+        <th>姓名</th>
+        <th>日薪</th>
+        <th>满勤天数</th>
+        <th>未满勤天数</th>
+        <th>薪水</th>
       </tr>
      
-      <c:forEach var="i" items="${useData}">
+      <c:forEach var="i" items="${wageCostData}">
       <tr>
-	      <td><c:out value="${i.useId}"/><p></td>	
-	      <td><c:out value="${i.useMat.matName}"/><p></td>	
-	      <td><c:out value="${i.useNum}"/><p></td>	
-	      <td><c:out value="${i.useMat.matUnit}"/><p></td>	
-	      <td><c:out value="${i.useMat.matBrand}"/><p></td>	
-	      <td><c:out value="${i.restRate}"/><p></td>	
-	      <td><c:out value="${i.useMat.matProject.projectName}"/><p></td>	
-	      <td><c:out value="${i.useMat.matFlow.flowName}"/><p></td>	
-	      <td><c:out value="${i.useUser.userName}"/><p></td>	
-	      <td><c:out value="${i.useDate}"/><p></td>	
+	      <td><c:out value="${i.workRecord.recordProject.projectName}"/><p></td>	
+	      <td><c:out value="${i.workRecord.recordUser.userName}"/><p></td>	
+	      <td><c:out value="${i.dailyWage}"/><p></td>	
+	      <td><c:out value="${i.fullWorkDays}"/><p></td>	
+	      <td><c:out value="${i.notFullWorkDays}"/><p></td>	
+	      <td><c:out value="${i.singleWage}"/><p></td>	
 	      <td>
-	      <div class="button-group"> 
-	       <a class="button border-main" href="use/updateInfo/${i.useId}"><span class="icon-edit"></span> 修改</a>
-	       <a class="button border-red" href="use/delete/${i.useId}" ><span class="icon-trash-o"></span> 删除</a>
-	      </div>
+	      
 	      </td>
 	      </tr>
 	  </c:forEach>

@@ -55,6 +55,5 @@ public interface MaterialDao {
 	public MaterialBean findMatBeanById(int matBeanId);
 	public List<MaterialBean> findMatBeanByCondition(MaterialBean matBean);
 	
-	public MaterialCostBean findMatCostByProjectId(int projectId);
-	public double findAllMatCostByProjectId(int projectId);
+	public List<MaterialCostBean> findMatCostByProjectId(int projectId);
 }

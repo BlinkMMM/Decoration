@@ -13,4 +13,5 @@ import com.decoration.entity.User;
  */
 public interface ProjectDao {
 	public Project findProByName(String proName);
+	public List<Project> findAllProject();
 }

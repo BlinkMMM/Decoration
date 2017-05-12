@@ -64,8 +64,9 @@ public class ScheduleServiceImpl implements ScheduleService{
 
 	@Override
 	public ModelAndView deleteScheduleById(int scheduleId) {
+		ModelAndView mv = new ModelAndView();
 		scheduleDao.deleleScheduleById(scheduleId);
-		return null;
+		return mv;
 	}
 
 
