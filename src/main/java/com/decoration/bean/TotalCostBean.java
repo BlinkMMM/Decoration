@@ -3,8 +3,9 @@
  */
 package com.decoration.bean;
 
-import com.decoration.entity.Flow;
-import com.decoration.entity.Project;
+import java.util.Date;
+
+import com.decoration.entity.User;
 
 /**
  * @author zhenghan
@@ -14,9 +15,11 @@ import com.decoration.entity.Project;
  */
 public class TotalCostBean {
 	private double materialCost;
-	private double salaryCost;
+	private double wageCost;
+	private double otherCost;
 	private double totalCost;
-	private Project totalCostProject;
-	private Flow totalCostFlow;
-	private MaterialBean materialBean;
+	private int checkState;
+	private User checkUser;
+	private Date checkDate;
+	
 }

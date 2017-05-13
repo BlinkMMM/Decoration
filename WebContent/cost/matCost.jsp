@@ -36,7 +36,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           	<option value="">选择</option>
             <c:forEach var="i" items="${costProData}">
       		<tr>
-	      		<td><option value="${i.projectName}"><c:out value="${i.projectName}"/></option><p></td>	
+	      		<td><option value="${i.projectName}">${i.projectName}</option><p></td>	
 	        </tr>
 	  		</c:forEach>
           </select>

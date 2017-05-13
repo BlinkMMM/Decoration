@@ -238,7 +238,13 @@ public class TestMaterialDao {
 	//=======成本统计================================================================
 	@Test
 	public void findMatCost(){
-		List<MaterialCostBean> list = matDao.findMatCostByProjectId(1);
+		MaterialBean matBean = new MaterialBean();
+		Project project = proDao.findProByName("项目1");
+		Flow flow = flowDao.findFlowByName("电工");
+		matBean.setMatProject(project);
+		matBean.setMatFlow(flow);
+		
+		List<MaterialCostBean> list = matDao.findMatCostByCondition(matBean);
 		for(MaterialCostBean b : list) {
 			System.out.println(b);
 		}

@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -70,7 +71,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <label>项目名称：</label>
         </div>
         <div class="field">
-          <input type="text" class="input w50" name="matProject.projectName"  data-validate="required:请输入项目名称"/>
+          <select name="matProject.projectName" class="input" onchange="changesearch()" style="width:200px; line-height:17px; display:inline-block">
+            <c:forEach var="i" items="${addMatProjectData}">
+      		<tr>
+	      		<td><option value="${i.projectName}">${i.projectName}</option><p></td>	
+	        </tr>
+	  		</c:forEach>
+          </select>
         </div>
       </div>
       <div class="form-group">
@@ -78,7 +85,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <label>流程名称：</label>
         </div>
         <div class="field">
-          <input type="text" class="input w50" name="matFlow.flowName"  data-validate="required:请输入流程名称"/>
+          <select name="matFlow.flowName" class="input" onchange="changesearch()" style="width:200px; line-height:17px; display:inline-block">
+            <c:forEach var="i" items="${addMatFlowData}">
+      		<tr>
+	      		<td><option value="${i.flowName}"><c:out value="${i.flowName}"/></option><p></td>	
+	        </tr>
+	  		</c:forEach>
+          </select>
         </div>
       </div>
      

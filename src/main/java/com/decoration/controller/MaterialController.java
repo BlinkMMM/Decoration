@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.decoration.bean.MaterialBean;
-import com.decoration.dao.MaterialDao;
+import com.decoration.service.CostService;
 import com.decoration.service.MaterialService;
 import com.decoration.service.UserService;
 
@@ -36,6 +36,8 @@ public class MaterialController {
 	private UserService userService;
 	@Autowired
 	private MaterialService matService;
+	@Autowired
+	private CostService costService;
 		
 	/**
 	 * 跳转到展示购买材料页面
@@ -79,6 +81,7 @@ public class MaterialController {
 	@RequestMapping(value="/addInfo",method = RequestMethod.GET)
 	public ModelAndView showAddInfo(){
 		ModelAndView mv = new ModelAndView();
+		costService.chooseProjectAndFlow("addMatProjectData","addMatFlowData");
 		mv.addObject("page","addInfo");
 		mv.setViewName("/home");
 		return mv;

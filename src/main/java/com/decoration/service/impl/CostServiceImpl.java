@@ -5,6 +5,7 @@ package com.decoration.service.impl;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.decoration.bean.MaterialBean;
 import com.decoration.bean.MaterialCostBean;
 import com.decoration.bean.WageCostBean;
 import com.decoration.dao.CostDao;
@@ -41,10 +43,17 @@ public class CostServiceImpl implements CostService{
 	private CostDao costDao;
 	@Autowired
 	private HttpSession session;
+	@Autowired
+	private HttpServletRequest request;
 	@Override
-	public ModelAndView findMatCostByProjectId(int projctId) {
+	public ModelAndView findMatCostByCondition(String projectName,String flowName) {
 		ModelAndView mv = new ModelAndView();
-		List<MaterialCostBean> matCostList= matDao.findMatCostByProjectId(projctId);
+		MaterialBean matBean = new MaterialBean();
+		Project project = projectDao.findProByName(projectName);
+		Flow flow = flowDao.findFlowByName(flowName);
+		matBean.setMatProject(project);
+		matBean.setMatFlow(flow);
+		List<MaterialCostBean> matCostList= matDao.findMatCostByCondition(matBean);
 		mv.addObject("matCostData",matCostList);
 		return mv;
 	}
@@ -52,9 +61,9 @@ public class CostServiceImpl implements CostService{
 	@Override
 	public void chooseProjectAndFlow(String proData, String flowData) {
 		List<Project> projectList = projectDao.findAllProject();
-		session.setAttribute(proData,projectList);
+		request.setAttribute(proData,projectList);
 		List<Flow> flowList = flowDao.findAllFlow();
-		session.setAttribute(flowData,flowList);
+		request.setAttribute(flowData,flowList);
 	}
 
 	@Override
@@ -63,6 +72,11 @@ public class CostServiceImpl implements CostService{
 		List<WageCostBean> wageCostList = costDao.findWageCost();
 		mv.addObject("wageCostData",wageCostList);
 		return mv;
+	}
+
+	@Override
+	public ModelAndView findTotalCost() {
+		return null;
 	}
 
 }

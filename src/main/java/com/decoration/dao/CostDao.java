@@ -5,6 +5,7 @@ package com.decoration.dao;
 
 import java.util.List;
 
+import com.decoration.bean.MaterialCostBean;
 import com.decoration.bean.WageCostBean;
 
 /**
@@ -15,4 +16,6 @@ import com.decoration.bean.WageCostBean;
  */
 public interface CostDao {
 	public List<WageCostBean> findWageCost();
+	
+	
 }

@@ -49,9 +49,8 @@ public class CostController {
 		return mv;
 	}
 	@RequestMapping(value="/mat2",method = RequestMethod.POST)
-	public ModelAndView showMatCost(String projectName){
-		Project project = projectDao.findProByName(projectName);
-		ModelAndView mv = costService.findMatCostByProjectId(project.getProjectId());
+	public ModelAndView showMatCost(String projectName,String flowName){
+		ModelAndView mv = costService.findMatCostByCondition(projectName, flowName);
 		mv.addObject("page", "matCost");
 		mv.setViewName("/home");
 		return mv;
@@ -66,7 +65,7 @@ public class CostController {
 	@RequestMapping(value="/total",method = RequestMethod.GET)
 	public ModelAndView showTotalCost(){
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("page", "buy");
+		mv.addObject("page", "totalCost");
 		mv.setViewName("/home");
 		return mv;
 	}
