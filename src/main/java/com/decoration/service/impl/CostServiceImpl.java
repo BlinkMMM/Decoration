@@ -42,8 +42,6 @@ public class CostServiceImpl implements CostService{
 	@Autowired
 	private CostDao costDao;
 	@Autowired
-	private HttpSession session;
-	@Autowired
 	private HttpServletRequest request;
 	@Override
 	public ModelAndView findMatCostByCondition(String projectName,String flowName) {

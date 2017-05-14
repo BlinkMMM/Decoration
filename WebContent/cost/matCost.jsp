@@ -53,7 +53,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           &nbsp;&nbsp;
         </li>
         
-        <li> <button href="cost/mat2" class="button border-main icon-search" type="submit">查看 </li>
+        <li> <button class="button border-main icon-search" type="submit">查看 </li>
         </form>
         <li>
           <input type="text" placeholder="请输入搜索关键字" name="keywords" class="input" style="width:250px; line-height:17px;display:inline-block" />

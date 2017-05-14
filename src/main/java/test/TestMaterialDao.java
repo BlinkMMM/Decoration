@@ -24,6 +24,8 @@ import com.decoration.entity.MaterialUse;
 import com.decoration.entity.Project;
 import com.decoration.entity.User;
 
+import util.Page;
+
 /**
  * @author zhenghan
  * 2017年4月15日 
@@ -191,6 +193,20 @@ public class TestMaterialDao {
 	public void findMat(){
 		List<MaterialBean> list = matDao.findMatBean();
 		for(MaterialBean bean:list){
+			System.out.println(bean);
+		}
+	}
+	/**
+	 * 根据page查找MaterialBean
+	 */
+	@Test
+	public void findMatByPage(){
+		List<MaterialBean> list = matDao.findMatBean();
+		
+		Page page = new Page(list.size(),3);
+		System.out.println("startCode = " + page.getStartCode());
+		List<MaterialBean> list2 = matDao.findMatBeanByPage(page);
+		for(MaterialBean bean:list2){
 			System.out.println(bean);
 		}
 	}

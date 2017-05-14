@@ -22,6 +22,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="panel-head" id="update"><strong><span class="icon-pencil-square-o"></span>修改材料</strong></div>
   <div class="body-content">
     <form method="post" class="form-x" action="material/update/${updateId}">  
+    <div class="form-group">
+        <div class="label">
+          <label>项目名称：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" name="matProject.projectName"  data-validate="required:请输入项目名称"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>流程名称：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" name="matFlow.flowName"  data-validate="required:请输入流程名称"/>
+        </div>
+      </div>
       <div class="form-group">
         <div class="label">
           <label>材料名称：</label>
@@ -67,38 +83,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       </div>
       <div class="form-group">
         <div class="label">
-          <label>项目名称：</label>
-        </div>
-        <div class="field">
-          <input type="text" class="input w50" name="matProject.projectName"  data-validate="required:请输入项目名称"/>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="label">
-          <label>流程名称：</label>
-        </div>
-        <div class="field">
-          <input type="text" class="input w50" name="matFlow.flowName"  data-validate="required:请输入流程名称"/>
-        </div>
-      </div>
-     
-      
-      <div class="form-group">
-        <div class="label">
           <label>购买时间：</label>
         </div>
         <div class="field"> 
           <script src="js/laydate/laydate.js"></script>
           <input type="date" class="input w50" name="matBuyDate" />
-          <div class="tips"></div>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="label">
-          <label>购买人：</label>
-        </div>
-        <div class="field">
-          <input type="text" class="input w50" name="matUser.userName"  data-validate="required:请输入购买人姓名"/>
           <div class="tips"></div>
         </div>
       </div>

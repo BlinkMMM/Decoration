@@ -9,6 +9,8 @@ import com.decoration.bean.MaterialBean;
 import com.decoration.entity.MaterialEnter;
 import com.decoration.entity.MaterialUse;
 
+import util.Page;
+
 /**
  * @author zhenghan
  * 2017年4月14日 
@@ -40,6 +42,8 @@ public interface MaterialService {
 	 * @return
 	 */
 	public ModelAndView updateMatBean(MaterialBean matBean);
+	
+	public ModelAndView findMatBeanByPage(Page page);
 	/*
 	 * ===========材料进场========================================================================
 	 */

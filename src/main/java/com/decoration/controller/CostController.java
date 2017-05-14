@@ -5,9 +5,6 @@ package com.decoration.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -19,11 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.decoration.dao.FlowDao;
-import com.decoration.dao.ProjectDao;
-import com.decoration.entity.Flow;
-import com.decoration.entity.Project;
 import com.decoration.service.CostService;
+import com.decoration.service.UtilService;
 
 /**
  * @author zhenghan
@@ -38,12 +32,12 @@ public class CostController {
 	@Autowired
 	private CostService costService;
 	@Autowired
-	private ProjectDao projectDao;
+	private UtilService utilService;
 	
 	@RequestMapping(value="/mat",method = RequestMethod.GET)
 	public ModelAndView showMatCostChoose(){
 		ModelAndView mv = new ModelAndView();
-		costService.chooseProjectAndFlow("costProData", "costFlowData");
+		utilService.chooseProjectAndFlow("costProData", "costFlowData");
 		mv.addObject("page", "matCost");
 		mv.setViewName("/home");
 		return mv;
@@ -51,6 +45,7 @@ public class CostController {
 	@RequestMapping(value="/mat2",method = RequestMethod.POST)
 	public ModelAndView showMatCost(String projectName,String flowName){
 		ModelAndView mv = costService.findMatCostByCondition(projectName, flowName);
+		utilService.chooseProjectAndFlow("costProData", "costFlowData");
 		mv.addObject("page", "matCost");
 		mv.setViewName("/home");
 		return mv;

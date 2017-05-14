@@ -6,6 +6,8 @@ package com.decoration.controller;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.annotation.Scope;
@@ -18,9 +20,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.decoration.bean.MaterialBean;
-import com.decoration.service.CostService;
 import com.decoration.service.MaterialService;
 import com.decoration.service.UserService;
+import com.decoration.service.UtilService;
+
+import util.Page;
 
 /**
  * @author zhenghan
@@ -37,15 +41,37 @@ public class MaterialController {
 	@Autowired
 	private MaterialService matService;
 	@Autowired
-	private CostService costService;
-		
+	private UtilService utilService;
+	@Autowired
+	private HttpSession session;
 	/**
 	 * 跳转到展示购买材料页面
 	 * @return
 	 */
 	@RequestMapping(value="/buy",method = RequestMethod.GET)
-	public ModelAndView showBuy(){
-		ModelAndView mv = matService.findAllMatBean();
+	public ModelAndView showBuy(Page page){
+		page.setCurrentPageCode(1);
+		ModelAndView mv = matService.findMatBeanByPage(page);
+		mv.addObject("page", "buy");
+		mv.setViewName("/home");
+		return mv;
+	}
+	@RequestMapping(value="/",method = RequestMethod.GET)
+	public ModelAndView showBuyByPage(Page page){
+		page = (Page)session.getAttribute("matPage");
+		utilService.choosePage(page);
+		ModelAndView mv = matService.findMatBeanByPage(page);
+		mv.addObject("page", "buy");
+		mv.setViewName("/home");
+		return mv;
+	}
+	
+	@RequestMapping(value="/pageNumber",method = RequestMethod.POST)
+	public ModelAndView showBuyByPageNumBer(Integer currentPageCode){
+		System.out.println("currentPageCode = " + currentPageCode);
+		Page page = (Page)session.getAttribute("matPage");
+		page.setCurrentPageCode(currentPageCode);
+		ModelAndView mv = matService.findMatBeanByPage(page);
 		mv.addObject("page", "buy");
 		mv.setViewName("/home");
 		return mv;
@@ -81,7 +107,7 @@ public class MaterialController {
 	@RequestMapping(value="/addInfo",method = RequestMethod.GET)
 	public ModelAndView showAddInfo(){
 		ModelAndView mv = new ModelAndView();
-		costService.chooseProjectAndFlow("addMatProjectData","addMatFlowData");
+		utilService.chooseProjectAndFlow("addMatProjectData","addMatFlowData");
 		mv.addObject("page","addInfo");
 		mv.setViewName("/home");
 		return mv;

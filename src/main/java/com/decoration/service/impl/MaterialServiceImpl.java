@@ -1,10 +1,13 @@
-/**
+ /**
  * 
  */
 package com.decoration.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -23,6 +26,9 @@ import com.decoration.entity.MaterialUse;
 import com.decoration.entity.Project;
 import com.decoration.entity.User;
 import com.decoration.service.MaterialService;
+import com.decoration.service.UtilService;
+
+import util.Page;
 
 /**
  * @author zhenghan 2017年4月14日 下午11:03:46
@@ -39,6 +45,10 @@ public class MaterialServiceImpl implements MaterialService {
 	private FlowDao flowDao;
 	@Autowired
 	private UserDao userDao;
+	@Autowired
+	private UtilService utilService;
+	@Autowired
+	private HttpSession session;
 
 	// ===========购买材料========================================================================================
 	@Override
@@ -49,16 +59,41 @@ public class MaterialServiceImpl implements MaterialService {
 		return mv;
 	}
 
+	/**
+	 * 分页查询材料
+	 */
+	@Override
+	public ModelAndView findMatBeanByPage(Page page) {
+		ModelAndView mv = new ModelAndView();
+		List<MaterialBean> list = materialDao.findMatBean();
+		page = new Page(list.size(),page.getCurrentPageCode());
+		session.setAttribute("matPage", page);
+		
+		int totalPages = page.getTotalPages();
+		List<Integer> totalPagesList = new ArrayList<Integer>();
+		for(int i=0;i<totalPages;i++){
+			totalPagesList.add(i);
+		}
+		System.out.println("totalPagesList = " + totalPagesList);
+		session.setAttribute("matTotalPage", totalPagesList);
+
+		
+		List<MaterialBean> pageList = materialDao.findMatBeanByPage(page);
+		mv.addObject("matPageData",pageList);
+		return mv;
+	}
+
 	@Override
 	public ModelAndView saveMaterialBean(MaterialBean matBean) {
 		ModelAndView mv = new ModelAndView();
 		String matName = matBean.getMatName();
 		String proName = matBean.getMatProject().getProjectName();
 		String flowName = matBean.getMatFlow().getFlowName();
-		String userName = matBean.getMatUser().getUserName();
 		Project project = proDao.findProByName(proName);
 		Flow flow = flowDao.findFlowByName(flowName);
-		User user = userDao.findUserByName(userName);
+		Date buyDate = matBean.getMatBuyDate();
+		utilService.checkDateIsValid(buyDate);
+		User user = (User)session.getAttribute("loginUser");
 		if (project != null && flow != null && user != null) {
 			matBean.setMatProject(project);
 			matBean.setMatFlow(flow);
@@ -179,7 +214,6 @@ public class MaterialServiceImpl implements MaterialService {
 		String enterName = matEnter.getEnterMat().getMatName();
 		String userName = matEnter.getEnterUser().getUserName();
 		String projectName = matEnter.getEnterProject().getProjectName();
-
 		User user = userDao.findUserByName(userName);
 		Project project = proDao.findProByName(projectName);
 		if (user != null && project != null) {
@@ -312,5 +346,4 @@ public class MaterialServiceImpl implements MaterialService {
 			return true;
 		}
 	}
-
 }

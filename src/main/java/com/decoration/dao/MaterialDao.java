@@ -11,6 +11,8 @@ import com.decoration.entity.Material;
 import com.decoration.entity.MaterialEnter;
 import com.decoration.entity.MaterialUse;
 
+import util.Page;
+
 /**
  * @author zhenghan
  * 2017年4月14日 
@@ -56,4 +58,6 @@ public interface MaterialDao {
 	public List<MaterialBean> findMatBeanByCondition(MaterialBean matBean);
 	
 	public List<MaterialCostBean> findMatCostByCondition(MaterialBean matBean);
+	
+	public List<MaterialBean> findMatBeanByPage(Page page);
 }
