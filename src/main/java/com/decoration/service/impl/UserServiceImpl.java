@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.decoration.dao.UserDao;
 import com.decoration.entity.User;
 import com.decoration.service.UserService;
+import com.decoration.service.UtilService;
 
 /**
  * @author zhenghan
@@ -27,6 +28,8 @@ import com.decoration.service.UserService;
 public class UserServiceImpl implements UserService{
 	@Autowired
 	private UserDao userDao;
+	@Autowired
+	private UtilService utilService;
 
 	public ModelAndView registerUser(User user) {
 		// 返回结果
@@ -60,6 +63,7 @@ public class UserServiceImpl implements UserService{
 				// 登录成功
 				mv.addObject("result", true);
 				mv.addObject("reason", "登陆成功！");
+				utilService.initChooseProjectAndFlow();
 				mv.addObject("loginUser", user);
 				mv.setViewName("/home");
 			} else {

@@ -31,13 +31,10 @@ import com.decoration.service.UtilService;
 public class CostController {
 	@Autowired
 	private CostService costService;
-	@Autowired
-	private UtilService utilService;
 	
 	@RequestMapping(value="/mat",method = RequestMethod.GET)
 	public ModelAndView showMatCostChoose(){
 		ModelAndView mv = new ModelAndView();
-		utilService.chooseProjectAndFlow("costProData", "costFlowData");
 		mv.addObject("page", "matCost");
 		mv.setViewName("/home");
 		return mv;
@@ -45,7 +42,6 @@ public class CostController {
 	@RequestMapping(value="/mat2",method = RequestMethod.POST)
 	public ModelAndView showMatCost(String projectName,String flowName){
 		ModelAndView mv = costService.findMatCostByCondition(projectName, flowName);
-		utilService.chooseProjectAndFlow("costProData", "costFlowData");
 		mv.addObject("page", "matCost");
 		mv.setViewName("/home");
 		return mv;

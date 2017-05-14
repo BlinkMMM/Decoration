@@ -21,4 +21,8 @@ public interface UtilService {
 	public ModelAndView checkDateIsValid(Date InputDate);
 	
 	public ModelAndView choosePage(Page page);
+	
+	public void initChooseProjectAndFlow();
+	
+	public Page initPage(String type);
 }

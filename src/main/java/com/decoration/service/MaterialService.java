@@ -52,6 +52,8 @@ public interface MaterialService {
 	 * @return
 	 */
 	public ModelAndView findAllMatEnter();
+	
+	public ModelAndView findAllMatEnterByPage(Page page);
 	/**
 	 * 添加进场材料
 	 * @return
@@ -74,7 +76,9 @@ public interface MaterialService {
 	 * ===========材料使用========================================================================
 	 */
 	public ModelAndView findAllMatUse();
+	public ModelAndView findAllMatUseByPage(Page page);
 	public ModelAndView saveMatUse(MaterialUse matUse);
 	public ModelAndView deleteUseMatById(int useId);
 	public ModelAndView updateMatUse(MaterialUse matUse);
+	
 }

@@ -38,6 +38,7 @@ public interface MaterialDao {
 	public boolean updateMatEnter(MaterialEnter matEnter);
 	public MaterialEnter findMatEnterById(int matEnterId);
 	public List<MaterialEnter> findAllMatEnter();
+	public List<MaterialEnter> findAllMatEnterByPage(Page page);
 	
 	/*
 	 * 材料使用CRUD
@@ -47,6 +48,7 @@ public interface MaterialDao {
 	public boolean updateMatUse(MaterialUse matUse);
 	public MaterialUse findMatUseById(int matUseId);
 	public List<MaterialUse> findAllMatUse();
+	public List<MaterialUse> findAllMatUseByPage(Page page);
 	
 	/*
 	 * MaterialBean CRUD

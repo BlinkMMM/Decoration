@@ -6,6 +6,8 @@ package com.decoration.controller;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.annotation.Scope;
@@ -20,6 +22,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.decoration.entity.MaterialEnter;
 import com.decoration.service.MaterialService;
 import com.decoration.service.UserService;
+import com.decoration.service.UtilService;
+
+import util.Page;
 
 /**
  * @author zhenghan
@@ -31,12 +36,32 @@ import com.decoration.service.UserService;
 @Scope("prototype")
 @Controller
 public class MaterialEnterController {
-
-	@Autowired
-	private UserService userService;
 	@Autowired
 	private MaterialService matService;
+	@Autowired
+	private HttpSession session;
+	@Autowired
+	private UtilService utilService;
 	
+	@RequestMapping(value="/",method = RequestMethod.GET)
+	public ModelAndView showEnterByPage(Page page){
+		page = (Page)session.getAttribute("enterPage");
+		utilService.choosePage(page);
+		ModelAndView mv = matService.findAllMatEnterByPage(page);
+		mv.addObject("page", "enter");
+		mv.setViewName("/home");
+		return mv;
+	}
+	
+	@RequestMapping(value="/pageNumber",method = RequestMethod.POST)
+	public ModelAndView showEnterByPageNumBer(Integer currentPageCode){
+		Page page = (Page)session.getAttribute("enterPage");
+		page.setCurrentPageCode(currentPageCode);
+		ModelAndView mv = matService.findAllMatEnterByPage(page);
+		mv.addObject("page", "enter");
+		mv.setViewName("/home");
+		return mv;
+	}
 	/**
 	 * 跳转到添加进场材料表单
 	 * @return
@@ -79,7 +104,7 @@ public class MaterialEnterController {
 		ModelAndView mv = new ModelAndView();
 		matEnter.setEnterId(id);
 		mv = matService.updateMatEnter(matEnter);
-		mv = matService.findAllMatEnter();
+		//mv = matService.findAllMatEnter();
 		mv.addObject("page","enter");
 		mv.setViewName("/home");
 		return mv;
@@ -91,7 +116,7 @@ public class MaterialEnterController {
 	@RequestMapping(value = "/delete/{enterId}", method=RequestMethod.GET)
 	public ModelAndView deleteEnterMat(@PathVariable int enterId){
 		ModelAndView mv = matService.deleteEnterMatById(enterId);
-		mv = matService.findAllMatEnter();
+		//mv = matService.findAllMatEnter();
 		mv.addObject("page","enter");
 		mv.setViewName("/home");
 		return mv;

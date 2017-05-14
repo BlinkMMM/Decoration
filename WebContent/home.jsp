@@ -67,7 +67,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <li><a href="work/record"><span class="icon-caret-right"></span>工勤统计</a></li>     
   </ul>   
   <h2><span class="icon-pencil-square-o"></span>成本管理</h2>
-  <ul>
+  <ul style="display:block">
     <li><a href="cost/mat"><span class="icon-caret-right"></span>材料成本</a></li>
     <li><a href="cost/wage"><span class="icon-caret-right"></span>薪水成本</a></li>
     <li><a href="cost/total"><span class="icon-caret-right"></span>总成本</a></li>        

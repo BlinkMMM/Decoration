@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -22,6 +23,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="panel-head" id="update"><strong><span class="icon-pencil-square-o"></span>修改材料使用记录</strong></div>
   <div class="body-content">
     <form method="post" class="form-x" action="use/update/${useUpdateId}">  
+     <div class="form-group">
+        <div class="label">
+          <label>项目名称：</label>
+        </div>
+        <div class="field">
+          <select name="useProject.projectName" class="input" onchange="changesearch()" style="width:200px; line-height:17px; display:inline-block">
+            <c:forEach var="i" items="${chooseProject}">
+      		<tr>
+	      		<td><option value="${i.projectName}">${i.projectName}</option><p></td>	
+	        </tr>
+	  		</c:forEach>
+          </select>
+        </div>
+      </div>
       <div class="form-group">
         <div class="label">
           <label>材料名称：</label>

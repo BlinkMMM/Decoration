@@ -6,6 +6,8 @@ package com.decoration.controller;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.annotation.Scope;
@@ -17,10 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.decoration.entity.MaterialEnter;
 import com.decoration.entity.MaterialUse;
 import com.decoration.service.MaterialService;
 import com.decoration.service.UserService;
+import com.decoration.service.UtilService;
+
+import util.Page;
 
 /**
  * @author zhenghan
@@ -37,7 +41,30 @@ public class MaterialUseController {
 	private UserService userService;
 	@Autowired
 	private MaterialService matService;
+	@Autowired
+	private UtilService utilService;
+	@Autowired
+	private HttpSession session;
 	
+	@RequestMapping(value="/",method = RequestMethod.GET)
+	public ModelAndView showUseByPage(Page page){
+		page = (Page)session.getAttribute("usePage");
+		utilService.choosePage(page);
+		ModelAndView mv = matService.findAllMatUseByPage(page);
+		mv.addObject("page", "use");
+		mv.setViewName("/home");
+		return mv;
+	}
+	
+	@RequestMapping(value="/pageNumber",method = RequestMethod.POST)
+	public ModelAndView showUseByPageNumBer(Integer currentPageCode){
+		Page page = (Page)session.getAttribute("usePage");
+		page.setCurrentPageCode(currentPageCode);
+		ModelAndView mv = matService.findAllMatUseByPage(page);
+		mv.addObject("page", "use");
+		mv.setViewName("/home");
+		return mv;
+	}
 	/**
 	 * 跳转到添加材料使用表单
 	 * @return
@@ -80,7 +107,7 @@ public class MaterialUseController {
 		ModelAndView mv = new ModelAndView();
 		matUse.setUseId(id);
 		mv = matService.updateMatUse(matUse);
-		mv = matService.findAllMatUse();
+		//mv = matService.findAllMatUse();
 		mv.addObject("page","use");
 		mv.setViewName("/home");
 		return mv;
@@ -92,7 +119,7 @@ public class MaterialUseController {
 	@RequestMapping(value = "/delete/{useId}", method=RequestMethod.GET)
 	public ModelAndView deleteUseMat(@PathVariable int useId){
 		ModelAndView mv = matService.deleteUseMatById(useId);
-		mv = matService.findAllMatUse();
+		//mv = matService.findAllMatUse();
 		mv.addObject("page","use");
 		mv.setViewName("/home");
 		return mv;

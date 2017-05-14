@@ -24,6 +24,7 @@ import com.decoration.service.MaterialService;
 import com.decoration.service.UserService;
 import com.decoration.service.UtilService;
 
+import util.DictionaryItems;
 import util.Page;
 
 /**
@@ -36,8 +37,6 @@ import util.Page;
 @Scope("prototype")
 @Controller
 public class MaterialController {
-	@Autowired
-	private UserService userService;
 	@Autowired
 	private MaterialService matService;
 	@Autowired
@@ -68,7 +67,6 @@ public class MaterialController {
 	
 	@RequestMapping(value="/pageNumber",method = RequestMethod.POST)
 	public ModelAndView showBuyByPageNumBer(Integer currentPageCode){
-		System.out.println("currentPageCode = " + currentPageCode);
 		Page page = (Page)session.getAttribute("matPage");
 		page.setCurrentPageCode(currentPageCode);
 		ModelAndView mv = matService.findMatBeanByPage(page);
@@ -81,8 +79,9 @@ public class MaterialController {
 	 * @return
 	 */
 	@RequestMapping(value="/enter",method = RequestMethod.GET)
-	public ModelAndView showEnter(){
-		ModelAndView mv = matService.findAllMatEnter();
+	public ModelAndView showEnter(Page page){
+		page.setCurrentPageCode(1);
+		ModelAndView mv = matService.findAllMatEnterByPage(page);
 		mv.addObject("page", "enter");
 		mv.setViewName("/home");
 		return mv;
@@ -92,8 +91,9 @@ public class MaterialController {
 	 * @return
 	 */
 	@RequestMapping(value="/use",method = RequestMethod.GET)
-	public ModelAndView showUse(){
-		ModelAndView mv = matService.findAllMatUse();
+	public ModelAndView showUse(Page page){
+		page.setCurrentPageCode(1);
+		ModelAndView mv = matService.findAllMatUseByPage(page);
 		mv.addObject("page", "use");
 		mv.setViewName("/home");
 		return mv;
@@ -107,7 +107,6 @@ public class MaterialController {
 	@RequestMapping(value="/addInfo",method = RequestMethod.GET)
 	public ModelAndView showAddInfo(){
 		ModelAndView mv = new ModelAndView();
-		utilService.chooseProjectAndFlow("addMatProjectData","addMatFlowData");
 		mv.addObject("page","addInfo");
 		mv.setViewName("/home");
 		return mv;
@@ -131,7 +130,6 @@ public class MaterialController {
 	@RequestMapping(value = "/delete/{matId}", method = RequestMethod.GET)
 	public ModelAndView deleteMatPurById(@PathVariable int matId) {
 		ModelAndView mv = matService.deleteMatById(matId);
-		mv = matService.findAllMatBean();
 		mv.addObject("page", "buy");
 		mv.setViewName("/home");
 		return mv;
@@ -159,7 +157,7 @@ public class MaterialController {
 		ModelAndView mv = new ModelAndView();
 		matBean.setMatId(id);
 		mv = matService.updateMatBean(matBean);
-		mv = matService.findAllMatBean();
+		//mv = matService.findAllMatBean();
 		mv.addObject("page", "buy");
 		mv.setViewName("/home");
 		return mv;

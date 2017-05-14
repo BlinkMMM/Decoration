@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -21,7 +22,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="panel admin-panel">
   <div class="panel-head" id="update"><strong><span class="icon-pencil-square-o"></span>修改进场材料</strong></div>
   <div class="body-content">
-    <form method="post" class="form-x" action="enter/update/${enterUpdateId}">  
+    <form method="post" class="form-x" action="enter/update/${enterUpdateId}">
+      <div class="form-group">
+        <div class="label">
+          <label>项目名称：</label>
+        </div>
+        <div class="field">
+          <select name="enterProject.projectName" class="input" onchange="changesearch()" style="width:200px; line-height:17px; display:inline-block">
+            <c:forEach var="i" items="${chooseProject}">
+      		<tr>
+	      		<td><option value="${i.projectName}">${i.projectName}</option><p></td>	
+	        </tr>
+	  		</c:forEach>
+          </select>
+        </div>
+      </div>  
       <div class="form-group">
         <div class="label">
           <label>材料名称：</label>
@@ -52,28 +67,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
       <div class="form-group">
         <div class="label">
-          <label>项目名称：</label>
-        </div>
-        <div class="field">
-          <input type="text" class="input w50" name="enterProject.projectName"  data-validate="required:请输入项目名称"/>
-        </div>
-      </div>     
-      <div class="form-group">
-        <div class="label">
           <label>进场日期：</label>
         </div>
         <div class="field"> 
           <script src="js/laydate/laydate.js"></script>
           <input type="date" class="input w50" name="enterDate" />
-          <div class="tips"></div>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="label">
-          <label>登记人：</label>
-        </div>
-        <div class="field">
-          <input type="text" class="input w50" name="enterUser.userName"  data-validate="required:请输入登记人姓名"/>
           <div class="tips"></div>
         </div>
       </div>

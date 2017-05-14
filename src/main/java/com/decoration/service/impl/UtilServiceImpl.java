@@ -7,18 +7,24 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.decoration.bean.MaterialBean;
 import com.decoration.dao.FlowDao;
+import com.decoration.dao.MaterialDao;
 import com.decoration.dao.ProjectDao;
 import com.decoration.entity.Flow;
+import com.decoration.entity.MaterialEnter;
+import com.decoration.entity.MaterialUse;
 import com.decoration.entity.Project;
 import com.decoration.service.UtilService;
 
+import util.DictionaryItems;
 import util.Page;
 
 /**
@@ -36,6 +42,10 @@ public class UtilServiceImpl implements UtilService{
 	private ProjectDao projectDao;
 	@Autowired
 	private FlowDao flowDao;
+	@Autowired
+	private MaterialDao materialDao;
+	@Autowired
+	private HttpSession session;
 
 	@Override
 	public void chooseProjectAndFlow(String proData, String flowData) {
@@ -82,5 +92,40 @@ public class UtilServiceImpl implements UtilService{
 		} 
 		page.setCurrentPageCode(currentPageCode);
 		return mv;
+	}
+	
+	public void initChooseProjectAndFlow(){
+		ModelAndView mv = new ModelAndView();
+		List<Project> projectList = projectDao.findAllProject();
+		session.setAttribute("chooseProject",projectList);
+		List<Flow> flowList = flowDao.findAllFlow();
+		session.setAttribute("chooseFlow",flowList);
+	}
+	
+	
+	
+	/**
+	 * 初始化分页查询的page
+	 */
+	public Page initPage(String type){
+		Page page = new Page();
+		switch(type) {
+		case DictionaryItems.MATERIAL_BUY_PAGE_TYPE:
+			List<MaterialBean> matList = materialDao.findMatBean();
+			page = new Page(matList.size(),DictionaryItems.MATERIAL_BUY_INIT_PAGECODE);
+			session.setAttribute("matPage", page);
+			break;
+		case DictionaryItems.MATERIAL_ENTER_PAGE_TYPE:
+			List<MaterialEnter> enterList = materialDao.findAllMatEnter();
+			page = new Page(enterList.size(),DictionaryItems.MATERIAL_ENTER_INIT_PAGECODE);
+			session.setAttribute("enterPage", page);
+			break;
+		case DictionaryItems.MATERIAL_USE_PAGE_TYPE:
+			List<MaterialUse> useList = materialDao.findAllMatUse();
+			page = new Page(useList.size(),DictionaryItems.MATERIAL_USE_INIT_PAGECODE);
+			session.setAttribute("usePage", page);
+			break;
+		}
+		return page;
 	}
 }

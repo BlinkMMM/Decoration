@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -22,6 +23,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>添加进场材料</strong></div>
   <div class="body-content">
     <form method="post" class="form-x" action="enter/add">  
+    <div class="form-group">
+        <div class="label">
+          <label>项目名称：</label>
+        </div>
+        <div class="field">
+          <select name="enterProject.projectName" class="input" onchange="changesearch()" style="width:200px; line-height:17px; display:inline-block">
+            <c:forEach var="i" items="${chooseProject}">
+      		<tr>
+	      		<td><option value="${i.projectName}">${i.projectName}</option><p></td>	
+	        </tr>
+	  		</c:forEach>
+          </select>
+        </div>
+      </div>
+
       <div class="form-group">
         <div class="label">
           <label>材料名称：</label>
@@ -31,7 +47,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <div class="tips"></div>
         </div>
       </div>
-     
+    
       <div class="clear"></div>
       <div class="form-group">
         <div class="label">
@@ -51,29 +67,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       </div>
       <div class="form-group">
         <div class="label">
-          <label>项目：</label>
-        </div>
-        <div class="field">
-          <input type="text" class="input w50" name="enterProject.projectName" data-validate="required:请输入项目名"/>
-        </div>
-      </div>
-      
-      <div class="form-group">
-        <div class="label">
           <label>登记时间：</label>
         </div>
         <div class="field"> 
           <script src="js/laydate/laydate.js"></script>
           <input type="date" class="input w50" name="enterDate" data-validate="required:请输入登记时间"/>
-          <div class="tips"></div>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="label">
-          <label>登记人：</label>
-        </div>
-        <div class="field">
-          <input type="text" class="input w50" name="enterUser.userName"  data-validate="required:请输入登记人姓名"/>
           <div class="tips"></div>
         </div>
       </div>

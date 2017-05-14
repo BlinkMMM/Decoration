@@ -29,7 +29,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </div>
         <div class="field">
           <select name="matProject.projectName" class="input" onchange="changesearch()" style="width:200px; line-height:17px; display:inline-block">
-            <c:forEach var="i" items="${addMatProjectData}">
+            <c:forEach var="i" items="${chooseProject}">
       		<tr>
 	      		<td><option value="${i.projectName}">${i.projectName}</option><p></td>	
 	        </tr>
@@ -43,7 +43,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </div>
         <div class="field">
           <select name="matFlow.flowName" class="input" onchange="changesearch()" style="width:200px; line-height:17px; display:inline-block">
-            <c:forEach var="i" items="${addMatFlowData}">
+            <c:forEach var="i" items="${chooseFlow}">
       		<tr>
 	      		<td><option value="${i.flowName}"><c:out value="${i.flowName}"/></option><p></td>	
 	        </tr>

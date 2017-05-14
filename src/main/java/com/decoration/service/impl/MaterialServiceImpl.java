@@ -28,6 +28,7 @@ import com.decoration.entity.User;
 import com.decoration.service.MaterialService;
 import com.decoration.service.UtilService;
 
+import util.DictionaryItems;
 import util.Page;
 
 /**
@@ -60,7 +61,7 @@ public class MaterialServiceImpl implements MaterialService {
 	}
 
 	/**
-	 * 分页查询材料
+	 * 分页查询购买材料
 	 */
 	@Override
 	public ModelAndView findMatBeanByPage(Page page) {
@@ -68,15 +69,6 @@ public class MaterialServiceImpl implements MaterialService {
 		List<MaterialBean> list = materialDao.findMatBean();
 		page = new Page(list.size(),page.getCurrentPageCode());
 		session.setAttribute("matPage", page);
-		
-		int totalPages = page.getTotalPages();
-		List<Integer> totalPagesList = new ArrayList<Integer>();
-		for(int i=0;i<totalPages;i++){
-			totalPagesList.add(i);
-		}
-		System.out.println("totalPagesList = " + totalPagesList);
-		session.setAttribute("matTotalPage", totalPagesList);
-
 		
 		List<MaterialBean> pageList = materialDao.findMatBeanByPage(page);
 		mv.addObject("matPageData",pageList);
@@ -107,7 +99,7 @@ public class MaterialServiceImpl implements MaterialService {
 				mv.addObject("page", "addInfo");
 			} else {
 				materialDao.saveMatBean(matBean);
-				mv = this.findAllMatBean();
+				mv = this.findMatByPageAfterOperation(mv);
 				mv.addObject("page", "buy");
 			}
 		} else {
@@ -121,6 +113,7 @@ public class MaterialServiceImpl implements MaterialService {
 	public ModelAndView deleteMatById(int matId) {
 		ModelAndView mv = new ModelAndView();
 		materialDao.deleteMatById(matId);
+		mv = this.findMatByPageAfterOperation(mv);
 		return mv;
 	}
 
@@ -146,6 +139,7 @@ public class MaterialServiceImpl implements MaterialService {
 				mv.addObject("message", "材料已存在！！");
 			} else {
 				materialDao.updateMatBean(matBean);
+				mv = this.findMatByPageAfterOperation(mv);
 			}
 		} else {
 			mv.addObject("message", "输入的信息有误，请重新输入！");
@@ -159,6 +153,18 @@ public class MaterialServiceImpl implements MaterialService {
 		ModelAndView mv = new ModelAndView();
 		List<MaterialEnter> enterList = materialDao.findAllMatEnter();
 		mv.addObject("enterData", enterList);
+		return mv;
+	}
+	
+	@Override
+	public ModelAndView findAllMatEnterByPage(Page page) {
+		ModelAndView mv = new ModelAndView();
+		List<MaterialEnter> list = materialDao.findAllMatEnter();
+		page = new Page(list.size(),page.getCurrentPageCode());
+		session.setAttribute("enterPage", page);
+		
+		List<MaterialEnter> pageList = materialDao.findAllMatEnterByPage(page);
+		mv.addObject("enterPageData",pageList);
 		return mv;
 	}
 
@@ -191,7 +197,7 @@ public class MaterialServiceImpl implements MaterialService {
 				mv.addObject("page", "enterAddInfo");
 			} else {
 				materialDao.saveMatEnter(matEnter);
-				mv = this.findAllMatEnter();
+				mv = this.findMatEnterByPageAfterOperation(mv);
 				mv.addObject("page", "enter");
 			}
 		} else {
@@ -205,6 +211,7 @@ public class MaterialServiceImpl implements MaterialService {
 	public ModelAndView deleteEnterMatById(int enterId) {
 		ModelAndView mv = new ModelAndView();
 		materialDao.deleteMatEnterById(enterId);
+		mv = this.findMatEnterByPageAfterOperation(mv);
 		return mv;
 	}
 
@@ -233,6 +240,7 @@ public class MaterialServiceImpl implements MaterialService {
 				mv.addObject("message", "进场材料大于库存，有误！！");
 			} else {
 				materialDao.updateMatEnter(matEnter);
+				mv = this.findMatEnterByPageAfterOperation(mv);
 			}
 		} else {
 			mv.addObject("message", "输入的信息有误，请重新输入！");
@@ -246,6 +254,20 @@ public class MaterialServiceImpl implements MaterialService {
 		ModelAndView mv = new ModelAndView();
 		List<MaterialUse> useList = materialDao.findAllMatUse();
 		mv.addObject("useData",useList);
+		return mv;
+	}
+	/**
+	 * 分页查询使用材料
+	 */
+	@Override
+	public ModelAndView findAllMatUseByPage(Page page) {
+		ModelAndView mv = new ModelAndView();
+		List<MaterialUse> list = materialDao.findAllMatUse();
+		page = new Page(list.size(),page.getCurrentPageCode());
+		session.setAttribute("usePage", page);
+		
+		List<MaterialUse> pageList = materialDao.findAllMatUseByPage(page);
+		mv.addObject("usePageData",pageList);
 		return mv;
 	}
 
@@ -279,7 +301,7 @@ public class MaterialServiceImpl implements MaterialService {
 				mv.addObject("page", "useAddInfo");
 			} else {
 				materialDao.saveMatUse(matUse);
-				mv = this.findAllMatUse();
+				mv = this.findMatUseByPageAfterOperation(mv);
 				mv.addObject("page", "use");
 			}
 		} else {
@@ -293,6 +315,7 @@ public class MaterialServiceImpl implements MaterialService {
 	public ModelAndView deleteUseMatById(int useId) {
 		ModelAndView mv = new ModelAndView();
 		materialDao.deleteMatUseById(useId);
+		mv = this.findMatUseByPageAfterOperation(mv);
 		return mv;
 	}
 
@@ -324,6 +347,7 @@ public class MaterialServiceImpl implements MaterialService {
 				mv.addObject("message", "进场材料大于库存，有误！！");
 			} else {
 				materialDao.updateMatUse(matUse);
+				mv = this.findMatUseByPageAfterOperation(mv);
 			}
 		} else {
 			mv.addObject("message", "输入信息有误，请重新输入！");
@@ -345,5 +369,60 @@ public class MaterialServiceImpl implements MaterialService {
 		} else {
 			return true;
 		}
+	}
+	
+	/**
+	 * 在购买材料模块执行操作后分页查出数据
+	 * @param mv
+	 */
+	public ModelAndView findMatByPageAfterOperation(ModelAndView mv){
+		List<MaterialBean> list = materialDao.findMatBean();
+		Page page = (Page)session.getAttribute("matPage");
+		Page page2 = new Page(list.size(), 1);
+		int currentPage = 0;
+		if(page.getTotalPages() == page2.getTotalPages()){
+			currentPage = page.getTotalPages();
+		}else{
+			currentPage = page2.getTotalPages();
+		}
+		page.setCurrentPageCode(currentPage);
+		mv = this.findMatBeanByPage(page);
+		return mv;
+	}
+	/**
+	 * 在材料进场模块执行操作后分页查出数据
+	 * @param mv
+	 */
+	public ModelAndView findMatEnterByPageAfterOperation(ModelAndView mv){
+		List<MaterialEnter> list = materialDao.findAllMatEnter();
+		Page page = (Page)session.getAttribute("enterPage");
+		Page page2 = new Page(list.size(), 1);
+		int currentPage = 0;
+		if(page.getTotalPages() == page2.getTotalPages()){
+			currentPage = page.getTotalPages();
+		}else{
+			currentPage = page2.getTotalPages();
+		}
+		page.setCurrentPageCode(currentPage);
+		mv = this.findAllMatEnterByPage(page);
+		return mv;
+	}
+	/**
+	 * 在材料使用模块执行操作后分页查出数据
+	 * @param mv
+	 */
+	public ModelAndView findMatUseByPageAfterOperation(ModelAndView mv){
+		List<MaterialUse> list = materialDao.findAllMatUse();
+		Page page = (Page)session.getAttribute("usePage");
+		Page page2 = new Page(list.size(), 1);
+		int currentPage = 0;
+		if(page.getTotalPages() == page2.getTotalPages()){
+			currentPage = page.getTotalPages();
+		}else{
+			currentPage = page2.getTotalPages();
+		}
+		page.setCurrentPageCode(currentPage);
+		mv = this.findAllMatUseByPage(page);
+		return mv;
 	}
 }

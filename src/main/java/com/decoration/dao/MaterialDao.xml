@@ -336,6 +336,15 @@
 		LEFT JOIN t_flow f on f.flow_id = e.t_flow_flow_id
 		ORDER BY e.enter_id
 	</select>
+	<select id="findAllMatEnterByPage" parameterType="util.Page" resultMap="MaterialEnterResult">
+		SELECT e.enter_id,m.material_name,e.enter_num,m.material_unit,m.material_brand,p.project_name,f.flow_name,u.user_name,e.enter_date
+		FROM t_material_enter e
+		LEFT JOIN t_material m on m.material_id = e.t_material_material_id
+		LEFT JOIN t_user u on u.user_id = e.t_user_user_id 
+		LEFT JOIN t_project p on p.project_id = e.t_project_project_id
+		LEFT JOIN t_flow f on f.flow_id = e.t_flow_flow_id
+		limit #{startCode},#{pageSize}
+	</select>
 <!--==================材料使用CRUD=====================================================================  -->	
 	<insert id="saveMatUse" parameterType="com.decoration.entity.MaterialEnter" useGeneratedKeys="true" keyProperty="MaterialEnterResult">
 		INSERT INTO t_material_use (
@@ -397,6 +406,15 @@
 		LEFT JOIN t_flow f ON f.flow_id = mu.t_flow_flow_id
 		ORDER BY mu.use_id
 			
+	</select>
+	<select id="findAllMatUseByPage" parameterType="util.Page" resultMap="MaterialUseResult">
+		SELECT *
+		FROM t_material_use mu
+		LEFT JOIN t_project p ON p.project_id = mu.t_project_project_id
+		LEFT JOIN t_material m ON m.material_id = mu.t_material_material_id
+		LEFT JOIN t_user u ON u.user_id = mu.t_user_user_id
+		LEFT JOIN t_flow f ON f.flow_id = mu.t_flow_flow_id
+		limit #{startCode},#{pageSize}
 	</select>
 	<!--==================MaterialBean=====================================================================  -->	
 	<select id="findMatBean"  resultMap="MaterialBeanResult">

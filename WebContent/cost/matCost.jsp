@@ -34,7 +34,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <li>请选择项目
           <select name="projectName" class="input" onchange="changesearch()" style="width:200px; line-height:17px; display:inline-block">
           	<option value="">选择</option>
-            <c:forEach var="i" items="${costProData}">
+            <c:forEach var="i" items="${chooseProject}">
       		<tr>
 	      		<td><option value="${i.projectName}">${i.projectName}</option><p></td>	
 	        </tr>
@@ -44,7 +44,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           请选择流程
           <select name="flowName" class="input" onchange="changesearch()"  style="width:200px; line-height:17px;display:inline-block">
            	<option value="">选择</option>
-            <c:forEach var="i" items="${costFlowData}">
+            <c:forEach var="i" items="${chooseFlow}">
       		<tr>
 	      		<td><option value="${i.flowName}"><c:out value="${i.flowName}"/></option><p></td>	
 	        </tr>
