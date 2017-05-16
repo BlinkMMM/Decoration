@@ -1,16 +1,12 @@
-/**
- * 
- */
 package com.decoration.service;
-
-import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.decoration.entity.Schedule;
+
+import util.Page;
 
 /**
  * @author zhenghan
@@ -19,7 +15,9 @@ import com.decoration.entity.Schedule;
  *
  */
 public interface ScheduleService {
-	public ModelAndView saveSchedule(Schedule schedule,HttpSession session);
+	public ModelAndView saveSchedule(Schedule schedule);
 	public ModelAndView deleteScheduleById(int scheduleId);
 	public ModelAndView findAllSchedule();
+	
+	public ModelAndView findAllScheduleByPage(Page page);
 }

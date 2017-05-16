@@ -13,14 +13,18 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.decoration.bean.MaterialBean;
 import com.decoration.dao.FlowDao;
 import com.decoration.dao.ProjectDao;
 import com.decoration.dao.ScheduleDao;
 import com.decoration.entity.Flow;
+import com.decoration.entity.MaterialUse;
 import com.decoration.entity.Project;
 import com.decoration.entity.Schedule;
 import com.decoration.entity.User;
 import com.decoration.service.ScheduleService;
+
+import util.Page;
 
 /**
  * @author zhenghan
@@ -37,8 +41,10 @@ public class ScheduleServiceImpl implements ScheduleService{
 	private ProjectDao projectDao;
 	@Autowired
 	private FlowDao flowDao;
+	@Autowired
+	private HttpSession session;
 	@Override
-	public ModelAndView saveSchedule(Schedule schedule,HttpSession session) {
+	public ModelAndView saveSchedule(Schedule schedule) {
 		ModelAndView mv = new ModelAndView();
 		String projectName = schedule.getScheduleProject().getProjectName();
 		String flowName = schedule.getScheduleFlow().getFlowName();
@@ -53,6 +59,7 @@ public class ScheduleServiceImpl implements ScheduleService{
 			schedule.setScheduleFlow(flow);
 			schedule.setScheduleUser(user);
 			scheduleDao.saveSchedule(schedule);
+			mv = this.findScheduleByPageAfterOperation(mv);
 			mv.addObject("page","schedule");
 		}else{
 			mv.addObject("result",false);
@@ -66,6 +73,7 @@ public class ScheduleServiceImpl implements ScheduleService{
 	public ModelAndView deleteScheduleById(int scheduleId) {
 		ModelAndView mv = new ModelAndView();
 		scheduleDao.deleleScheduleById(scheduleId);
+		mv = this.findScheduleByPageAfterOperation(mv);
 		return mv;
 	}
 
@@ -79,5 +87,36 @@ public class ScheduleServiceImpl implements ScheduleService{
 		return mv;
 		
 	}
-
+	
+	@Override
+	public ModelAndView findAllScheduleByPage(Page page) {
+		ModelAndView mv = new ModelAndView();
+		List<Schedule> list = scheduleDao.findAllSchedule();
+		page = new Page(list.size(),page.getCurrentPageCode());
+		session.setAttribute("schedulePage", page);
+		
+		List<Schedule> pageList = scheduleDao.findAllScheduleByPage(page);
+		mv.addObject("schedulePageData",pageList);
+		mv.addObject("page","schedule");
+		return mv;
+	}
+	
+	/**
+	 * 在材料使用模块执行操作后分页查出数据
+	 * @param mv
+	 */
+	public ModelAndView findScheduleByPageAfterOperation(ModelAndView mv){
+		List<Schedule> list = scheduleDao.findAllSchedule();
+		Page page = (Page)session.getAttribute("schedulePage");
+		Page page2 = new Page(list.size(), 1);
+		int currentPage = 0;
+		if(page.getTotalPages() == page2.getTotalPages()){
+			currentPage = page.getTotalPages();
+		}else{
+			currentPage = page2.getTotalPages();
+		}
+		page.setCurrentPageCode(currentPage);
+		mv = this.findAllScheduleByPage(page);
+		return mv;
+	}
 }

@@ -20,7 +20,7 @@ public interface UtilService {
 	
 	public ModelAndView checkDateIsValid(Date InputDate);
 	
-	public ModelAndView choosePage(Page page);
+	public ModelAndView choosePage(Page page ,String parameter);
 	
 	public void initChooseProjectAndFlow();
 	

@@ -58,7 +58,7 @@ public class MaterialController {
 	@RequestMapping(value="/",method = RequestMethod.GET)
 	public ModelAndView showBuyByPage(Page page){
 		page = (Page)session.getAttribute("matPage");
-		utilService.choosePage(page);
+		utilService.choosePage(page,"from");
 		ModelAndView mv = matService.findMatBeanByPage(page);
 		mv.addObject("page", "buy");
 		mv.setViewName("/home");

@@ -80,6 +80,17 @@
 		LEFT JOIN t_user u
 		ON u.user_id = s.t_user_user_id;
 	</select>
+	<select id="findAllScheduleByPage" parameterType="util.Page" resultMap="ScheduleResult">
+		SELECT * 
+		FROM `t_schedule` s
+		LEFT JOIN t_project p
+		ON p.project_id = s.t_project_project_id 
+		LEFT JOIN t_flow f
+		ON f.flow_id = s.t_flow_flow_id
+		LEFT JOIN t_user u
+		ON u.user_id = s.t_user_user_id
+		limit #{startCode},#{pageSize};
+	</select>
 
 
 	

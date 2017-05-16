@@ -66,9 +66,9 @@ public class UtilServiceImpl implements UtilService{
 		return mv;
 	}
 	
-	public ModelAndView choosePage(Page page){
+	public ModelAndView choosePage(Page page , String parameter){
 		ModelAndView mv = new ModelAndView();
-		String from = request.getParameter("from");
+		String from = request.getParameter(parameter);
 		int total = page.getTotalPages();//总页数
 		int currentPageCode = page.getCurrentPageCode();
 		if (from == null || from.equals("")) {

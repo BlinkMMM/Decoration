@@ -19,7 +19,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.decoration.entity.WorkRecord;
+import com.decoration.service.UtilService;
 import com.decoration.service.WorkRecordService;
+
+import util.Page;
 
 /**
  * @author zhenghan
@@ -33,13 +36,39 @@ import com.decoration.service.WorkRecordService;
 public class WorkRecordController {
 	@Autowired
 	private WorkRecordService recordService;
+	@Autowired
+	private HttpSession session;
+	@Autowired
+	private UtilService utilService;
 	/**
 	 * 跳转到员工考勤页面
 	 * @return
 	 */
 	@RequestMapping(value="/record",method = RequestMethod.GET)
-	public ModelAndView showRecord(HttpSession session){
-		ModelAndView mv = recordService.findUserAllRecordByUserId(session);
+	public ModelAndView showRecord(Page page){
+		page.setCurrentPageCode(1);
+		ModelAndView mv = recordService.findUserAllRecordByUserIdByPage(page);
+		mv.addObject("page","record");
+		mv.setViewName("/home");
+		return mv;
+	}
+	
+	@RequestMapping(value="/",method = RequestMethod.GET)
+	public ModelAndView showRecordByPage(Page page){
+		page = (Page)session.getAttribute("recordPage");
+		utilService.choosePage(page,"recordFrom");
+		ModelAndView mv = recordService.findUserAllRecordByUserIdByPage(page);
+		mv.addObject("page", "record");
+		mv.setViewName("/home");
+		return mv;
+	}
+	
+	@RequestMapping(value="/pageNumber",method = RequestMethod.POST)
+	public ModelAndView showRecordByPageNumBer(Integer currentPageCode){
+		Page page = (Page)session.getAttribute("recordPage");
+		page.setCurrentPageCode(currentPageCode);
+		ModelAndView mv = recordService.findUserAllRecordByUserIdByPage(page);
+		mv.addObject("page", "record");
 		mv.setViewName("/home");
 		return mv;
 	}
@@ -60,9 +89,8 @@ public class WorkRecordController {
 	 * @return
 	 */
 	@RequestMapping(value="/saveRecord",method = RequestMethod.POST)
-	public ModelAndView saveRecord(WorkRecord workRecord , HttpSession session){
-		ModelAndView mv = recordService.saveWorkRecord(workRecord,session);
-		mv = recordService.findUserAllRecordByUserId(session);
+	public ModelAndView saveRecord(WorkRecord workRecord){
+		ModelAndView mv = recordService.saveWorkRecord(workRecord);
 		mv.setViewName("/home");
 		return mv;
 	}

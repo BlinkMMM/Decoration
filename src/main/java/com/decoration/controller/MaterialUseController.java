@@ -49,7 +49,7 @@ public class MaterialUseController {
 	@RequestMapping(value="/",method = RequestMethod.GET)
 	public ModelAndView showUseByPage(Page page){
 		page = (Page)session.getAttribute("usePage");
-		utilService.choosePage(page);
+		utilService.choosePage(page,"useFrom");
 		ModelAndView mv = matService.findAllMatUseByPage(page);
 		mv.addObject("page", "use");
 		mv.setViewName("/home");

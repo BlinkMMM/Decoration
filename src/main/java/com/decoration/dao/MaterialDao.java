@@ -5,6 +5,9 @@ package com.decoration.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+import org.junit.runners.Parameterized.Parameters;
+
 import com.decoration.bean.MaterialBean;
 import com.decoration.bean.MaterialCostBean;
 import com.decoration.entity.Material;
@@ -60,6 +63,8 @@ public interface MaterialDao {
 	public List<MaterialBean> findMatBeanByCondition(MaterialBean matBean);
 	
 	public List<MaterialCostBean> findMatCostByCondition(MaterialBean matBean);
+	
+	public List<MaterialCostBean> findMatCostByPage(@Param("matBean")MaterialBean matBean,@Param("page")Page page);
 	
 	public List<MaterialBean> findMatBeanByPage(Page page);
 }

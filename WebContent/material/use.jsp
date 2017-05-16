@@ -107,10 +107,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        <tr>
 			<td colspan="8">
 				<div class="pagelist" style="display:inline-block;">
-					<a href="<%=path%>/use?from=firstPage">首页</a> 
-					<a href="<%=path%>/use?from=previousPage">上一页</a> 
-					<a href="<%=path%>/use?from=nextPage">下一页</a> 
-					<a href="<%=path%>/use?from=finalPage">尾页</a>
+					<a href="<%=path%>/use/?useFrom=firstPage">首页</a> 
+					<a href="<%=path%>/use/?useFrom=previousPage">上一页</a> 
+					<a href="<%=path%>/use/?useFrom=nextPage">下一页</a> 
+					<a href="<%=path%>/use/?useFrom=finalPage">尾页</a>
 				</div>
 				<div style="display:inline-block;">&nbsp;&nbsp;&nbsp;&nbsp;当前页数</div>
 				

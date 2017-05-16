@@ -79,7 +79,17 @@
 		ON u.user_id = r.t_user_user_id
 		LEFT JOIN t_project p
 		ON p.project_id = r.t_project_project_id
-		WHERE r.t_user_user_id = #{recordUser.userId};
+		WHERE r.t_user_user_id = #{userId};
+	</select>
+	<select id="findUserAllRecordByUseIdAndByPage" resultMap="WorkRecordResult">
+		SELECT * 
+		FROM t_work_record r
+		LEFT JOIN t_user u
+		ON u.user_id = r.t_user_user_id
+		LEFT JOIN t_project p
+		ON p.project_id = r.t_project_project_id
+		WHERE r.t_user_user_id = #{userId}
+		limit #{startCode},#{pageSize};
 	</select>
 	
 	<select id="findRecordByUserIdAndDate" parameterType="com.decoration.entity.WorkRecord" resultMap="WorkRecordResult">

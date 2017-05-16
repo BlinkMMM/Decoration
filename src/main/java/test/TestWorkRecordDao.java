@@ -3,7 +3,6 @@
  */
 package test;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +17,8 @@ import com.decoration.dao.WorkRecordDao;
 import com.decoration.entity.Project;
 import com.decoration.entity.User;
 import com.decoration.entity.WorkRecord;
+
+import util.Page;
 
 /**
  * @author zhenghan
@@ -60,6 +61,14 @@ public class TestWorkRecordDao {
 	@Test
 	public void testFindAllWorkRecord() {
 		List<WorkRecord> list = recordDao.findAllWorkRecord();
+		for(WorkRecord w : list){
+			System.out.println(w);
+		}
+	}
+	@Test
+	public void testFindUserAllRecordByUserIdAndPage() {
+		Page page = new Page(10, 2);
+		List<WorkRecord> list = recordDao.findUserAllRecordByUseIdAndByPage(1,page.getStartCode(),page.getPageSize());
 		for(WorkRecord w : list){
 			System.out.println(w);
 		}

@@ -6,7 +6,6 @@ package com.decoration.service.impl;
 import java.util.Date;
 import java.util.List;
 
-import javax.management.RuntimeErrorException;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +13,17 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.decoration.bean.MaterialBean;
 import com.decoration.dao.ProjectDao;
 import com.decoration.dao.UserDao;
 import com.decoration.dao.WorkRecordDao;
+import com.decoration.entity.MaterialUse;
 import com.decoration.entity.Project;
 import com.decoration.entity.User;
 import com.decoration.entity.WorkRecord;
 import com.decoration.service.WorkRecordService;
+
+import util.Page;
 
 /**
  * @author zhenghan
@@ -37,8 +40,11 @@ public class WorkRecordServiceImpl implements WorkRecordService{
 	private UserDao userDao;
 	@Autowired
 	private ProjectDao projectDao;
+	@Autowired
+	private HttpSession session;
+
 	@Override
-	public ModelAndView saveWorkRecord(WorkRecord workRecord,HttpSession session) {
+	public ModelAndView saveWorkRecord(WorkRecord workRecord) {
 		ModelAndView mv = new ModelAndView();
 		String proName = workRecord.getRecordProject().getProjectName();
 		User user = (User)session.getAttribute("loginUser");
@@ -52,6 +58,7 @@ public class WorkRecordServiceImpl implements WorkRecordService{
 			}
 			this.checkCheckDateIsValid(workRecord);
 			recordDao.saveWorkRecord(workRecord);
+			mv = this.findWorkRecordByPageAfterOperation(mv);
 			mv.addObject("page","record");
 		}else{
 			mv.addObject("result",false);
@@ -76,7 +83,7 @@ public class WorkRecordServiceImpl implements WorkRecordService{
 	}
 	
 	@Override
-	public ModelAndView findUserAllRecordByUserId(HttpSession session) {
+	public ModelAndView findUserAllRecordByUserId() {
 		ModelAndView mv = new ModelAndView();
 		User user = (User)session.getAttribute("loginUser");
 		if(user != null){
@@ -90,6 +97,22 @@ public class WorkRecordServiceImpl implements WorkRecordService{
 		}
 		return mv;
 	}
+	
+	@Override
+	public ModelAndView findUserAllRecordByUserIdByPage(Page page) {
+		ModelAndView mv = new ModelAndView();
+		User user = (User)session.getAttribute("loginUser");
+		int userId = user.getUserId();
+		List<WorkRecord> list = recordDao.findUserAllRecordByUseId(userId);
+		page = new Page(list.size(),page.getCurrentPageCode());
+		session.setAttribute("recordPage", page);
+		
+		List<WorkRecord> pageList = 
+				recordDao.findUserAllRecordByUseIdAndByPage(userId, page.getStartCode(), page.getPageSize());
+		mv.addObject("recordPageData",pageList);
+		return mv;
+	}
+	
 	
 	private ModelAndView checkCheckDateIsValid(WorkRecord workRecord) {
 		ModelAndView mv = new ModelAndView();
@@ -109,5 +132,25 @@ public class WorkRecordServiceImpl implements WorkRecordService{
 		return mv;
 
 	}
-
+	
+	/**
+	 * 在签到模块执行操作后分页查出数据
+	 * @param mv
+	 */
+	public ModelAndView findWorkRecordByPageAfterOperation(ModelAndView mv){
+		User user = (User)session.getAttribute("loginUser");
+		int userId = user.getUserId();
+		List<WorkRecord> list = recordDao.findUserAllRecordByUseId(userId);
+		Page page = (Page)session.getAttribute("recordPage");
+		Page page2 = new Page(list.size(), 1);
+		int currentPage = 0;
+		if(page.getTotalPages() == page2.getTotalPages()){
+			currentPage = page.getTotalPages();
+		}else{
+			currentPage = page2.getTotalPages();
+		}
+		page.setCurrentPageCode(currentPage);
+		mv = this.findUserAllRecordByUserIdByPage(page);
+		return mv;
+	}
 }

@@ -46,7 +46,7 @@ public class MaterialEnterController {
 	@RequestMapping(value="/",method = RequestMethod.GET)
 	public ModelAndView showEnterByPage(Page page){
 		page = (Page)session.getAttribute("enterPage");
-		utilService.choosePage(page);
+		utilService.choosePage(page,"enterFrom");
 		ModelAndView mv = matService.findAllMatEnterByPage(page);
 		mv.addObject("page", "enter");
 		mv.setViewName("/home");

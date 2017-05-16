@@ -3,11 +3,11 @@
  */
 package com.decoration.service;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.web.servlet.ModelAndView;
 
 import com.decoration.entity.WorkRecord;
+
+import util.Page;
 
 /**
  * @author zhenghan
@@ -17,11 +17,13 @@ import com.decoration.entity.WorkRecord;
  */
 public interface WorkRecordService {
 
-	public ModelAndView saveWorkRecord(WorkRecord workRecord,HttpSession session);
+	public ModelAndView saveWorkRecord(WorkRecord workRecord);
 	
 	public ModelAndView deleteWorkRecord(int recordId);
 	
 	public ModelAndView findAllWorkRecrd();
 	
-	public ModelAndView findUserAllRecordByUserId(HttpSession session);
+	public ModelAndView findUserAllRecordByUserId();
+	
+	public ModelAndView findUserAllRecordByUserIdByPage(Page page);
 }

@@ -529,5 +529,21 @@
 		</if>
 	</select>
 	
+ 	<select id="findMatCostByPage" parameterType="com.decoration.bean.MaterialBean" resultMap="MaterialCostBeanResult">
+		SELECT * , m.material_num * m.material_price as singleMatCost
+		FROM t_material m
+		LEFT JOIN t_project p
+		ON p.project_id = m.mat_project_id
+		LEFT JOIN t_flow f
+		ON f.flow_id = m.mat_flow_id
+		where 1=1
+		<if test="matProject.projectId != null">
+			and p.project_id = #{matProject.projectId}
+		</if>
+		<if test="matFlow.flowId != null">
+			and f.flow_id = #{matFlow.flowId}
+		</if>
+	</select>
+	
 	
 </mapper>

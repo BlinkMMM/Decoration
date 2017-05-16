@@ -1,9 +1,12 @@
 package com.decoration.dao;
 
-import java.util.Date;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.decoration.entity.WorkRecord;
+
+import util.Page;
 
 /**
  * @author zhenghan
@@ -24,6 +27,8 @@ public interface WorkRecordDao {
 	public List<WorkRecord> findAllWorkRecord();
 	
 	public List<WorkRecord> findUserAllRecordByUseId(int userId);
+	
+	public List<WorkRecord> findUserAllRecordByUseIdAndByPage(@Param("userId")int userId,@Param("startCode")int startCode,@Param("pageSize")int pageSize);
 	
 	public WorkRecord findRecordByUserIdAndDate(WorkRecord workRecord);
 }
