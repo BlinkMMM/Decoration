@@ -32,22 +32,37 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <form action="cost/mat2" method="post">
         
         <li>请选择项目
-          <select name="projectName" class="input" onchange="changesearch()" style="width:200px; line-height:17px; display:inline-block">
-          	<option value="">选择</option>
+          <select name="projectName" class="input" style="width:200px; line-height:17px; display:inline-block">
             <c:forEach var="i" items="${chooseProject}">
-      		<tr>
+            
+            <c:if test="${i.projectName == matProjectSelected}">
+			<tr>
+	      		<td><option value="${i.projectName}" selected>${i.projectName}</option><p></td>	
+	        </tr>	
+			</c:if>
+            <c:if test="${i.projectName != matProjectSelected}">
+			<tr>
 	      		<td><option value="${i.projectName}">${i.projectName}</option><p></td>	
-	        </tr>
+	        </tr>	
+			</c:if>		
 	  		</c:forEach>
           </select>
           &nbsp;&nbsp;
           请选择流程
-          <select name="flowName" class="input" onchange="changesearch()"  style="width:200px; line-height:17px;display:inline-block">
-           	<option value="">选择</option>
+          <select name="flowName" class="input" style="width:200px; line-height:17px;display:inline-block">
+             <option value=""></option>
             <c:forEach var="i" items="${chooseFlow}">
-      		<tr>
-	      		<td><option value="${i.flowName}"><c:out value="${i.flowName}"/></option><p></td>	
-	        </tr>
+           
+            <c:if test="${i.flowName == matFlowSelected}">
+			<tr>
+	      		<td><option value="${i.flowName}" selected>${i.flowName}</option><p></td>	
+	        </tr>	
+			</c:if>
+            <c:if test="${i.flowName != matFlowSelected}">
+			<tr>
+	      		<td><option value="${i.flowName}">${i.flowName}</option><p></td>	
+	        </tr>	
+			</c:if>
 	  		</c:forEach>
           </select>
           &nbsp;&nbsp;
@@ -55,13 +70,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         
         <li> <button class="button border-main icon-search" type="submit">查看 </li>
         </form>
-        <li>
-          <input type="text" placeholder="请输入搜索关键字" name="keywords" class="input" style="width:250px; line-height:17px;display:inline-block" />
-          <a href="javascript:void(0)" class="button border-main icon-search" onclick="changesearch()" > 搜索</a></li>
       </ul>
     </div>
     <table class="table table-hover text-center">
       <tr>
+        <th>ID</th>
         <th>项目</th>
         <th>流程</th>
         <th>材料名称</th>
@@ -72,8 +85,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
       </tr>
      
-      <c:forEach var="i"  items="${matCostData}">
+      <c:forEach var="i"  items="${matCostPageData}" varStatus="rowCount">
       <tr>
+	      <td><c:out value="${matCostPage.startCode + rowCount.index+1}"/><p></td>	
 	      <td><c:out value="${i.matBean.matProject.projectName}"/><p></td>	
 	      <td><c:out value="${i.matBean.matFlow.flowName}"/><p></td>	
 	      <td><c:out value="${i.matBean.matName}"/><p></td>	
@@ -84,206 +98,36 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      </tr>
 	  </c:forEach>
 
-      <tr>
-        <td style="text-align:left; padding:19px 0;padding-left:20px;"><input type="checkbox" id="checkall"/>
-          全选 </td>
-        <td colspan="7" style="text-align:left;padding-left:20px;"><a href="javascript:void(0)" class="button border-red icon-trash-o" style="padding:5px 15px;" onclick="DelSelect()"> 删除</a> <a href="javascript:void(0)" style="padding:5px 15px; margin:0 10px;" class="button border-blue icon-edit" onclick="sorts()"> 排序</a> 操作：
-          <select name="ishome" style="padding:5px 15px; border:1px solid #ddd;" onchange="changeishome(this)">
-            <option value="">首页</option>
-            <option value="1">是</option>
-            <option value="0">否</option>
-          </select>
-          <select name="isvouch" style="padding:5px 15px; border:1px solid #ddd;" onchange="changeisvouch(this)">
-            <option value="">推荐</option>
-            <option value="1">是</option>
-            <option value="0">否</option>
-          </select>
-          <select name="istop" style="padding:5px 15px; border:1px solid #ddd;" onchange="changeistop(this)">
-            <option value="">置顶</option>
-            <option value="1">是</option>
-            <option value="0">否</option>
-          </select>
-          &nbsp;&nbsp;&nbsp;
-  		</td>
-      </tr>
-      <tr>
-        <td colspan="8"><div class="pagelist"> <a href="">上一页</a> <span class="current">1</span><a href="">2</a><a href="">3</a><a href="">下一页</a><a href="">尾页</a> </div></td>
-      </tr>
+		<tr>
+		<form action="cost/matCostPageNumber" method="post">
+			<td colspan="8">
+				<div class="pagelist" style="display:inline-block;">
+					<a href="<%=path%>/cost/?matCostFrom=firstPage">首页</a> 
+					<a href="<%=path%>/cost/?matCostFrom=previousPage">上一页</a> 
+					<a href="<%=path%>/cost/?matCostFrom=nextPage">下一页</a> 
+					<a href="<%=path%>/cost/?matCostFrom=finalPage">尾页</a>
+				</div>
+				<div style="display:inline-block;">&nbsp;&nbsp;&nbsp;&nbsp;当前页数</div>
+				
+					<div style="display:inline-block;">
+						<select name="currentPageCode" class="input" style="width: 100px; line-height: 15px;">
+							<c:forEach var="i" begin="1" end="${matCostPage.totalPages }" varStatus="rowCount">
+							<c:if test="${i == matCostPage.currentPageCode}">
+								<option value="${i}" selected>${i}</option>
+							</c:if>
+							<c:if test="${i != matCostPage.currentPageCode}">
+								<option value="${i}">${i}</option>
+							</c:if>
+							</c:forEach>
+						</select>
+					</div>
+					<div style="display:inline-block;height:10px;">
+						<input type="submit" value="查询" class="button border-main icon-search">
+					</div>
+			</td>
+			</form>
+		</tr>
     </table>
   </div>
-
-<script type="text/javascript">
-
-//搜索
-function changesearch(){	
-		
-}
-
-//单个删除
-function del(id,mid,iscid){
-	if(confirm("您确定要删除吗?")){
-		
-	}
-}
-
-//全选
-$("#checkall").click(function(){ 
-  $("input[name='id[]']").each(function(){
-	  if (this.checked) {
-		  this.checked = false;
-	  }
-	  else {
-		  this.checked = true;
-	  }
-  });
-})
-
-//批量删除
-function DelSelect(){
-	var Checkbox=false;
-	 $("input[name='id[]']").each(function(){
-	  if (this.checked==true) {		
-		Checkbox=true;	
-	  }
-	});
-	if (Checkbox){
-		var t=confirm("您确认要删除选中的内容吗？");
-		if (t==false) return false;		
-		$("#listform").submit();		
-	}
-	else{
-		alert("请选择您要删除的内容!");
-		return false;
-	}
-}
-
-//批量排序
-function sorts(){
-	var Checkbox=false;
-	 $("input[name='id[]']").each(function(){
-	  if (this.checked==true) {		
-		Checkbox=true;	
-	  }
-	});
-	if (Checkbox){	
-		
-		$("#listform").submit();		
-	}
-	else{
-		alert("请选择要操作的内容!");
-		return false;
-	}
-}
-
-
-//批量首页显示
-function changeishome(o){
-	var Checkbox=false;
-	 $("input[name='id[]']").each(function(){
-	  if (this.checked==true) {		
-		Checkbox=true;	
-	  }
-	});
-	if (Checkbox){
-		
-		$("#listform").submit();	
-	}
-	else{
-		alert("请选择要操作的内容!");		
-	
-		return false;
-	}
-}
-
-//批量推荐
-function changeisvouch(o){
-	var Checkbox=false;
-	 $("input[name='id[]']").each(function(){
-	  if (this.checked==true) {		
-		Checkbox=true;	
-	  }
-	});
-	if (Checkbox){
-		
-		
-		$("#listform").submit();	
-	}
-	else{
-		alert("请选择要操作的内容!");	
-		
-		return false;
-	}
-}
-
-//批量置顶
-function changeistop(o){
-	var Checkbox=false;
-	 $("input[name='id[]']").each(function(){
-	  if (this.checked==true) {		
-		Checkbox=true;	
-	  }
-	});
-	if (Checkbox){		
-		
-		$("#listform").submit();	
-	}
-	else{
-		alert("请选择要操作的内容!");		
-	
-		return false;
-	}
-}
-
-
-//批量移动
-function changecate(o){
-	var Checkbox=false;
-	 $("input[name='id[]']").each(function(){
-	  if (this.checked==true) {		
-		Checkbox=true;	
-	  }
-	});
-	if (Checkbox){		
-		
-		$("#listform").submit();		
-	}
-	else{
-		alert("请选择要操作的内容!");
-		
-		return false;
-	}
-}
-
-//批量复制
-function changecopy(o){
-	var Checkbox=false;
-	 $("input[name='id[]']").each(function(){
-	  if (this.checked==true) {		
-		Checkbox=true;	
-	  }
-	});
-	if (Checkbox){	
-		var i = 0;
-	    $("input[name='id[]']").each(function(){
-	  		if (this.checked==true) {
-				i++;
-			}		
-	    });
-		if(i>1){ 
-	    	alert("只能选择一条信息!");
-			$(o).find("option:first").prop("selected","selected");
-		}else{
-		
-			$("#listform").submit();		
-		}	
-	}
-	else{
-		alert("请选择要复制的内容!");
-		$(o).find("option:first").prop("selected","selected");
-		return false;
-	}
-}
-
-</script>
 </body>
 </html>

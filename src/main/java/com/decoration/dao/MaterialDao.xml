@@ -513,7 +513,7 @@
 	</select>
 	
 	<!--==================MaterialCostBean=====================================================================  -->	
- 	<select id="findMatCostByCondition" parameterType="com.decoration.bean.MaterialBean" resultMap="MaterialCostBeanResult">
+ 	<select id="findMatCostByCondition" resultMap="MaterialCostBeanResult">
 		SELECT * , m.material_num * m.material_price as singleMatCost
 		FROM t_material m
 		LEFT JOIN t_project p
@@ -521,15 +521,31 @@
 		LEFT JOIN t_flow f
 		ON f.flow_id = m.mat_flow_id
 		where 1=1
-		<if test="matProject.projectId != null">
-			and p.project_id = #{matProject.projectId}
+		<if test="projectName != null and projectName != '' ">
+			and p.project_name = #{projectName}
 		</if>
-		<if test="matFlow.flowId != null">
-			and f.flow_id = #{matFlow.flowId}
+		<if test="flowName != null and flowName != '' ">
+			and f.flow_name = #{flowName}
 		</if>
+	</select>
+ 	<select id="findMatCostByPage" resultMap="MaterialCostBeanResult">
+		SELECT * , m.material_num * m.material_price as singleMatCost
+		FROM t_material m
+		LEFT JOIN t_project p
+		ON p.project_id = m.mat_project_id
+		LEFT JOIN t_flow f
+		ON f.flow_id = m.mat_flow_id
+		where 1=1
+		<if test="projectName != null and projectName != '' ">
+			and p.project_name = #{projectName}
+		</if>
+		<if test="flowName != null and flowName != '' ">
+			and f.flow_name = #{flowName}
+		</if>
+		limit #{page.startCode},#{page.pageSize};
 	</select>
 	
- 	<select id="findMatCostByPage" parameterType="com.decoration.bean.MaterialBean" resultMap="MaterialCostBeanResult">
+<!-- 	<select id="findMatCostByCondition" parameterType="com.decoration.bean.MaterialBean" resultMap="MaterialCostBeanResult">
 		SELECT * , m.material_num * m.material_price as singleMatCost
 		FROM t_material m
 		LEFT JOIN t_project p
@@ -544,6 +560,22 @@
 			and f.flow_id = #{matFlow.flowId}
 		</if>
 	</select>
+  	<select id="findMatCostByPage2"  resultMap="MaterialCostBeanResult">
+		SELECT * , m.material_num * m.material_price as singleMatCost
+		FROM t_material m
+		LEFT JOIN t_project p
+		ON p.project_id = m.mat_project_id
+		LEFT JOIN t_flow f
+		ON f.flow_id = m.mat_flow_id
+		where 1=1
+		<if test="matBean.matProject.projectId != null">
+			and p.project_id = #{matBean.matProject.projectId}
+		</if>
+		<if test="matBean.matFlow.flowId != null">
+			and f.flow_id = #{matBean.matFlow.flowId}
+		</if>
+		limit #{page.startCode},#{page.pageSize};
+	</select>  -->
 	
 	
 </mapper>

@@ -58,8 +58,47 @@
 		 ON w.t_user_user_id = u.user_id
 		 GROUP BY r.t_user_user_id;
 	</select>
-
-
-
-	
+	<select id="findWageCostByCondition" resultMap="WageCostResult">
+		SELECT *,w.daily_wage as dailyWage,
+		sum(case when r.is_full_work=1 then 1 else 0 end) as fullWorkDays, 
+		sum(case when r.is_full_work=0 then 1 else 0 end) as notFullWorkDays, 
+		(w.daily_wage * sum(case when r.is_full_work=1 then 1 else 0 end)+w.daily_wage * sum(case when r.is_full_work=0 then 1 else 0 end) * 0.5) as singleWage
+		FROM t_work_record r
+		 LEFT JOIN t_project p
+		 ON p.project_id = r.t_project_project_id
+		 LEFT JOIN t_user u
+		 ON u.user_id = r.t_user_user_id
+		 LEFT JOIN t_wage w
+		 ON w.t_user_user_id = u.user_id
+		 where 1=1
+		<if test="projectName != null and projectName != '' ">
+			and p.project_name like #{projectName}
+		</if>
+		<if test="userName != null and userName != '' ">
+			and u.user_name = #{userName}
+		</if>
+		 GROUP BY r.t_user_user_id;
+	</select>
+	<select id="findWageCostByPage" resultMap="WageCostResult">
+		SELECT *,w.daily_wage as dailyWage,
+		sum(case when r.is_full_work=1 then 1 else 0 end) as fullWorkDays, 
+		sum(case when r.is_full_work=0 then 1 else 0 end) as notFullWorkDays, 
+		(w.daily_wage * sum(case when r.is_full_work=1 then 1 else 0 end)+w.daily_wage * sum(case when r.is_full_work=0 then 1 else 0 end) * 0.5) as singleWage
+		FROM t_work_record r
+		 LEFT JOIN t_project p
+		 ON p.project_id = r.t_project_project_id
+		 LEFT JOIN t_user u
+		 ON u.user_id = r.t_user_user_id
+		 LEFT JOIN t_wage w
+		 ON w.t_user_user_id = u.user_id
+		 where 1=1
+		 <if test="projectName != null and projectName != '' ">
+			and p.project_name = #{projectName}
+		</if>
+		<if test="userName != null and userName != '' ">
+			and u.user_name like #{userName}
+		</if>
+		 GROUP BY r.t_user_user_id
+		 limit #{page.startCode},#{page.pageSize};
+	</select>
 </mapper>

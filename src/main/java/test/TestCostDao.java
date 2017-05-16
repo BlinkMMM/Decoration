@@ -17,6 +17,8 @@ import com.decoration.dao.MaterialDao;
 import com.decoration.dao.ProjectDao;
 import com.decoration.dao.UserDao;
 
+import util.Page;
+
 /**
  * @author zhenghan
  * 2017年4月15日 
@@ -42,6 +44,20 @@ public class TestCostDao {
 	@Test
 	public void testFindWageCost(){
 		List<WageCostBean> list = costDao.findWageCost();
+		for(WageCostBean w : list){
+			System.out.println(w);
+		}
+	}
+	@Test
+	public void testFindWageCostbyCondition(){
+		List<WageCostBean> list = costDao.findWageCostByCondition("项目1", "");
+		for(WageCostBean w : list){
+			System.out.println(w);
+		}
+	}
+	@Test
+	public void testFindWageCostbyPage(){
+		List<WageCostBean> list = costDao.findWageCostByPage("项目1", "",new Page(2,1));
 		for(WageCostBean w : list){
 			System.out.println(w);
 		}

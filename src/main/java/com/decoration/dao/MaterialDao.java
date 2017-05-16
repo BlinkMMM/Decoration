@@ -61,10 +61,18 @@ public interface MaterialDao {
 	public boolean updateMatBean(MaterialBean matBean);
 	public MaterialBean findMatBeanById(int matBeanId);
 	public List<MaterialBean> findMatBeanByCondition(MaterialBean matBean);
-	
-	public List<MaterialCostBean> findMatCostByCondition(MaterialBean matBean);
-	
-	public List<MaterialCostBean> findMatCostByPage(@Param("matBean")MaterialBean matBean,@Param("page")Page page);
-	
 	public List<MaterialBean> findMatBeanByPage(Page page);
+	
+	/*
+	 * matCost find 
+	 */
+	//public List<MaterialCostBean> findMatCostByCondition(MaterialBean matBean);
+	//public List<MaterialCostBean> findMatCostByPage(@Param("matBean")MaterialBean matBean,@Param("page")Page page);
+
+	public List<MaterialCostBean> findMatCostByCondition(@Param("projectName") String projectName,@Param("flowName") String flowName);
+
+	public List<MaterialCostBean> findMatCostByPage(@Param("projectName") String projectName,
+			@Param("flowName") String flowName, @Param("page") Page page);
+	
+
 }

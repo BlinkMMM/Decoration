@@ -24,6 +24,8 @@ import com.decoration.entity.Flow;
 import com.decoration.entity.Project;
 import com.decoration.service.CostService;
 
+import util.Page;
+
 /**
  * @author zhenghan
  * 2017年5月10日 
@@ -43,27 +45,33 @@ public class CostServiceImpl implements CostService{
 	private CostDao costDao;
 	@Autowired
 	private HttpServletRequest request;
+	@Autowired
+	private HttpSession session;
+	
 	@Override
 	public ModelAndView findMatCostByCondition(String projectName,String flowName) {
 		ModelAndView mv = new ModelAndView();
-		MaterialBean matBean = new MaterialBean();
-		Project project = projectDao.findProByName(projectName);
-		Flow flow = flowDao.findFlowByName(flowName);
-		matBean.setMatProject(project);
-		matBean.setMatFlow(flow);
-		List<MaterialCostBean> matCostList= matDao.findMatCostByCondition(matBean);
+		List<MaterialCostBean> matCostList= matDao.findMatCostByCondition(projectName,flowName);
 		mv.addObject("matCostData",matCostList);
 		return mv;
 	}
-
+	
 	@Override
-	public void chooseProjectAndFlow(String proData, String flowData) {
-		List<Project> projectList = projectDao.findAllProject();
-		request.setAttribute(proData,projectList);
-		List<Flow> flowList = flowDao.findAllFlow();
-		request.setAttribute(flowData,flowList);
-	}
+	public ModelAndView findMatCostByPage(Page page) {
+		ModelAndView mv = new ModelAndView();
+		
+		String projectName = (String)session.getAttribute("matProjectSelected");
+		String flowName = (String)session.getAttribute("matFlowSelected");
 
+		List<MaterialCostBean> list= matDao.findMatCostByCondition(projectName,flowName);
+		page = new Page(list.size(),page.getCurrentPageCode());
+		session.setAttribute("matCostPage", page);
+		
+		List<MaterialCostBean> pageList = matDao.findMatCostByPage(projectName,flowName,page);
+		mv.addObject("matCostPageData",pageList);
+		return mv;
+	}
+	
 	@Override
 	public ModelAndView findWageCost() {
 		ModelAndView mv = new ModelAndView();
@@ -71,10 +79,33 @@ public class CostServiceImpl implements CostService{
 		mv.addObject("wageCostData",wageCostList);
 		return mv;
 	}
+	
+	@Override
+	public ModelAndView findWageCostByCondition(String projectName, String userName) {
+		ModelAndView mv = new ModelAndView();
+		List<WageCostBean> wageCostList = costDao.findWageCostByCondition(projectName, userName);
+		mv.addObject("wageCostData",wageCostList);
+		return mv;
+	}
 
+	@Override
+	public ModelAndView findWageCostByPage(Page page) {
+		ModelAndView mv = new ModelAndView();
+		
+		String projectName = (String)session.getAttribute("wageProjectSelected");
+		String userName = (String)session.getAttribute("wageUserSelected");
+
+		List<WageCostBean> list= costDao.findWageCostByCondition(projectName,userName);
+		page = new Page(list.size(),page.getCurrentPageCode());
+		session.setAttribute("wageCostPage", page);
+		
+		List<WageCostBean> pageList = costDao.findWageCostByPage(projectName, userName, page);
+		mv.addObject("wageCostPageData",pageList);
+		return mv;
+	}
+	
 	@Override
 	public ModelAndView findTotalCost() {
 		return null;
 	}
-
 }
