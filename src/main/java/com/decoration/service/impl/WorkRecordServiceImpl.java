@@ -56,12 +56,16 @@ public class WorkRecordServiceImpl implements WorkRecordService{
 			if(remark == null || remark.equals("")) {
 				workRecord.setRemark("无");
 			}
-			this.checkCheckDateIsValid(workRecord);
-			recordDao.saveWorkRecord(workRecord);
-			mv = this.findWorkRecordByPageAfterOperation(mv);
-			mv.addObject("page","record");
+			boolean isValid = this.checkCheckDateIsValid(workRecord,mv);
+			if(isValid){
+				recordDao.saveWorkRecord(workRecord);
+				mv = this.findWorkRecordByPageAfterOperation(mv);
+				mv.addObject("page","record");
+			}
+			
 		}else{
 			mv.addObject("result",false);
+			mv.addObject("reason","输入信息有误！！");
 			mv.addObject("page","recordAddInfo");
 		}
 		return mv;
@@ -114,23 +118,25 @@ public class WorkRecordServiceImpl implements WorkRecordService{
 	}
 	
 	
-	private ModelAndView checkCheckDateIsValid(WorkRecord workRecord) {
-		ModelAndView mv = new ModelAndView();
+	private boolean checkCheckDateIsValid(WorkRecord workRecord , ModelAndView mv) {
 		Date currentDate = new Date();
 		Date checkDate = workRecord.getCheckDate();
 		
 		if(checkDate.after(currentDate)){
-			System.out.println("签到日期不能迟于当前日期");
-			throw new RuntimeException();
+			mv.addObject("result",false);
+			mv.addObject("reason","日期不能迟于当前日期！！");
+			mv.addObject("page","recordAddInfo");
+			return false;
 		}
 		
 		WorkRecord record = recordDao.findRecordByUserIdAndDate(workRecord);
 		if(record != null) {
-			System.out.println("不能重复签到");
-			throw new RuntimeException();
+			mv.addObject("result",false);
+			mv.addObject("reason","不能重复签到！！");
+			mv.addObject("page","recordAddInfo");
+			return false;
 		}
-		return mv;
-
+		return true;
 	}
 	
 	/**

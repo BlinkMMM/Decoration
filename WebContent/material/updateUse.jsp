@@ -22,6 +22,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="panel admin-panel">
   <div class="panel-head" id="update"><strong><span class="icon-pencil-square-o"></span>修改材料使用记录</strong></div>
   <div class="body-content">
+  		<c:if test="${result == false }">
+			<div class="alert alert-danger" role="alert" style="margin-top:5px color:red" id="tip">${reason }</div>
+		</c:if>
     <form method="post" class="form-x" action="use/update/${useUpdateId}">  
      <div class="form-group">
         <div class="label">
@@ -67,28 +70,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
       <div class="form-group">
         <div class="label">
-          <label>项目名称：</label>
-        </div>
-        <div class="field">
-          <input type="text" class="input w50" name="useProject.projectName"  data-validate="required:请输入项目名称"/>
-        </div>
-      </div>     
-      <div class="form-group">
-        <div class="label">
           <label>使用日期：</label>
         </div>
         <div class="field"> 
           <script src="js/laydate/laydate.js"></script>
           <input type="date" class="input w50" name="useDate" />
-          <div class="tips"></div>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="label">
-          <label>登记人：</label>
-        </div>
-        <div class="field">
-          <input type="text" class="input w50" name="useUser.userName"  data-validate="required:请输入登记人姓名"/>
           <div class="tips"></div>
         </div>
       </div>

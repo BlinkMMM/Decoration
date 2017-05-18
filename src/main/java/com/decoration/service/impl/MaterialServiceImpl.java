@@ -95,7 +95,8 @@ public class MaterialServiceImpl implements MaterialService {
 			mat.setMatProjectId(project.getProjectId());
 			boolean matIsExist = this.checkMatIsExistByNameAndProductId(mat);
 			if (matIsExist == true) {
-				mv.addObject("message", "材料已存在！！");
+				mv.addObject("result", false);
+				mv.addObject("reason", "材料已存在！！");
 				mv.addObject("page", "addInfo");
 			} else {
 				materialDao.saveMatBean(matBean);
@@ -103,7 +104,8 @@ public class MaterialServiceImpl implements MaterialService {
 				mv.addObject("page", "buy");
 			}
 		} else {
-			mv.addObject("message", "输入的信息有误，请重新输入！");
+			mv.addObject("result", false);
+			mv.addObject("reason", "输入的信息有误，请重新输入！");
 			mv.addObject("page", "addInfo");
 		}
 		return mv;
@@ -123,26 +125,25 @@ public class MaterialServiceImpl implements MaterialService {
 		String matName = matBean.getMatName();
 		String proName = matBean.getMatProject().getProjectName();
 		String flowName = matBean.getMatFlow().getFlowName();
-		String userName = matBean.getMatUser().getUserName();
 		Project project = proDao.findProByName(proName);
 		Flow flow = flowDao.findFlowByName(flowName);
-		User user = userDao.findUserByName(userName);
-		if (project != null && flow != null && user != null) {
+		if (project != null && flow != null) {
 			matBean.setMatProject(project);
 			matBean.setMatFlow(flow);
-			matBean.setMatUser(user);
 			Material mat = new Material();
 			mat.setMaterialName(matName);
 			mat.setMatProjectId(project.getProjectId());
 			boolean matIsExist = this.checkMatIsExistByNameAndProductId(mat);
 			if (matIsExist == true) {
-				mv.addObject("message", "材料已存在！！");
+				mv.addObject("result", false);
+				mv.addObject("reason", "材料已存在！！");
 			} else {
 				materialDao.updateMatBean(matBean);
 				mv = this.findMatByPageAfterOperation(mv);
 			}
 		} else {
-			mv.addObject("message", "输入的信息有误，请重新输入！");
+			mv.addObject("result", false);
+			mv.addObject("reason", "输入的信息有误，请重新输入！");
 		}
 		return mv;
 	}
@@ -173,10 +174,9 @@ public class MaterialServiceImpl implements MaterialService {
 		ModelAndView mv = new ModelAndView();
 
 		String enterName = matEnter.getEnterMat().getMatName();
-		String userName = matEnter.getEnterUser().getUserName();
 		String projectName = matEnter.getEnterProject().getProjectName();
 
-		User user = userDao.findUserByName(userName);
+		User user = (User)session.getAttribute("loginUser");
 		Project project = proDao.findProByName(projectName);
 		if (user != null && project != null) {
 			Material material = new Material();
@@ -190,10 +190,12 @@ public class MaterialServiceImpl implements MaterialService {
 
 			boolean matIsExist = this.checkMatIsExistByNameAndProductId(material);
 			if (matIsExist == false) {
-				mv.addObject("message", "材料不存在！！");
+				mv.addObject("result", false);
+				mv.addObject("reason", "材料不存在！！");
 				mv.addObject("page", "enterAddInfo");
 			} else if (matEnter.getEnterNum() > material.getMaterialNum()) {
-				mv.addObject("message", "进场材料大于库存，有误！！");
+				mv.addObject("result", false);
+				mv.addObject("reason", "进场材料大于库存，有误！！");
 				mv.addObject("page", "enterAddInfo");
 			} else {
 				materialDao.saveMatEnter(matEnter);
@@ -201,7 +203,8 @@ public class MaterialServiceImpl implements MaterialService {
 				mv.addObject("page", "enter");
 			}
 		} else {
-			mv.addObject("message", "输入信息有误，请重新输入！");
+			mv.addObject("result", false);
+			mv.addObject("reason", "输入信息有误，请重新输入！");
 			mv.addObject("page", "enterAddInfo");
 		}
 		return mv;
@@ -219,11 +222,9 @@ public class MaterialServiceImpl implements MaterialService {
 	public ModelAndView updateMatEnter(MaterialEnter matEnter) {
 		ModelAndView mv = new ModelAndView();
 		String enterName = matEnter.getEnterMat().getMatName();
-		String userName = matEnter.getEnterUser().getUserName();
 		String projectName = matEnter.getEnterProject().getProjectName();
-		User user = userDao.findUserByName(userName);
 		Project project = proDao.findProByName(projectName);
-		if (user != null && project != null) {
+		if (project != null) {
 			Material material = new Material();
 			material.setMaterialName(enterName);
 			material.setMatProjectId(project.getProjectId());
@@ -231,13 +232,14 @@ public class MaterialServiceImpl implements MaterialService {
 
 			matEnter.setEnterMat(materialDao.findMatBeanById(material.getMaterialId()));
 			matEnter.setEnterProject(project);
-			matEnter.setEnterUser(user);
 
 			boolean matIsExist = this.checkMatIsExistByNameAndProductId(material);
 			if (matIsExist == false) {
-				mv.addObject("message", "材料不存在！！");
+				mv.addObject("result", false);
+				mv.addObject("reason", "材料不存在！！");
 			} else if (matEnter.getEnterNum() > material.getMaterialNum()) {
-				mv.addObject("message", "进场材料大于库存，有误！！");
+				mv.addObject("result", false);
+				mv.addObject("reason", "进场材料大于库存，有误！！");
 			} else {
 				materialDao.updateMatEnter(matEnter);
 				mv = this.findMatEnterByPageAfterOperation(mv);
@@ -277,10 +279,9 @@ public class MaterialServiceImpl implements MaterialService {
 		double useNum = matUse.getUseNum();
 		String matName = matUse.getUseMat().getMatName();
 		String proName = matUse.getUseProject().getProjectName();
-		String userName = matUse.getUseUser().getUserName();
 		
 		Project project = proDao.findProByName(proName);
-		User user =userDao.findUserByName(userName);
+		User user = (User)session.getAttribute("loginUser");
 		
 		if(project != null && user != null){
 			Material material = new Material();
@@ -294,10 +295,12 @@ public class MaterialServiceImpl implements MaterialService {
 			
 			boolean matIsExist = this.checkMatIsExistByNameAndProductId(material);
 			if (matIsExist == false) {
-				mv.addObject("message", "材料不存在！！");
+				mv.addObject("result", false);
+				mv.addObject("reason", "材料不存在！！");
 				mv.addObject("page", "useAddInfo");
 			} else if (useNum > material.getMaterialNum()) {
-				mv.addObject("message", "进场材料大于库存，有误！！");
+				mv.addObject("result", false);
+				mv.addObject("reason", "进场材料大于库存，有误！！");
 				mv.addObject("page", "useAddInfo");
 			} else {
 				materialDao.saveMatUse(matUse);
@@ -305,7 +308,8 @@ public class MaterialServiceImpl implements MaterialService {
 				mv.addObject("page", "use");
 			}
 		} else {
-			mv.addObject("message", "输入信息有误，请重新输入！");
+			mv.addObject("result", false);
+			mv.addObject("reason", "输入信息有误，请重新输入！");
 			mv.addObject("page", "useAddInfo");
 		}
 		return mv;
@@ -325,12 +329,9 @@ public class MaterialServiceImpl implements MaterialService {
 		double useNum = matUse.getUseNum();
 		String matName = matUse.getUseMat().getMatName();
 		String proName = matUse.getUseProject().getProjectName();
-		String userName = matUse.getUseUser().getUserName();
 		
 		Project project = proDao.findProByName(proName);
-		User user =userDao.findUserByName(userName);
-		
-		if(project != null && user != null){
+		if(project != null){
 			Material material = new Material();
 			material.setMatProjectId(project.getProjectId());
 			material.setMaterialName(matName);
@@ -338,19 +339,21 @@ public class MaterialServiceImpl implements MaterialService {
 			
 			matUse.setUseMat(materialDao.findMatBeanById(material.getMaterialId()));
 			matUse.setUseProject(project);
-			matUse.setUseUser(user);
 			
 			boolean matIsExist = this.checkMatIsExistByNameAndProductId(material);
 			if (matIsExist == false) {
-				mv.addObject("message", "材料不存在！！");
+				mv.addObject("result", false);
+				mv.addObject("reason", "材料不存在！！");
 			} else if (useNum > material.getMaterialNum()) {
-				mv.addObject("message", "进场材料大于库存，有误！！");
+				mv.addObject("result", false);
+				mv.addObject("reason", "进场材料大于库存，有误！！");
 			} else {
 				materialDao.updateMatUse(matUse);
 				mv = this.findMatUseByPageAfterOperation(mv);
 			}
 		} else {
-			mv.addObject("message", "输入信息有误，请重新输入！");
+			mv.addObject("result", false);
+			mv.addObject("reason", "输入信息有误，请重新输入！");
 		}
 		return mv;
 	}

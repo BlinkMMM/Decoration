@@ -22,6 +22,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="panel admin-panel">
   <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>添加材料使用记录</strong></div>
   <div class="body-content">
+  		<c:if test="${result == false }">
+			<div class="alert alert-danger" role="alert" style="margin-top:5px color:red" id="tip">${reason }</div>
+		</c:if>
     <form method="post" class="form-x" action="use/add"> 
     	
       <div class="form-group">
