@@ -20,7 +20,7 @@ public class SessionFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		//不过滤的uri
-		String[] noFilter = new String[]{"login", "css", "js"};
+		String[] noFilter = new String[]{"login", "css", "js","images"};
 		//请求的uri
 		String uri = request.getRequestURI();
 		boolean doFilter = true;
@@ -35,7 +35,7 @@ public class SessionFilter extends OncePerRequestFilter {
 			User loginUser = (User) request.getSession().getAttribute("loginUser");
 			if(loginUser == null) {
 				//重定向到登录页
-				response.sendRedirect("/user/login");
+				response.sendRedirect(request.getContextPath() +"/user/login.jsp");
 			} else {
 				//放行
 				filterChain.doFilter(request, response);

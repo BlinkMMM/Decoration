@@ -61,7 +61,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      <td><c:out value="${i.recordDate}"/><p></td>	
 	      <td>
 	      <div class="button-group"> 
-	       <a class="button border-main" href="use/updateInfo/${i.scheduleId}"><span class="icon-edit"></span> 修改</a>
+	       <a class="button border-main" href="use/updateInfo/${i.scheduleId}"><span class="icon-edit"></span> 更新</a>
 	       <a class="button border-red" href="use/delete/${i.scheduleId}" ><span class="icon-trash-o"></span> 删除</a>
 	      </div>
 	      </td>

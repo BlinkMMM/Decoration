@@ -10,7 +10,7 @@ package util;
  */
 public class Page {
 	private int totalSize;//总数据条数
-	private final int pageSize = 2;//每页数据条数
+	private final int pageSize = 6;//每页数据条数
 	private int totalPages;//总页数
 	private int currentPageCode;//当前页数
 	private int startCode;//当前页起始数据的行号
