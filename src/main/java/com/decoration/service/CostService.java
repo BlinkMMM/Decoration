@@ -5,6 +5,8 @@ package com.decoration.service;
 
 import org.springframework.web.servlet.ModelAndView;
 
+import com.decoration.entity.Project;
+
 import util.Page;
 
 /**
@@ -33,5 +35,7 @@ public interface CostService {
 	/*
 	 * 总成本
 	 */
-	public ModelAndView findTotalCost();
+	public ModelAndView findTotalCost(String searchName);
+	
+
 }

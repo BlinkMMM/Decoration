@@ -74,5 +74,6 @@ public interface MaterialDao {
 	public List<MaterialCostBean> findMatCostByPage(@Param("projectName") String projectName,
 			@Param("flowName") String flowName, @Param("page") Page page);
 	
+	public MaterialCostBean findAllMatCostByProjectName(String projectName);
 
 }

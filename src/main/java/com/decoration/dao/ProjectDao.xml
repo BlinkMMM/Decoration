@@ -36,7 +36,20 @@
 		FROM
 		t_project
 	</select>
-
+	
+	<select id="findAllProjectByCondition" resultMap="ProjectResult">
+	    SELECT *
+		FROM
+			t_project 
+		where 1=1
+		<if test="projectName !=null and projectName != ''">
+			AND project_name = #{projectName}
+		</if>
+		<if test="customer !=null and customer != ''">
+			AND customer = #{customer}
+		</if>
+	
+	</select>
 
 	
 </mapper>

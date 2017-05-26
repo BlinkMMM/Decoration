@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.decoration.bean.TotalCostBean;
 import com.decoration.bean.WageCostBean;
 import com.decoration.dao.CostDao;
 import com.decoration.dao.FlowDao;
@@ -50,15 +51,25 @@ public class TestCostDao {
 	}
 	@Test
 	public void testFindWageCostbyCondition(){
-		List<WageCostBean> list = costDao.findWageCostByCondition("项目1", "");
+		List<WageCostBean> list = costDao.findWageCostByCondition("", "");
+		double allWageCost = 0;
 		for(WageCostBean w : list){
+			allWageCost = allWageCost + w.getSingleWage();
 			System.out.println(w);
 		}
+		System.out.println("allWageCost = " + allWageCost);
 	}
 	@Test
 	public void testFindWageCostbyPage(){
 		List<WageCostBean> list = costDao.findWageCostByPage("项目1", "",new Page(2,1));
 		for(WageCostBean w : list){
+			System.out.println(w);
+		}
+	}
+	@Test
+	public void testFindTotalCostbyCondition(){
+		List<TotalCostBean> list = costDao.findTotalCostByCondition("项目2", "小红");
+		for(TotalCostBean w : list){
 			System.out.println(w);
 		}
 	}

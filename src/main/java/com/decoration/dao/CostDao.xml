@@ -44,6 +44,23 @@
 		
 	</resultMap>
 	
+<!-- 	<resultMap type="com.decoration.bean.TotalCostBean" id="TotalCostResult">
+		<result column="allMatCost" jdbcType="DOUBLE" property="allMatCost" />
+		<result column="allWageCost" jdbcType="DOUBLE" property="allWageCost" />
+		<result column="totalCost" jdbcType="DOUBLE" property="totalCost" />
+		
+		<association property="project" javaType="com.decoration.entity.Project">
+			<id column="project_id" jdbcType="INTEGER" property="projectId" />
+			<result column="project_name" jdbcType="VARCHAR" property="projectName" />
+			<result column="customer" jdbcType="VARCHAR" property="customer" />
+			<result column="telephone" jdbcType="VARCHAR" property="telephone" />
+			<result column="address" jdbcType="VARCHAR" property="address" />
+		</association>
+		
+	</resultMap> -->
+	
+
+	
 	<select id="findWageCost" resultMap="WageCostResult">
 		SELECT *,w.daily_wage as dailyWage,
 		sum(case when r.is_full_work=1 then 1 else 0 end) as fullWorkDays, 
@@ -101,4 +118,39 @@
 		 GROUP BY r.t_user_user_id
 		 limit #{page.startCode},#{page.pageSize};
 	</select>
+	
+	
+	<!-- <select id="findTotalCostByCondition" resultMap="TotalCostResult">
+		SELECT
+			*,
+			p.project_id AS allMatCost,
+			p.project_name AS allWageCost,
+			p.address AS totalCost
+		FROM
+			t_project p
+		 	where 1=1
+		<if test="projectName != null and projectName != '' ">
+			and p.project_name = #{projectName}
+		</if>
+		<if test="customer != null and customer != '' ">
+			and p.customer = #{customer}
+		</if>
+	</select>
+	<select id="findTotalCostByPage" resultMap="TotalCostResult">
+		SELECT
+			*,
+			1 AS allMatCost,
+			2 AS allWageCost,
+			3 AS totalCost
+		FROM
+			t_project p
+		 	where 1=1
+		<if test="projectName != null and projectName != '' ">
+			and p.project_name like #{projectName}
+		</if>
+		<if test="customer != null and customer != '' ">
+			and p.customer like #{customer}
+		</if>
+		 limit #{page.startCode},#{page.pageSize};
+	</select> -->
 </mapper>

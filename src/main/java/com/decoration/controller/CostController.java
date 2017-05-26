@@ -5,6 +5,8 @@ package com.decoration.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -118,7 +120,16 @@ public class CostController {
 	//============总成本=========================================================================
 	@RequestMapping(value="/total",method = RequestMethod.GET)
 	public ModelAndView showTotalCost(){
-		ModelAndView mv = new ModelAndView();
+		String searchName = "";
+		ModelAndView mv = costService.findTotalCost(searchName);
+		mv.addObject("page", "totalCost");
+		mv.setViewName("/home");
+		return mv;
+	}
+	
+	@RequestMapping(value="/totalSearch",method = RequestMethod.POST)
+	public ModelAndView showTotalCostBySearch(String searchName){
+		ModelAndView mv = costService.findTotalCost(searchName);
 		mv.addObject("page", "totalCost");
 		mv.setViewName("/home");
 		return mv;

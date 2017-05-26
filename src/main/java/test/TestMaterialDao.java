@@ -270,4 +270,9 @@ public class TestMaterialDao {
 		}
 		
 	}
+	@Test
+	public void findAllMatCostByProjectName(){
+		MaterialCostBean bean = matDao.findAllMatCostByProjectName("项目1");
+		System.out.println(bean);
+	}
 }

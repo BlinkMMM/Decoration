@@ -3,7 +3,10 @@
  */
 package com.decoration.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,14 +16,13 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.decoration.bean.MaterialBean;
 import com.decoration.bean.MaterialCostBean;
+import com.decoration.bean.TotalCostBean;
 import com.decoration.bean.WageCostBean;
 import com.decoration.dao.CostDao;
 import com.decoration.dao.FlowDao;
 import com.decoration.dao.MaterialDao;
 import com.decoration.dao.ProjectDao;
-import com.decoration.entity.Flow;
 import com.decoration.entity.Project;
 import com.decoration.service.CostService;
 
@@ -105,7 +107,51 @@ public class CostServiceImpl implements CostService{
 	}
 	
 	@Override
-	public ModelAndView findTotalCost() {
-		return null;
+	public ModelAndView findTotalCost(String searchName) {
+		ModelAndView mv = new ModelAndView();
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("projectName", searchName);
+		map.put("customer", searchName);
+		List<Project> projectList = projectDao.findAllProjectByCondition(map);
+		List<TotalCostBean> totalCostList = new ArrayList<TotalCostBean>();
+		for(Project p:projectList){
+			TotalCostBean totalCostBean = this.getTotalCost(p);
+			totalCostList.add(totalCostBean);
+		}
+		mv.addObject("totalCostData",totalCostList);
+		return mv;
 	}
+	
+	public double getAllWageCOst(String projectName){
+		double allWageCost = 0;
+		List<WageCostBean> wageList = costDao.findWageCostByCondition(projectName, "");
+		for(WageCostBean w:wageList){
+			allWageCost = allWageCost + w.getSingleWage();
+		}
+		return allWageCost;
+	}
+	
+	public TotalCostBean getTotalCost(Project project){
+		TotalCostBean totalCostBean = new TotalCostBean();
+		double totalCost = 0;
+		String projectName = project.getProjectName();
+		MaterialCostBean matCostBean = matDao.findAllMatCostByProjectName(projectName);
+		double allMatCost;
+		if(matCostBean == null){
+			allMatCost = 0;
+		}else{
+			allMatCost = matCostBean.getAllMatCost();
+		}
+		double allWageCost = this.getAllWageCOst(projectName);
+		
+		totalCost = allWageCost + allMatCost;
+		totalCostBean = new TotalCostBean(allMatCost, allWageCost, totalCost, project);
+		return totalCostBean;
+		
+	}
+	
+	public void checkSearchName(String searchName){
+		
+	}
+
 }

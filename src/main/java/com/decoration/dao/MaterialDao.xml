@@ -161,6 +161,7 @@
 	
 	 <resultMap type="com.decoration.bean.MaterialCostBean" id="MaterialCostBeanResult">
 		<result column="singleMatCost" jdbcType="DOUBLE" property="singleMatCost" />
+		<result column="allMatCost" jdbcType="DOUBLE" property="allMatCost" />
 		
 		<association property="matBean" javaType="com.decoration.bean.MaterialBean">
 			<id column="material_id" jdbcType="INTEGER" property="matId" />
@@ -545,37 +546,17 @@
 		limit #{page.startCode},#{page.pageSize};
 	</select>
 	
-<!-- 	<select id="findMatCostByCondition" parameterType="com.decoration.bean.MaterialBean" resultMap="MaterialCostBeanResult">
-		SELECT * , m.material_num * m.material_price as singleMatCost
-		FROM t_material m
-		LEFT JOIN t_project p
-		ON p.project_id = m.mat_project_id
-		LEFT JOIN t_flow f
-		ON f.flow_id = m.mat_flow_id
-		where 1=1
-		<if test="matProject.projectId != null">
-			and p.project_id = #{matProject.projectId}
-		</if>
-		<if test="matFlow.flowId != null">
-			and f.flow_id = #{matFlow.flowId}
-		</if>
+ 	<select id="findAllMatCostByProjectName" resultMap="MaterialCostBeanResult">
+		SELECT
+			sum(
+				m.material_num * m.material_price
+			) AS allMatCost
+		FROM
+			t_material m
+		LEFT JOIN t_project p ON p.project_id = m.mat_project_id
+		LEFT JOIN t_flow f ON f.flow_id = m.mat_flow_id
+		WHERE
+			p.project_name = #{projectName};
 	</select>
-  	<select id="findMatCostByPage2"  resultMap="MaterialCostBeanResult">
-		SELECT * , m.material_num * m.material_price as singleMatCost
-		FROM t_material m
-		LEFT JOIN t_project p
-		ON p.project_id = m.mat_project_id
-		LEFT JOIN t_flow f
-		ON f.flow_id = m.mat_flow_id
-		where 1=1
-		<if test="matBean.matProject.projectId != null">
-			and p.project_id = #{matBean.matProject.projectId}
-		</if>
-		<if test="matBean.matFlow.flowId != null">
-			and f.flow_id = #{matBean.matFlow.flowId}
-		</if>
-		limit #{page.startCode},#{page.pageSize};
-	</select>  -->
-	
 	
 </mapper>

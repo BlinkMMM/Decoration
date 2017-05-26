@@ -3,7 +3,9 @@
  */
 package test;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,6 +38,16 @@ public class TestProjectDao {
 	@Test
 	public void testFindAllProject(){
 		List<Project> list = proDao.findAllProject();
+		for(Project p: list){
+			System.out.println(p);
+		}
+	}
+	@Test
+	public void testFindAllProjectByCondition(){
+		Map<String, Object> map = new HashMap<String, Object>();
+		//map.put("projectName", "项目2");
+		map.put("customer", "小红");
+		List<Project> list = proDao.findAllProjectByCondition(map);
 		for(Project p: list){
 			System.out.println(p);
 		}
