@@ -110,8 +110,9 @@ public class CostServiceImpl implements CostService{
 	public ModelAndView findTotalCost(String searchName) {
 		ModelAndView mv = new ModelAndView();
 		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("projectName", searchName);
-		map.put("customer", searchName);
+//		map.put("projectName", searchName);
+//		map.put("customer", searchName);
+		map = this.checkSearchName(searchName);
 		List<Project> projectList = projectDao.findAllProjectByCondition(map);
 		List<TotalCostBean> totalCostList = new ArrayList<TotalCostBean>();
 		for(Project p:projectList){
@@ -150,8 +151,25 @@ public class CostServiceImpl implements CostService{
 		
 	}
 	
-	public void checkSearchName(String searchName){
+	public Map<String,Object> checkSearchName(String searchName){
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String,Object> projectMap = new HashMap<String,Object>();
+		projectMap.put("projectName", searchName);
+		List<Project> projectList = projectDao.findAllProjectByCondition(projectMap);
 		
+		Map<String,Object> customerMap = new HashMap<String,Object>();
+		customerMap.put("customer", searchName);
+		List<Project> projectList2 = projectDao.findAllProjectByCondition(customerMap);
+		
+		if(projectList.size()!=0 && projectList2.size()==0){
+			map.put("projectName", searchName);
+		}else if(projectList.size()==0 && projectList2.size()!=0){
+			map.put("customer", searchName);
+		}else{
+			map.put("projectName",searchName);
+			map.put("customer",searchName);
+		}
+		return map;
 	}
 
 }

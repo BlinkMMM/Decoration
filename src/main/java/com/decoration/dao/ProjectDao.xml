@@ -43,10 +43,10 @@
 			t_project 
 		where 1=1
 		<if test="projectName !=null and projectName != ''">
-			AND project_name = #{projectName}
+			AND project_name like CONCAT('%', #{projectName}, '%')  
 		</if>
 		<if test="customer !=null and customer != ''">
-			AND customer = #{customer}
+			AND customer like CONCAT('%', #{customer}, '%')  
 		</if>
 	
 	</select>

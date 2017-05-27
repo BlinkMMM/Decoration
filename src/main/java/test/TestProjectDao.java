@@ -46,7 +46,7 @@ public class TestProjectDao {
 	public void testFindAllProjectByCondition(){
 		Map<String, Object> map = new HashMap<String, Object>();
 		//map.put("projectName", "项目2");
-		map.put("customer", "小红");
+		map.put("customer", "项目");
 		List<Project> list = proDao.findAllProjectByCondition(map);
 		for(Project p: list){
 			System.out.println(p);
