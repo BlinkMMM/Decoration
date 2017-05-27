@@ -13,6 +13,7 @@ public class Schedule {
 	private int expectedDays;
 	private int finishedDays;
 	private double scheduleRate;
+	private String workContent;
 	private Date recordDate;
 	private Project scheduleProject;
 	private Flow scheduleFlow;
@@ -20,12 +21,13 @@ public class Schedule {
 	public Schedule() {
 		
 	}
-	public Schedule(int expectedDays, int finishedDays, double scheduleRate, Date recordDate,
+	public Schedule(int expectedDays, int finishedDays, double scheduleRate, String workContent, Date recordDate,
 			Project scheduleProject, Flow scheduleFlow, User scheduleUser) {
 		super();
 		this.expectedDays = expectedDays;
 		this.finishedDays = finishedDays;
 		this.scheduleRate = scheduleRate;
+		this.workContent = workContent;
 		this.recordDate = recordDate;
 		this.scheduleProject = scheduleProject;
 		this.scheduleFlow = scheduleFlow;
@@ -55,6 +57,12 @@ public class Schedule {
 	public void setScheduleRate(double scheduleRate) {
 		this.scheduleRate = scheduleRate;
 	}
+	public String getWorkContent() {
+		return workContent;
+	}
+	public void setWorkContent(String workContent) {
+		this.workContent = workContent;
+	}
 	public Date getRecordDate() {
 		return recordDate;
 	}
@@ -82,8 +90,9 @@ public class Schedule {
 	@Override
 	public String toString() {
 		return "Schedule [scheduleId=" + scheduleId + ", expectedDays=" + expectedDays + ", finishedDays="
-				+ finishedDays + ", scheduleRate=" + scheduleRate + ", recordDate=" + recordDate + ", scheduleProject="
-				+ scheduleProject + ", scheduleFlow=" + scheduleFlow + ", scheduleUser=" + scheduleUser + "]";
+				+ finishedDays + ", scheduleRate=" + scheduleRate + ", workContent=" + workContent + ", recordDate="
+				+ recordDate + ", scheduleProject=" + scheduleProject + ", scheduleFlow=" + scheduleFlow
+				+ ", scheduleUser=" + scheduleUser + "]";
 	}
 	
 }

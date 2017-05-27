@@ -45,10 +45,10 @@ public class TestScheduleDao {
 	
 	@Test
 	public void testSaveSchedule(){
-		Flow flow = flowDao.findFlowByName("电工");
+		Flow flow = flowDao.findFlowByName("电工类");
 		User user = userDao.findUserById(1);
 		Project project = proDao.findProByName("项目1");
-		Schedule schedule = new Schedule(20, 10, 0.5, new Date(), project, flow, user);
+		Schedule schedule = new Schedule(20, 10, 0.5, "做椅子",new Date(), project, flow, user);
 		
 		boolean isOk = scheduleDao.saveSchedule(schedule);
 		System.out.println("isOk = " + isOk);

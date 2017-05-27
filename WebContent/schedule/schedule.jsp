@@ -40,11 +40,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <table class="table table-hover text-center">
       <tr>
         <th>ID</th>
+        <th>项目</th>
+        <th>流程</th>
+        <th>工作内容</th>
         <th>预计工时</th>
         <th>已完成工时</th>
         <th>进度百分比</th>
-        <th>项目</th>
-        <th>流程</th>
         <th>登记人</th>
         <th width="10%">登记日期</th>
         <th width="310">操作</th>
@@ -53,17 +54,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <c:forEach var="i" items="${schedulePageData}" varStatus="rowCount">
       <tr>
 	      <td><c:out value="${schedulePage.startCode + rowCount.index+1}"/><p></td>	
+	      <td><c:out value="${i.scheduleProject.projectName}"/><p></td>	
+	      <td><c:out value="${i.scheduleFlow.flowName}"/><p></td>	
+	      <td><c:out value="${i.workContent}"/><p></td>	
 	      <td><c:out value="${i.expectedDays}"/><p></td>	
 	      <td><c:out value="${i.finishedDays}"/><p></td>	
 	      <td><c:out value="${i.scheduleRate}"/><p></td>	
-	      <td><c:out value="${i.scheduleProject.projectName}"/><p></td>	
-	      <td><c:out value="${i.scheduleFlow.flowName}"/><p></td>	
 	      <td><c:out value="${i.scheduleUser.userName}"/><p></td>	
 	      <td><c:out value="${i.recordDate}"/><p></td>	
 	      <td>
 	      <div class="button-group"> 
-	       <a class="button border-main" href="use/updateInfo/${i.scheduleId}"><span class="icon-edit"></span> 更新</a>
-	       <a class="button border-red" href="use/delete/${i.scheduleId}" ><span class="icon-trash-o"></span> 删除</a>
+	       <a class="button border-main" href="schedule/updateInfo/${i.scheduleId}"><span class="icon-edit"></span> 更新</a>
+	       <a class="button border-red" href="schedule/delete/${i.scheduleId}" ><span class="icon-trash-o"></span> 删除</a>
+	       <a class="button border-red" href="schedule/check/${i.scheduleId}" ><span class="icon-trash-o"></span> 审核</a>
 	      </div>
 	      </td>
 	      </tr>

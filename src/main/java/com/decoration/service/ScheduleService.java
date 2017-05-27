@@ -18,6 +18,7 @@ public interface ScheduleService {
 	public ModelAndView saveSchedule(Schedule schedule);
 	public ModelAndView deleteScheduleById(int scheduleId);
 	
+	public ModelAndView updateSchedule(Schedule schedule);
 	
 	public ModelAndView findAllSchedule();
 	

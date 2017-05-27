@@ -14,10 +14,12 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.decoration.bean.MaterialBean;
 import com.decoration.entity.Schedule;
 import com.decoration.service.MaterialService;
 import com.decoration.service.ScheduleService;
@@ -108,7 +110,33 @@ public class ScheduleController {
 			mv.setViewName("/home");
 			return mv;
 		}
-	
+		
+		/**
+		 * 跳转到更新进度页面
+		 * @param binder
+		 */
+		@RequestMapping(value = "/updateInfo/{scheduleId} ", method = RequestMethod.GET)
+		public ModelAndView updateScheduleInfo(@PathVariable int scheduleId) {
+			ModelAndView mv = new ModelAndView();
+			mv.addObject("page", "scheduleUpdateInfo");
+			mv.addObject("scheduleUpdateId",scheduleId);
+			mv.setViewName("/home");
+			return mv;
+		}
+		/**
+		 * 执行更新项目进度操作并跳转到展示项目进度
+		 * @param 
+		 * @return
+		 */
+		@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+		public ModelAndView updateSchedule(Schedule schedule,@PathVariable int id) {
+			ModelAndView mv = new ModelAndView();
+			schedule.setScheduleId(id);
+			mv = scheduleService.updateSchedule(schedule);
+			mv.addObject("page", "schedule");
+			mv.setViewName("/home");
+			return mv;
+		}
 		@InitBinder
 		protected void initBinder(WebDataBinder binder) {
 		    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

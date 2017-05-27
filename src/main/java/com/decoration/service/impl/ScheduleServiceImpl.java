@@ -69,7 +69,38 @@ public class ScheduleServiceImpl implements ScheduleService{
 		return mv;
 	}
 
-
+	@Override
+	public ModelAndView updateSchedule(Schedule schedule) {
+		ModelAndView mv = new ModelAndView();
+		User user = (User)session.getAttribute("loginUser");
+		String workContent = schedule.getWorkContent();
+		int todayFinishedDays = schedule.getFinishedDays();
+		System.out.println("workContent = " + workContent);
+		System.out.println("todayFinishedDays = " + todayFinishedDays);
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("scheduleId", schedule.getScheduleId());
+		List<Schedule> scheduleList = scheduleDao.findAllSchedule(map);
+		
+	    schedule = scheduleList.get(0);
+	    
+		int finishedDays = todayFinishedDays + schedule.getFinishedDays();	
+		int expectedDays = schedule.getExpectedDays();
+		double scheduleRate = (double)finishedDays/(double)expectedDays;
+		Date recordDate = new Date();
+		
+		schedule.setWorkContent(workContent);
+		schedule.setFinishedDays(finishedDays);
+		schedule.setRecordDate(recordDate);
+		schedule.setScheduleRate(scheduleRate);
+		schedule.setScheduleUser(user);
+		System.out.println("schedule = " + schedule);
+		scheduleDao.saveSchedule(schedule);
+		mv = this.findScheduleByPageAfterOperation(mv);
+		mv.addObject("page","schedule");
+		return mv;
+	}
+	
 	@Override
 	public ModelAndView deleteScheduleById(int scheduleId) {
 		ModelAndView mv = new ModelAndView();
@@ -146,5 +177,4 @@ public class ScheduleServiceImpl implements ScheduleService{
 		}
 		return map;
 	}
-
 }

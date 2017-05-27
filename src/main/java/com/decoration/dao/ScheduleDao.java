@@ -20,6 +20,7 @@ public interface ScheduleDao {
 	public boolean deleleScheduleById(int scheduleId);
 	public boolean updateSchedule(Schedule schedule);
 	
+	
 	public List<Schedule> findAllSchedule(Map<String,Object> map);
 	public List<Schedule> findAllScheduleByPage(@Param("page") Page page,@Param("map")Map<String,Object> map);
 }

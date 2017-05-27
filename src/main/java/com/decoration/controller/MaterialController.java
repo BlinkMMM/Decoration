@@ -154,7 +154,7 @@ public class MaterialController {
 	public ModelAndView updateMatPurchase(@PathVariable int matId) {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("page", "updateInfo");
-		mv.addObject("updateId", matId);
+		mv.addObject("updateId", matId); 
 		mv.setViewName("/home");
 		return mv;
 	}
