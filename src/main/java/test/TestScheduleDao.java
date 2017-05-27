@@ -4,7 +4,9 @@
 package test;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -54,7 +56,10 @@ public class TestScheduleDao {
 	
 	@Test
 	public void testFindAllScedule(){
-		List<Schedule> list = scheduleDao.findAllSchedule();
+		Map<String,Object> map = new HashMap<String, Object>();
+		//map.put("projectName", "项目2");
+		map.put("flowName", "贴砖");
+		List<Schedule> list = scheduleDao.findAllSchedule(map);
 		for(Schedule s : list){
 			System.out.println(s);
 		}

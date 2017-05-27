@@ -3,6 +3,8 @@
  */
 package com.decoration.service;
 
+import java.util.Map;
+
 import org.springframework.web.servlet.ModelAndView;
 
 import com.decoration.bean.MaterialBean;
@@ -43,7 +45,7 @@ public interface MaterialService {
 	 */
 	public ModelAndView updateMatBean(MaterialBean matBean);
 	
-	public ModelAndView findMatBeanByPage(Page page);
+	public ModelAndView findMatBeanByPage(Page page,String searchName);
 	/*
 	 * ===========材料进场========================================================================
 	 */
@@ -53,7 +55,7 @@ public interface MaterialService {
 	 */
 	public ModelAndView findAllMatEnter();
 	
-	public ModelAndView findAllMatEnterByPage(Page page);
+	public ModelAndView findAllMatEnterByPage(Page page,String searchName);
 	/**
 	 * 添加进场材料
 	 * @return
@@ -76,7 +78,7 @@ public interface MaterialService {
 	 * ===========材料使用========================================================================
 	 */
 	public ModelAndView findAllMatUse();
-	public ModelAndView findAllMatUseByPage(Page page);
+	public ModelAndView findAllMatUseByPage(Page page,String searchName);
 	public ModelAndView saveMatUse(MaterialUse matUse);
 	public ModelAndView deleteUseMatById(int useId);
 	public ModelAndView updateMatUse(MaterialUse matUse);

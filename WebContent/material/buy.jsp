@@ -24,7 +24,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="js/pintuer.js"></script>
 </head>
 <body>
-<form method="post" action="material/pageNumber" id="listform">
+<form action="material/matSearch" method="post"> 
   <div class="panel admin-panel">
     <div class="panel-head"><strong class="icon-reorder"> 购买材料</strong> <a href="" style="float:right; display:none;">添加字段</a></div>
     <div class="padding border-bottom">
@@ -32,10 +32,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <li> <a class="button border-main icon-plus-square-o" href="material/addInfo"> 新添材料</a> </li>
         
         <li style="float:right;">
-          <input type="text" placeholder="请输入搜索关键字" name="keywords" class="input" style="width:250px; line-height:17px;display:inline-block" />
-          <a href="javascript:void(0)" class="button border-main icon-search" onclick="changesearch()" > 搜索</a></li>
+          <input type="text" placeholder="请输入搜索关键字" name="searchName" class="input" style="width:250px; line-height:17px;display:inline-block" />
+          <button type="submit" class="button border-main icon-search"> 搜索</button></li>
       </ul>
     </div>
+    </form>
+    <form method="post" action="material/pageNumber" id="listform">
     <table class="table table-hover text-center">
       <tr>
         <th>ID</th>

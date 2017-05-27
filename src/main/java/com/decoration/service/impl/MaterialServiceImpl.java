@@ -5,7 +5,9 @@ package com.decoration.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -54,7 +56,8 @@ public class MaterialServiceImpl implements MaterialService {
 	// ===========购买材料========================================================================================
 	@Override
 	public ModelAndView findAllMatBean() {
-		List<MaterialBean> list = materialDao.findMatBean();
+		Map<String,Object> map = new HashMap<String,Object>();
+		List<MaterialBean> list = materialDao.findMatBean(map);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("matData", list);
 		return mv;
@@ -64,13 +67,14 @@ public class MaterialServiceImpl implements MaterialService {
 	 * 分页查询购买材料
 	 */
 	@Override
-	public ModelAndView findMatBeanByPage(Page page) {
+	public ModelAndView findMatBeanByPage(Page page,String searchName) {
 		ModelAndView mv = new ModelAndView();
-		List<MaterialBean> list = materialDao.findMatBean();
+		Map<String,Object> map = this.checkSearchNameForBuy(searchName);
+		List<MaterialBean> list = materialDao.findMatBean(map);
 		page = new Page(list.size(),page.getCurrentPageCode());
 		session.setAttribute("matPage", page);
 		
-		List<MaterialBean> pageList = materialDao.findMatBeanByPage(page);
+		List<MaterialBean> pageList = materialDao.findMatBeanByPage(page,map);
 		mv.addObject("matPageData",pageList);
 		return mv;
 	}
@@ -152,19 +156,21 @@ public class MaterialServiceImpl implements MaterialService {
 	@Override
 	public ModelAndView findAllMatEnter() {
 		ModelAndView mv = new ModelAndView();
-		List<MaterialEnter> enterList = materialDao.findAllMatEnter();
+		Map<String,Object> map =  new HashMap<String,Object>();
+		List<MaterialEnter> enterList = materialDao.findAllMatEnter(map);
 		mv.addObject("enterData", enterList);
 		return mv;
 	}
 	
 	@Override
-	public ModelAndView findAllMatEnterByPage(Page page) {
+	public ModelAndView findAllMatEnterByPage(Page page,String searchName) {
 		ModelAndView mv = new ModelAndView();
-		List<MaterialEnter> list = materialDao.findAllMatEnter();
+		Map<String,Object> map =  this.checkSearchNameForEnter(searchName);
+		List<MaterialEnter> list = materialDao.findAllMatEnter(map);
 		page = new Page(list.size(),page.getCurrentPageCode());
 		session.setAttribute("enterPage", page);
 		
-		List<MaterialEnter> pageList = materialDao.findAllMatEnterByPage(page);
+		List<MaterialEnter> pageList = materialDao.findAllMatEnterByPage(page,map);
 		mv.addObject("enterPageData",pageList);
 		return mv;
 	}
@@ -254,7 +260,8 @@ public class MaterialServiceImpl implements MaterialService {
 	@Override
 	public ModelAndView findAllMatUse() {
 		ModelAndView mv = new ModelAndView();
-		List<MaterialUse> useList = materialDao.findAllMatUse();
+		Map<String,Object> map = new HashMap<String,Object>();
+		List<MaterialUse> useList = materialDao.findAllMatUse(map);
 		mv.addObject("useData",useList);
 		return mv;
 	}
@@ -262,13 +269,14 @@ public class MaterialServiceImpl implements MaterialService {
 	 * 分页查询使用材料
 	 */
 	@Override
-	public ModelAndView findAllMatUseByPage(Page page) {
+	public ModelAndView findAllMatUseByPage(Page page,String searchName) {
 		ModelAndView mv = new ModelAndView();
-		List<MaterialUse> list = materialDao.findAllMatUse();
+		Map<String,Object> map = this.checkSearchNameForUse(searchName);
+		List<MaterialUse> list = materialDao.findAllMatUse(map);
 		page = new Page(list.size(),page.getCurrentPageCode());
 		session.setAttribute("usePage", page);
 		
-		List<MaterialUse> pageList = materialDao.findAllMatUseByPage(page);
+		List<MaterialUse> pageList = materialDao.findAllMatUseByPage(page,map);
 		mv.addObject("usePageData",pageList);
 		return mv;
 	}
@@ -279,7 +287,8 @@ public class MaterialServiceImpl implements MaterialService {
 		double useNum = matUse.getUseNum();
 		String matName = matUse.getUseMat().getMatName();
 		String proName = matUse.getUseProject().getProjectName();
-		
+		System.out.println("matName = " + matName);
+		System.out.println("proName = " + proName);
 		Project project = proDao.findProByName(proName);
 		User user = (User)session.getAttribute("loginUser");
 		
@@ -288,7 +297,7 @@ public class MaterialServiceImpl implements MaterialService {
 			material.setMatProjectId(project.getProjectId());
 			material.setMaterialName(matName);
 			material = materialDao.findMatByNameAndProjectId(material);
-			
+			System.out.println("material = " + material);
 			matUse.setUseMat(materialDao.findMatBeanById(material.getMaterialId()));
 			matUse.setUseProject(project);
 			matUse.setUseUser(user);
@@ -303,6 +312,7 @@ public class MaterialServiceImpl implements MaterialService {
 				mv.addObject("reason", "进场材料大于库存，有误！！");
 				mv.addObject("page", "useAddInfo");
 			} else {
+				System.out.println(matUse);
 				materialDao.saveMatUse(matUse);
 				mv = this.findMatUseByPageAfterOperation(mv);
 				mv.addObject("page", "use");
@@ -379,7 +389,9 @@ public class MaterialServiceImpl implements MaterialService {
 	 * @param mv
 	 */
 	public ModelAndView findMatByPageAfterOperation(ModelAndView mv){
-		List<MaterialBean> list = materialDao.findMatBean();
+		Map<String,Object> map = new HashMap<String,Object>();
+
+		List<MaterialBean> list = materialDao.findMatBean(map);
 		Page page = (Page)session.getAttribute("matPage");
 		Page page2 = new Page(list.size(), 1);
 		int currentPage = 0;
@@ -389,7 +401,7 @@ public class MaterialServiceImpl implements MaterialService {
 			currentPage = page2.getTotalPages();
 		}
 		page.setCurrentPageCode(currentPage);
-		mv = this.findMatBeanByPage(page);
+		mv = this.findMatBeanByPage(page,"");
 		return mv;
 	}
 	/**
@@ -397,7 +409,8 @@ public class MaterialServiceImpl implements MaterialService {
 	 * @param mv
 	 */
 	public ModelAndView findMatEnterByPageAfterOperation(ModelAndView mv){
-		List<MaterialEnter> list = materialDao.findAllMatEnter();
+		Map<String,Object> map = new HashMap<>();
+		List<MaterialEnter> list = materialDao.findAllMatEnter(map);
 		Page page = (Page)session.getAttribute("enterPage");
 		Page page2 = new Page(list.size(), 1);
 		int currentPage = 0;
@@ -407,7 +420,7 @@ public class MaterialServiceImpl implements MaterialService {
 			currentPage = page2.getTotalPages();
 		}
 		page.setCurrentPageCode(currentPage);
-		mv = this.findAllMatEnterByPage(page);
+		mv = this.findAllMatEnterByPage(page,"");
 		return mv;
 	}
 	/**
@@ -415,7 +428,8 @@ public class MaterialServiceImpl implements MaterialService {
 	 * @param mv
 	 */
 	public ModelAndView findMatUseByPageAfterOperation(ModelAndView mv){
-		List<MaterialUse> list = materialDao.findAllMatUse();
+		Map<String,Object> map = new HashMap<String,Object>();
+		List<MaterialUse> list = materialDao.findAllMatUse(map);
 		Page page = (Page)session.getAttribute("usePage");
 		Page page2 = new Page(list.size(), 1);
 		int currentPage = 0;
@@ -425,7 +439,75 @@ public class MaterialServiceImpl implements MaterialService {
 			currentPage = page2.getTotalPages();
 		}
 		page.setCurrentPageCode(currentPage);
-		mv = this.findAllMatUseByPage(page);
+		mv = this.findAllMatUseByPage(page,"");
 		return mv;
 	}
+	
+	public Map<String,Object> checkSearchNameForBuy(String searchName){
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		
+		Map<String,Object> matMap = new HashMap<String,Object>();
+		matMap.put("matName", searchName);
+		List<MaterialBean> matList = materialDao.findMatBean(matMap);
+		
+		Map<String,Object> flowMap = new HashMap<String,Object>();
+		flowMap.put("flowName", searchName);
+		List<MaterialBean> matList2 = materialDao.findMatBean(flowMap);
+		
+		if(matList.size()!=0 && matList2.size()==0){
+			map.put("matName", searchName);
+		}else if(matList.size()==0 && matList2.size()!=0){
+			map.put("flowName", searchName);
+		}else{
+			map.put("matName",searchName);
+			map.put("flowName",searchName);
+		}
+		return map;
+	}
+	public Map<String,Object> checkSearchNameForEnter(String searchName){
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		
+		Map<String,Object> matMap = new HashMap<String,Object>();
+		matMap.put("matName", searchName);
+		List<MaterialEnter> matList = materialDao.findAllMatEnter(matMap);
+		
+		Map<String,Object> flowMap = new HashMap<String,Object>();
+		flowMap.put("flowName", searchName);
+		List<MaterialEnter> matList2 = materialDao.findAllMatEnter(flowMap);
+		
+		if(matList.size()!=0 && matList2.size()==0){
+			map.put("matName", searchName);
+		}else if(matList.size()==0 && matList2.size()!=0){
+			map.put("flowName", searchName);
+		}else{
+			map.put("matName",searchName);
+			map.put("flowName",searchName);
+		}
+		return map;
+	}
+	public Map<String,Object> checkSearchNameForUse(String searchName){
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		
+		Map<String,Object> matMap = new HashMap<String,Object>();
+		matMap.put("matName", searchName);
+		List<MaterialUse> matList = materialDao.findAllMatUse(matMap);
+		
+		Map<String,Object> flowMap = new HashMap<String,Object>();
+		flowMap.put("flowName", searchName);
+		List<MaterialUse> matList2 = materialDao.findAllMatUse(flowMap);
+		
+		if(matList.size()!=0 && matList2.size()==0){
+			map.put("matName", searchName);
+		}else if(matList.size()==0 && matList2.size()!=0){
+			map.put("flowName", searchName);
+		}else{
+			map.put("matName",searchName);
+			map.put("flowName",searchName);
+		}
+		return map;
+	}
+
 }

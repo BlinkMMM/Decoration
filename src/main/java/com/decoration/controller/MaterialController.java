@@ -50,7 +50,7 @@ public class MaterialController {
 	@RequestMapping(value="/buy",method = RequestMethod.GET)
 	public ModelAndView showBuy(Page page){
 		page.setCurrentPageCode(1);
-		ModelAndView mv = matService.findMatBeanByPage(page);
+		ModelAndView mv = matService.findMatBeanByPage(page,"");
 		mv.addObject("page", "buy");
 		mv.setViewName("/home");
 		return mv;
@@ -59,7 +59,7 @@ public class MaterialController {
 	public ModelAndView showBuyByPage(Page page){
 		page = (Page)session.getAttribute("matPage");
 		utilService.choosePage(page,"from");
-		ModelAndView mv = matService.findMatBeanByPage(page);
+		ModelAndView mv = matService.findMatBeanByPage(page,"");
 		mv.addObject("page", "buy");
 		mv.setViewName("/home");
 		return mv;
@@ -69,11 +69,22 @@ public class MaterialController {
 	public ModelAndView showBuyByPageNumBer(Integer currentPageCode){
 		Page page = (Page)session.getAttribute("matPage");
 		page.setCurrentPageCode(currentPageCode);
-		ModelAndView mv = matService.findMatBeanByPage(page);
+		ModelAndView mv = matService.findMatBeanByPage(page,"");
 		mv.addObject("page", "buy");
 		mv.setViewName("/home");
 		return mv;
 	}
+	
+	@RequestMapping(value="/matSearch",method = RequestMethod.POST)
+	public ModelAndView showMatBySearch(String searchName){
+		Page page = (Page)session.getAttribute("matPage");
+		page.setCurrentPageCode(1);
+		ModelAndView mv = matService.findMatBeanByPage(page, searchName);
+		mv.addObject("page", "buy");
+		mv.setViewName("/home");
+		return mv;
+	}
+	
 	/**
 	 * 跳转到展示材料进场页面
 	 * @return
@@ -81,7 +92,7 @@ public class MaterialController {
 	@RequestMapping(value="/enter",method = RequestMethod.GET)
 	public ModelAndView showEnter(Page page){
 		page.setCurrentPageCode(1);
-		ModelAndView mv = matService.findAllMatEnterByPage(page);
+		ModelAndView mv = matService.findAllMatEnterByPage(page,"");
 		mv.addObject("page", "enter");
 		mv.setViewName("/home");
 		return mv;
@@ -93,7 +104,7 @@ public class MaterialController {
 	@RequestMapping(value="/use",method = RequestMethod.GET)
 	public ModelAndView showUse(Page page){
 		page.setCurrentPageCode(1);
-		ModelAndView mv = matService.findAllMatUseByPage(page);
+		ModelAndView mv = matService.findAllMatUseByPage(page,"");
 		mv.addObject("page", "use");
 		mv.setViewName("/home");
 		return mv;

@@ -4,7 +4,9 @@
 package com.decoration.service.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -109,19 +111,20 @@ public class UtilServiceImpl implements UtilService{
 	 */
 	public Page initPage(String type){
 		Page page = new Page();
+		Map<String,Object> map = new HashMap<String,Object>();
 		switch(type) {
 		case DictionaryItems.MATERIAL_BUY_PAGE_TYPE:
-			List<MaterialBean> matList = materialDao.findMatBean();
+			List<MaterialBean> matList = materialDao.findMatBean(map);
 			page = new Page(matList.size(),DictionaryItems.MATERIAL_BUY_INIT_PAGECODE);
 			session.setAttribute("matPage", page);
 			break;
 		case DictionaryItems.MATERIAL_ENTER_PAGE_TYPE:
-			List<MaterialEnter> enterList = materialDao.findAllMatEnter();
+			List<MaterialEnter> enterList = materialDao.findAllMatEnter(map);
 			page = new Page(enterList.size(),DictionaryItems.MATERIAL_ENTER_INIT_PAGECODE);
 			session.setAttribute("enterPage", page);
 			break;
 		case DictionaryItems.MATERIAL_USE_PAGE_TYPE:
-			List<MaterialUse> useList = materialDao.findAllMatUse();
+			List<MaterialUse> useList = materialDao.findAllMatUse(map);
 			page = new Page(useList.size(),DictionaryItems.MATERIAL_USE_INIT_PAGECODE);
 			session.setAttribute("usePage", page);
 			break;

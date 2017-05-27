@@ -4,7 +4,9 @@
 package com.decoration.service.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,7 +15,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.decoration.bean.MaterialBean;
 import com.decoration.dao.FlowDao;
 import com.decoration.dao.ProjectDao;
 import com.decoration.dao.ScheduleDao;
@@ -81,7 +82,8 @@ public class ScheduleServiceImpl implements ScheduleService{
 	@Override
 	public ModelAndView findAllSchedule() {
 		ModelAndView mv = new ModelAndView();
-		List<Schedule> scheduleList = scheduleDao.findAllSchedule();	
+		Map<String,Object> map = new HashMap<String,Object>();
+		List<Schedule> scheduleList = scheduleDao.findAllSchedule(map);	
 		mv.addObject("scheduleData",scheduleList);
 		mv.addObject("page","schedule");
 		return mv;
@@ -89,13 +91,14 @@ public class ScheduleServiceImpl implements ScheduleService{
 	}
 	
 	@Override
-	public ModelAndView findAllScheduleByPage(Page page) {
+	public ModelAndView findAllScheduleByPage(Page page,String searchName) {
 		ModelAndView mv = new ModelAndView();
-		List<Schedule> list = scheduleDao.findAllSchedule();
+		Map<String,Object> map = this.checkSearchNameForSchedule(searchName);
+		List<Schedule> list = scheduleDao.findAllSchedule(map);
 		page = new Page(list.size(),page.getCurrentPageCode());
 		session.setAttribute("schedulePage", page);
 		
-		List<Schedule> pageList = scheduleDao.findAllScheduleByPage(page);
+		List<Schedule> pageList = scheduleDao.findAllScheduleByPage(page,map);
 		mv.addObject("schedulePageData",pageList);
 		mv.addObject("page","schedule");
 		return mv;
@@ -106,7 +109,8 @@ public class ScheduleServiceImpl implements ScheduleService{
 	 * @param mv
 	 */
 	public ModelAndView findScheduleByPageAfterOperation(ModelAndView mv){
-		List<Schedule> list = scheduleDao.findAllSchedule();
+		Map<String,Object> map = new HashMap<String,Object>();
+		List<Schedule> list = scheduleDao.findAllSchedule(map);
 		Page page = (Page)session.getAttribute("schedulePage");
 		Page page2 = new Page(list.size(), 1);
 		int currentPage = 0;
@@ -116,7 +120,31 @@ public class ScheduleServiceImpl implements ScheduleService{
 			currentPage = page2.getTotalPages();
 		}
 		page.setCurrentPageCode(currentPage);
-		mv = this.findAllScheduleByPage(page);
+		mv = this.findAllScheduleByPage(page,"");
 		return mv;
 	}
+	
+	public Map<String,Object> checkSearchNameForSchedule(String searchName){
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		
+		Map<String,Object> projectMap = new HashMap<String,Object>();
+		projectMap.put("projectName", searchName);
+		List<Schedule> scheduleList = scheduleDao.findAllSchedule(projectMap);
+		
+		Map<String,Object> flowMap = new HashMap<String,Object>();
+		flowMap.put("flowName", searchName);
+		List<Schedule> scheduleList2 = scheduleDao.findAllSchedule(flowMap);
+		
+		if(scheduleList.size()!=0 && scheduleList2.size()==0){
+			map.put("projectName", searchName);
+		}else if(scheduleList.size()==0 && scheduleList2.size()!=0){
+			map.put("flowName", searchName);
+		}else{
+			map.put("projectName",searchName);
+			map.put("flowName",searchName);
+		}
+		return map;
+	}
+
 }

@@ -47,7 +47,7 @@ public class MaterialEnterController {
 	public ModelAndView showEnterByPage(Page page){
 		page = (Page)session.getAttribute("enterPage");
 		utilService.choosePage(page,"enterFrom");
-		ModelAndView mv = matService.findAllMatEnterByPage(page);
+		ModelAndView mv = matService.findAllMatEnterByPage(page,"");
 		mv.addObject("page", "enter");
 		mv.setViewName("/home");
 		return mv;
@@ -57,11 +57,22 @@ public class MaterialEnterController {
 	public ModelAndView showEnterByPageNumBer(Integer currentPageCode){
 		Page page = (Page)session.getAttribute("enterPage");
 		page.setCurrentPageCode(currentPageCode);
-		ModelAndView mv = matService.findAllMatEnterByPage(page);
+		ModelAndView mv = matService.findAllMatEnterByPage(page,"");
 		mv.addObject("page", "enter");
 		mv.setViewName("/home");
 		return mv;
 	}
+	
+	@RequestMapping(value="/matSearch",method = RequestMethod.POST)
+	public ModelAndView showMatBySearch(String searchName){
+		Page page = (Page)session.getAttribute("enterPage");
+		page.setCurrentPageCode(1);
+		ModelAndView mv = matService.findAllMatEnterByPage(page,searchName);
+		mv.addObject("page", "enter");
+		mv.setViewName("/home");
+		return mv;
+	}
+	
 	/**
 	 * 跳转到添加进场材料表单
 	 * @return

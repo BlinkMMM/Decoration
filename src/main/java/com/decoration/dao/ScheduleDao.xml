@@ -78,7 +78,16 @@
 		LEFT JOIN t_flow f
 		ON f.flow_id = s.t_flow_flow_id
 		LEFT JOIN t_user u
-		ON u.user_id = s.t_user_user_id;
+		ON u.user_id = s.t_user_user_id
+		where 1=1
+		 <if test="projectName != null and projectName !=''">
+			and p.project_name like CONCAT('%',#{projectName},'%')
+		</if>
+		
+		<if test="flowName != null and flowName!=''">
+			and f.flow_name like CONCAT('%',#{flowName},'%')
+		</if>
+		ORDER BY s.schedule_id;
 	</select>
 	<select id="findAllScheduleByPage" parameterType="util.Page" resultMap="ScheduleResult">
 		SELECT * 
@@ -89,7 +98,15 @@
 		ON f.flow_id = s.t_flow_flow_id
 		LEFT JOIN t_user u
 		ON u.user_id = s.t_user_user_id
-		limit #{startCode},#{pageSize};
+		where 1=1
+		 <if test="map.projectName != null and map.projectName !=''">
+			and p.project_name like CONCAT('%',#{map.projectName},'%')
+		</if>
+		
+		<if test="map.flowName != null and map.flowName!=''">
+			and f.flow_name like CONCAT('%',#{map.flowName},'%')
+		</if>
+		limit #{page.startCode},#{page.pageSize};
 	</select>
 
 

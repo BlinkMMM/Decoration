@@ -17,7 +17,9 @@ import util.Page;
 public interface ScheduleService {
 	public ModelAndView saveSchedule(Schedule schedule);
 	public ModelAndView deleteScheduleById(int scheduleId);
+	
+	
 	public ModelAndView findAllSchedule();
 	
-	public ModelAndView findAllScheduleByPage(Page page);
+	public ModelAndView findAllScheduleByPage(Page page,String searchName);
 }

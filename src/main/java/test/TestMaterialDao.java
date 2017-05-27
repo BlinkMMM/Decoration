@@ -4,7 +4,9 @@
 package test;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -137,7 +139,9 @@ public class TestMaterialDao {
 	}
 	@Test
 	public void findAllMatEnter(){
-		List<MaterialEnter> matList = matDao.findAllMatEnter();
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("matName", "水管");
+		List<MaterialEnter> matList = matDao.findAllMatEnter(map);
 		for(MaterialEnter mat:matList){
 			System.out.println(mat);
 		}
@@ -148,9 +152,9 @@ public class TestMaterialDao {
 	 */
 	@Test
 	public void saveMatUse(){
-		MaterialBean bean = matDao.findMatBeanById(3);
+		MaterialBean bean = matDao.findMatBeanById(5);
 		Project project = proDao.findProByName("项目1");
-		User user = userDao.findUserByName("张三");
+		User user = userDao.findUserByName("采购2");
 		MaterialUse matUse = new MaterialUse(bean, 20, 0.8, new Date(), project, user);
 		boolean isOk = matDao.saveMatUse(matUse);
 		System.out.println("isOk = " + isOk);
@@ -181,7 +185,8 @@ public class TestMaterialDao {
 	}
 	@Test
 	public void findAllMatUse(){
-		List<MaterialUse> matList = matDao.findAllMatUse();
+		Map<String,Object> map = new HashMap<String,Object>();
+		List<MaterialUse> matList = matDao.findAllMatUse(map);
 		for(MaterialUse mat:matList){
 			System.out.println(mat);
 		}
@@ -191,7 +196,10 @@ public class TestMaterialDao {
 	 */
 	@Test
 	public void findMat(){
-		List<MaterialBean> list = matDao.findMatBean();
+		Map<String,Object> map = new HashMap<String,Object>();
+		//map.put("matName", "pvc");
+		map.put("flowName", "木工");
+		List<MaterialBean> list = matDao.findMatBean(map);
 		for(MaterialBean bean:list){
 			System.out.println(bean);
 		}
@@ -201,11 +209,13 @@ public class TestMaterialDao {
 	 */
 	@Test
 	public void findMatByPage(){
-		List<MaterialBean> list = matDao.findMatBean();
-		
-		Page page = new Page(list.size(),3);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("flowName", "木工类");
+		List<MaterialBean> list = matDao.findMatBean(map);
+		System.out.println("-----------" + list.size());
+		Page page = new Page(list.size(),1);
 		System.out.println("startCode = " + page.getStartCode());
-		List<MaterialBean> list2 = matDao.findMatBeanByPage(page);
+		List<MaterialBean> list2 = matDao.findMatBeanByPage(page,map);
 		for(MaterialBean bean:list2){
 			System.out.println(bean);
 		}
@@ -217,11 +227,9 @@ public class TestMaterialDao {
 	public void findMatByCondition(){
 		MaterialBean matBean = new MaterialBean();
 		
-		Flow flow = flowDao.findFlowByName("木工");
-		Project project = proDao.findProByName("项目1");
-		
-		matBean.setMatProject(project);
+		Flow flow = flowDao.findFlowByName("木工类");
 		matBean.setMatFlow(flow);
+		//matBean.setMatName("PVC水管");
 		System.out.println("matBean = " + matBean);
 		
 		List<MaterialBean> list = matDao.findMatBeanByCondition(matBean);

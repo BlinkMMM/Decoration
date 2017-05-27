@@ -54,7 +54,7 @@ public class ScheduleController {
 		@RequestMapping(value="/schedule",method = RequestMethod.GET)
 		public ModelAndView showSchedule(Page page){
 			page.setCurrentPageCode(1);
-			ModelAndView mv = scheduleService.findAllScheduleByPage(page);
+			ModelAndView mv = scheduleService.findAllScheduleByPage(page,"");
 			mv.setViewName("/home");
 			return mv;
 		}
@@ -62,7 +62,7 @@ public class ScheduleController {
 		public ModelAndView showScheduleByPage(Page page){
 			page = (Page)session.getAttribute("schedulePage");
 			utilService.choosePage(page,"scheduleFrom");
-			ModelAndView mv = scheduleService.findAllScheduleByPage(page);
+			ModelAndView mv = scheduleService.findAllScheduleByPage(page,"");
 			mv.addObject("page", "schedule");
 			mv.setViewName("/home");
 			return mv;
@@ -72,7 +72,17 @@ public class ScheduleController {
 		public ModelAndView showBuyByPageNumBer(Integer currentPageCode){
 			Page page = (Page)session.getAttribute("schedulePage");
 			page.setCurrentPageCode(currentPageCode);
-			ModelAndView mv = scheduleService.findAllScheduleByPage(page);
+			ModelAndView mv = scheduleService.findAllScheduleByPage(page,"");
+			mv.addObject("page", "schedule");
+			mv.setViewName("/home");
+			return mv;
+		}
+		
+		@RequestMapping(value="/scheduleSearch",method = RequestMethod.POST)
+		public ModelAndView showMatBySearch(String searchName){
+			Page page = (Page)session.getAttribute("schedulePage");
+			page.setCurrentPageCode(1);
+			ModelAndView mv = scheduleService.findAllScheduleByPage(page,searchName);
 			mv.addObject("page", "schedule");
 			mv.setViewName("/home");
 			return mv;

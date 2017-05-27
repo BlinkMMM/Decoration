@@ -4,9 +4,9 @@
 package com.decoration.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
-import org.junit.runners.Parameterized.Parameters;
 
 import com.decoration.bean.MaterialBean;
 import com.decoration.bean.MaterialCostBean;
@@ -40,8 +40,8 @@ public interface MaterialDao {
 	public boolean deleteMatEnterById(int matEnterId);
 	public boolean updateMatEnter(MaterialEnter matEnter);
 	public MaterialEnter findMatEnterById(int matEnterId);
-	public List<MaterialEnter> findAllMatEnter();
-	public List<MaterialEnter> findAllMatEnterByPage(Page page);
+	public List<MaterialEnter> findAllMatEnter(Map<String,Object> map);
+	public List<MaterialEnter> findAllMatEnterByPage(@Param("page") Page page,@Param("map")Map<String,Object> map);
 	
 	/*
 	 * 材料使用CRUD
@@ -50,18 +50,20 @@ public interface MaterialDao {
 	public boolean deleteMatUseById(int matUseId);
 	public boolean updateMatUse(MaterialUse matUse);
 	public MaterialUse findMatUseById(int matUseId);
-	public List<MaterialUse> findAllMatUse();
-	public List<MaterialUse> findAllMatUseByPage(Page page);
+	public List<MaterialUse> findAllMatUse(Map<String,Object> map);
+	public List<MaterialUse> findAllMatUseByPage(@Param("page") Page page,@Param("map")Map<String,Object> map);
 	
 	/*
 	 * MaterialBean CRUD
 	 */
-	public List<MaterialBean> findMatBean();
+	
 	public boolean saveMatBean(MaterialBean matBean);
 	public boolean updateMatBean(MaterialBean matBean);
 	public MaterialBean findMatBeanById(int matBeanId);
 	public List<MaterialBean> findMatBeanByCondition(MaterialBean matBean);
-	public List<MaterialBean> findMatBeanByPage(Page page);
+	
+	public List<MaterialBean> findMatBean(Map<String,Object> map);
+	public List<MaterialBean> findMatBeanByPage(@Param("page") Page page,@Param("map")Map<String,Object> map);
 	
 	/*
 	 * matCost find 

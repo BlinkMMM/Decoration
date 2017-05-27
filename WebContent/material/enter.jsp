@@ -24,16 +24,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="js/pintuer.js"></script>
 </head>
 <body>
-<form method="post" action="enter/pageNumber" id="listform">
+
   <div class="panel admin-panel">
     <div class="panel-head"><strong class="icon-reorder"> 材料进场</strong> <a href="" style="float:right; display:none;">添加字段</a></div>
     <div class="padding border-bottom">
       <ul class="search" style="padding-left:10px;">
         <li> <a class="button border-main icon-plus-square-o" href="enter/addInfo"> 新添进场材料</a> </li>
-        
+        <form method="post" action="enter/matSearch">
         <li style="float:right;">
-          <input type="text" placeholder="请输入搜索关键字" name="keywords" class="input" style="width:250px; line-height:17px;display:inline-block" />
-          <a href="javascript:void(0)" class="button border-main icon-search" onclick="changesearch()" > 搜索</a></li>
+          <input type="text" placeholder="请输入搜索关键字" name="searchName" class="input" style="width:250px; line-height:17px;display:inline-block" />
+          <button type="submit" class="button border-main icon-search" > 搜索</button></li>
+      </form>
       </ul>
     </div>
     <table class="table table-hover text-center">
@@ -49,7 +50,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <th width="10%">进场日期</th>
         <th width="310">操作</th>
       </tr>
-     
+     <form method="post" action="enter/pageNumber" id="listform">
       <c:forEach var="i" items="${enterPageData}" varStatus="rowCount">
       <tr>
 	      <td><c:out value="${enterPage.startCode + rowCount.index+1}"/><p></td>	

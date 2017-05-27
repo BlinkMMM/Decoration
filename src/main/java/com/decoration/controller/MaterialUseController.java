@@ -50,7 +50,7 @@ public class MaterialUseController {
 	public ModelAndView showUseByPage(Page page){
 		page = (Page)session.getAttribute("usePage");
 		utilService.choosePage(page,"useFrom");
-		ModelAndView mv = matService.findAllMatUseByPage(page);
+		ModelAndView mv = matService.findAllMatUseByPage(page,"");
 		mv.addObject("page", "use");
 		mv.setViewName("/home");
 		return mv;
@@ -60,7 +60,17 @@ public class MaterialUseController {
 	public ModelAndView showUseByPageNumBer(Integer currentPageCode){
 		Page page = (Page)session.getAttribute("usePage");
 		page.setCurrentPageCode(currentPageCode);
-		ModelAndView mv = matService.findAllMatUseByPage(page);
+		ModelAndView mv = matService.findAllMatUseByPage(page,"");
+		mv.addObject("page", "use");
+		mv.setViewName("/home");
+		return mv;
+	}
+	
+	@RequestMapping(value="/matSearch",method = RequestMethod.POST)
+	public ModelAndView showMatBySearch(String searchName){
+		Page page = (Page)session.getAttribute("usePage");
+		page.setCurrentPageCode(1);
+		ModelAndView mv = matService.findAllMatUseByPage(page,searchName);
 		mv.addObject("page", "use");
 		mv.setViewName("/home");
 		return mv;
