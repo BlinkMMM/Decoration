@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService{
 	public ModelAndView login(String userName, String password,HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 		User user = userDao.findUserByName(userName);
-		if(userName!=null&& !userName.equals("") && password!=null && !password.equals("")){
+		if(user!=null&& !userName.equals("") && password!=null && !password.equals("")){
 			if(user.getPassword().equals(password)){
 				// 登录成功
 				mv.addObject("result", true);
@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService{
 			}
 		}else{
 			mv.addObject("result", false);
-			mv.addObject("reason", "用户名或密码不能为空!");
+			mv.addObject("reason", "用户名或密码错误!");
 			mv.setViewName("/user/login");
 		}
 		

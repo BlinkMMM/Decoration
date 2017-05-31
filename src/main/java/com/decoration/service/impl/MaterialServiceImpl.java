@@ -309,7 +309,7 @@ public class MaterialServiceImpl implements MaterialService {
 				mv.addObject("page", "useAddInfo");
 			} else if (useNum > material.getMaterialNum()) {
 				mv.addObject("result", false);
-				mv.addObject("reason", "进场材料大于库存，有误！！");
+				mv.addObject("reason", "使用材料大于进场材料，有误！！");
 				mv.addObject("page", "useAddInfo");
 			} else {
 				System.out.println(matUse);
