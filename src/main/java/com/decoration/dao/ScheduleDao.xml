@@ -11,8 +11,7 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.decoration.dao.ScheduleDao">
-
+<mapper namespace="com.decoration.dao.ScheduleDao">	
 	<resultMap type="com.decoration.entity.Schedule" id="ScheduleResult">
 		<id column="schedule_id" jdbcType="INTEGER" property="scheduleId" />
 		<result column="expected_days" jdbcType="INTEGER" property="expectedDays" />
@@ -42,6 +41,22 @@
 		</association>
 	</resultMap>
 	
+	<resultMap type="com.decoration.entity.CheckSchedule" id="CheckScheduleResult">
+		<id column="check_id" jdbcType="INTEGER" property="checkId" />
+		<result column="check_state" jdbcType="INTEGER" property="checkState" />
+		<result column="reason" jdbcType="VARCHAR" property="reason" />
+		<result column="responsible_party" jdbcType="VARCHAR" property="responsibleParty" />
+		<result column="check_date" jdbcType="DATE" property="checkDate" javaType="java.sql.Date"/>
+		<result column="schedule_id" jdbcType="INTEGER" property="scheduleId"/>
+		<association property="checkUser" javaType="com.decoration.entity.User">
+			<id column="user_id" jdbcType="INTEGER" property="userId" />
+			<result column="user_name" jdbcType="VARCHAR" property="userName" />
+			<result column="password" jdbcType="VARCHAR" property="password" />
+			<result column="job_type" jdbcType="VARCHAR" property="jobType" />
+			<result column="telephone" jdbcType="VARCHAR" property="telephone" />
+			<result column="email" jdbcType="VARCHAR" property="email" />
+		</association>
+	</resultMap>
 
 	<insert id="saveSchedule" parameterType="com.decoration.entity.Schedule" useGeneratedKeys="true" keyProperty="ScheduleResult">
 		INSERT INTO t_schedule (
@@ -115,6 +130,35 @@
 		limit #{page.startCode},#{page.pageSize};
 	</select>
 
+	<insert id="saveCheckSchedule" parameterType="com.decoration.entity.CheckSchedule" useGeneratedKeys="true" keyProperty="CheckScheduleResult">
+		INSERT INTO t_check_schedule (
+			check_state,
+			reason,
+			responsible_party,
+			check_date,
+			t_user_user_id,
+			schedule_id
+		)
+		VALUES
+		(
+			 #{checkState},
+			 #{reason},
+			 #{responsibleParty},
+			 #{checkDate},
+			 #{checkUser.userId},
+			 #{scheduleId}
+		)	
+	</insert>
 
+	<select id="findCheckSchedule" resultMap="CheckScheduleResult">
+		SELECT * 
+		FROM `t_check_schedule` c
+		LEFT JOIN t_user u
+		ON u.user_id = c.t_user_user_id
+		where 1=1
+		<if test="checkId != null">
+			and c.check_id =  #{checkId}
+		</if>
+	</select>
 	
 </mapper>

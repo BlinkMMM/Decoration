@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.decoration.entity.CheckSchedule;
 import com.decoration.entity.Schedule;
 
 import util.Page;
@@ -23,4 +24,8 @@ public interface ScheduleDao {
 	
 	public List<Schedule> findAllSchedule(Map<String,Object> map);
 	public List<Schedule> findAllScheduleByPage(@Param("page") Page page,@Param("map")Map<String,Object> map);
+	
+	
+	public boolean saveCheckSchedule(CheckSchedule checkSchedule);
+	public List<CheckSchedule> findCheckSchedule(Map<String,Object> map);
 }

@@ -66,7 +66,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      <div class="button-group"> 
 	       <a class="button border-main" href="schedule/updateInfo/${i.scheduleId}"><span class="icon-edit"></span> 更新</a>
 	       <a class="button border-red" href="schedule/delete/${i.scheduleId}" ><span class="icon-trash-o"></span> 删除</a>
-	       <a class="button border-red" href="schedule/check/${i.scheduleId}" ><span class="icon-trash-o"></span> 审核</a>
+	       <a class="button border-red" href="schedule/checkInfo/${i.scheduleId}" ><span class="icon-trash-o"></span> 审核</a>
 	      </div>
 	      </td>
 	      </tr>

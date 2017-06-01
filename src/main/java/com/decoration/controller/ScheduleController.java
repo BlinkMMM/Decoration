@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.decoration.bean.MaterialBean;
+import com.decoration.entity.CheckSchedule;
 import com.decoration.entity.Schedule;
 import com.decoration.service.MaterialService;
 import com.decoration.service.ScheduleService;
@@ -137,6 +137,35 @@ public class ScheduleController {
 			mv.setViewName("/home");
 			return mv;
 		}
+
+		/**
+		 * 跳转到审核进度页面
+		 * @param binder
+		 */
+		@RequestMapping(value = "/checkInfo/{scheduleId} ", method = RequestMethod.GET)
+		public ModelAndView checkScheduleInfo(@PathVariable int scheduleId) {
+			ModelAndView mv = new ModelAndView();
+			mv.addObject("page", "checkScheduleInfo");
+			mv.addObject("checkScheduleId",scheduleId);
+			mv.setViewName("/home");
+			return mv;
+		}
+		
+		/**
+		 * 执行审核项目进度操作并跳转到展示项目进度
+		 * @param 
+		 * @return
+		 */
+		@RequestMapping(value = "/check/{id}", method = RequestMethod.POST)
+		public ModelAndView checkSchedule(CheckSchedule checkSchedule,@PathVariable int id) {
+			ModelAndView mv = new ModelAndView();
+			checkSchedule.setCheckId(id);
+			mv = scheduleService.saveCheckSchedule(checkSchedule);
+			mv.addObject("page", "schedule");
+			mv.setViewName("/home");
+			return mv;
+		}
+		
 		@InitBinder
 		protected void initBinder(WebDataBinder binder) {
 		    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

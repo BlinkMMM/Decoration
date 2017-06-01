@@ -150,6 +150,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <c:if test="${page == 'scheduleUpdateInfo'}">
 <jsp:include page="schedule/updateSchedule.jsp"></jsp:include>
 </c:if>
+<!--========显示审核工程进度界面  ==========-->
+<c:if test="${page == 'checkScheduleInfo'}">
+<jsp:include page="schedule/checkSchedule.jsp"></jsp:include>
+</c:if>
 <!--========显示尚未登录错误界面  ==========-->
 <c:if test="${page == 'errorLogin'}">
 <jsp:include page="errorLogin.jsp"></jsp:include>

@@ -17,6 +17,7 @@ import com.decoration.dao.FlowDao;
 import com.decoration.dao.ProjectDao;
 import com.decoration.dao.ScheduleDao;
 import com.decoration.dao.UserDao;
+import com.decoration.entity.CheckSchedule;
 import com.decoration.entity.Flow;
 import com.decoration.entity.Project;
 import com.decoration.entity.Schedule;
@@ -69,5 +70,25 @@ public class TestScheduleDao {
 	public void testDeleteSchedule(){
 		boolean isOk = scheduleDao.deleleScheduleById(3);
 		System.out.println("isOk = " + isOk);
+	}
+	
+	@Test
+	public void testSaveCheckSchedule(){
+		CheckSchedule checkSchedule = new CheckSchedule();
+		checkSchedule.setCheckState(2);
+		checkSchedule.setCheckUser(userDao.findUserById(7));
+		checkSchedule.setCheckDate(new Date());
+		checkSchedule.setReason("做的不好");
+		checkSchedule.setResponsibleParty("施工方责任");
+		checkSchedule.setScheduleId(1);
+		boolean isOk = scheduleDao.saveCheckSchedule(checkSchedule);
+		System.out.println("isOk = " + isOk);
+	}
+	@Test
+	public void testFindCheckSchedule(){
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("checkId", 2);
+		List<CheckSchedule> list = scheduleDao.findCheckSchedule(map);
+		System.out.println(list);
 	}
 }

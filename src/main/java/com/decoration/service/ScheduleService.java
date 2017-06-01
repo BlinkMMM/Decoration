@@ -1,9 +1,8 @@
 package com.decoration.service;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.web.servlet.ModelAndView;
 
+import com.decoration.entity.CheckSchedule;
 import com.decoration.entity.Schedule;
 
 import util.Page;
@@ -23,4 +22,8 @@ public interface ScheduleService {
 	public ModelAndView findAllSchedule();
 	
 	public ModelAndView findAllScheduleByPage(Page page,String searchName);
+	
+	public ModelAndView saveCheckSchedule(CheckSchedule checkSchedule);
+	
+	public ModelAndView findCheckSchedule();
 }

@@ -20,32 +20,44 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </head>
 <body>
 <div class="panel admin-panel">
-  <div class="panel-head" id="update"><strong><span class="icon-pencil-square-o"></span>更新项目进度</strong></div>
+  <div class="panel-head" id="update"><strong><span class="icon-pencil-square-o"></span>审核项目进度</strong></div>
   <div class="body-content">
   		<c:if test="${result == false }">
 			<div class="alert alert-danger" role="alert" style="margin-top:5px color:red" id="tip">${reason }</div>
 		</c:if>
-    <form method="post" class="form-x" action="schedule/update/${scheduleUpdateId}">  
+    <form method="post" class="form-x" action="schedule/check/${checkScheduleId}">  
+
       <div class="form-group">
         <div class="label">
-          <label>今日完成工时：</label>
+          <label>审核状态：</label>
         </div>
         <div class="field">
-          <input type="text" class="input w50"  name="finishedDays" data-validate="required:请输入今天完成的工时！" />
-          <div class="tips"></div>
-        </div>
+			<select class="input w50" name="jobType">
+				<option value="0">未审核</option>
+				<option value="1">通过</option>
+				<option value="2">不通过</option>
+			</select>
+		</div>
       </div>
      
       <div class="clear"></div>
       <div class="form-group">
         <div class="label">
-          <label>工作内容描述：</label>
+          <label>不通过原因：</label>
         </div>
         <div class="field">
-          <input type="text" class="input w50" name="workContent"  data-validate="required:请输入工作内容描述！"/>
+          <input type="text" class="input w50" name="workContent"  data-validate="required:请输入不通过原因！"/>
         </div>
       </div>
-      
+      <div class="clear"></div>
+      <div class="form-group">
+        <div class="label">
+          <label>责任方：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" name="workContent"  data-validate="required:请输入责任方！"/>
+        </div>
+      </div>    
       <div class="form-group">
         <div class="label">
           <label></label>

@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.decoration.dao.FlowDao;
 import com.decoration.dao.ProjectDao;
 import com.decoration.dao.ScheduleDao;
+import com.decoration.entity.CheckSchedule;
 import com.decoration.entity.Flow;
 import com.decoration.entity.MaterialUse;
 import com.decoration.entity.Project;
@@ -135,6 +136,23 @@ public class ScheduleServiceImpl implements ScheduleService{
 		return mv;
 	}
 	
+	/**
+	 * 添加审核
+	 */
+	@Override
+	public ModelAndView saveCheckSchedule(CheckSchedule checkSchedule) {
+		ModelAndView mv = new ModelAndView();
+		scheduleDao.saveCheckSchedule(checkSchedule);
+		return mv;
+	}
+
+	@Override
+	public ModelAndView findCheckSchedule() {
+		ModelAndView mv = new ModelAndView();
+		Map<String,Object> map = new HashMap<String,Object>();
+		scheduleDao.findAllSchedule(map);
+		return mv;
+	}
 	/**
 	 * 在材料使用模块执行操作后分页查出数据
 	 * @param mv
