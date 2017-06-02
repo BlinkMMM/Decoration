@@ -131,9 +131,12 @@ public class MaterialServiceImpl implements MaterialService {
 		String flowName = matBean.getMatFlow().getFlowName();
 		Project project = proDao.findProByName(proName);
 		Flow flow = flowDao.findFlowByName(flowName);
+		User user = (User)session.getAttribute("loginUser");
 		if (project != null && flow != null) {
 			matBean.setMatProject(project);
 			matBean.setMatFlow(flow);
+			matBean.setMatBuyDate(matBean.getMatBuyDate());
+			matBean.setMatUser(user);
 			Material mat = new Material();
 			mat.setMaterialName(matName);
 			mat.setMatProjectId(project.getProjectId());
@@ -149,6 +152,14 @@ public class MaterialServiceImpl implements MaterialService {
 			mv.addObject("result", false);
 			mv.addObject("reason", "输入的信息有误，请重新输入！");
 		}
+		return mv;
+	}
+	
+	@Override
+	public ModelAndView findMatBeanById(int matId) {
+		ModelAndView mv = new ModelAndView();
+		MaterialBean matBean = materialDao.findMatBeanById(matId);
+		mv.addObject("matBean",matBean);
 		return mv;
 	}
 	// ==============材料进场=====================================================================
@@ -255,7 +266,14 @@ public class MaterialServiceImpl implements MaterialService {
 		}
 		return mv;
 	}
-
+	
+	@Override
+	public ModelAndView findMatEnterById(int enterId) {
+		ModelAndView mv= new ModelAndView();
+		MaterialEnter matEnter = materialDao.findMatEnterById(enterId);
+		mv.addObject("matEnter",matEnter);
+		return mv;
+	}
 	// ===========材料使用=============================================================================
 	@Override
 	public ModelAndView findAllMatUse() {
@@ -367,7 +385,16 @@ public class MaterialServiceImpl implements MaterialService {
 		}
 		return mv;
 	}
+	
+	@Override
+	public ModelAndView findMatUseById(int useId) {
+		ModelAndView mv = new ModelAndView();
+		MaterialUse matUse = materialDao.findMatUseById(useId);
+		mv.addObject("matUse",matUse);
+		return mv;
+	}
 
+	
 	// ========================================================================================
 	/**
 	 * 根据材料名称和项目编号检查材料是否已经存在
@@ -509,5 +536,4 @@ public class MaterialServiceImpl implements MaterialService {
 		}
 		return map;
 	}
-
 }

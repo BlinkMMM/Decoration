@@ -142,7 +142,35 @@ public class ScheduleServiceImpl implements ScheduleService{
 	@Override
 	public ModelAndView saveCheckSchedule(CheckSchedule checkSchedule) {
 		ModelAndView mv = new ModelAndView();
-		scheduleDao.saveCheckSchedule(checkSchedule);
+		User checkUser = (User)session.getAttribute("loginUser");
+		int scheduleId = checkSchedule.getScheduleId();
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("scheduleId", scheduleId);
+
+		List<CheckSchedule> checkScheduleList = scheduleDao.findCheckSchedule(map);
+		
+		if(checkScheduleList.size()==0){//说明未审核,则执行添加审核操作
+			checkSchedule.setCheckDate(new Date());
+			checkSchedule.setCheckUser(checkUser);	
+			scheduleDao.saveCheckSchedule(checkSchedule);		
+			mv = this.findScheduleByPageAfterOperation(mv);
+		}else{//说明已审核，则执行修改操作
+			CheckSchedule newCheckSchedule = checkScheduleList.get(0);
+			
+			if (checkSchedule.getCheckState() == newCheckSchedule.getCheckState()
+					&& checkSchedule.getReason().equals(newCheckSchedule.getReason())
+					&& checkSchedule.getResponsibleParty().equals(newCheckSchedule.getResponsibleParty())){
+			}else{
+				newCheckSchedule.setCheckDate(new Date());
+				newCheckSchedule.setCheckUser(checkUser);
+				newCheckSchedule.setCheckState(checkSchedule.getCheckState());
+				newCheckSchedule.setReason(checkSchedule.getReason());
+				newCheckSchedule.setResponsibleParty(checkSchedule.getResponsibleParty());
+			}
+			scheduleDao.updateCheckSchedule(newCheckSchedule);
+			mv = this.findScheduleByPageAfterOperation(mv);
+		}		
 		return mv;
 	}
 
@@ -176,7 +204,6 @@ public class ScheduleServiceImpl implements ScheduleService{
 	public Map<String,Object> checkSearchNameForSchedule(String searchName){
 		Map<String,Object> map = new HashMap<String,Object>();
 		
-		
 		Map<String,Object> projectMap = new HashMap<String,Object>();
 		projectMap.put("projectName", searchName);
 		List<Schedule> scheduleList = scheduleDao.findAllSchedule(projectMap);
@@ -194,5 +221,33 @@ public class ScheduleServiceImpl implements ScheduleService{
 			map.put("flowName",searchName);
 		}
 		return map;
+	}
+	
+	public ModelAndView checkLevel(int scheduleId){
+		ModelAndView mv = new ModelAndView();
+		User user = (User)session.getAttribute("loginUser");
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("scheduleId", scheduleId);
+		List<Schedule> scheduleList = scheduleDao.findAllSchedule(map);
+		Schedule schedule = scheduleList.get(0);
+		if(user.getJobType().equals("项目经理")){
+			if(schedule.getScheduleRate()<1){
+				mv.addObject("result",false);
+				mv.addObject("reason","进度尚未完成，无法审核！");
+				mv.addObject("page","errorInfo");
+			}else{
+				List<CheckSchedule> checkScheduleList = scheduleDao.findCheckSchedule(map);
+				CheckSchedule checkSchedule = checkScheduleList.get(0);
+				mv.addObject("checkSchedule",checkSchedule);
+				mv.addObject("page", "checkScheduleInfo");
+				mv.addObject("checkScheduleId",scheduleId);
+			}
+		}else{
+			mv.addObject("result",false);
+			mv.addObject("reason","权限不足，无法审核！");
+			mv.addObject("page","errorInfo");
+		}
+		return mv;
+		
 	}
 }

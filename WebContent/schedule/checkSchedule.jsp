@@ -21,10 +21,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 <div class="panel admin-panel">
   <div class="panel-head" id="update"><strong><span class="icon-pencil-square-o"></span>审核项目进度</strong></div>
-  <div class="body-content">
-  		<c:if test="${result == false }">
-			<div class="alert alert-danger" role="alert" style="margin-top:5px color:red" id="tip">${reason }</div>
-		</c:if>
+  <div class="body-content">	
     <form method="post" class="form-x" action="schedule/check/${checkScheduleId}">  
 
       <div class="form-group">
@@ -32,10 +29,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <label>审核状态：</label>
         </div>
         <div class="field">
-			<select class="input w50" name="jobType">
-				<option value="0">未审核</option>
-				<option value="1">通过</option>
-				<option value="2">不通过</option>
+			<select class="input w50" name="checkState">
+				<c:if test=" ${checkSchedule.checkState==0} ">
+					<option value="0" selected="selected">未审核</option>
+					<option value="1">通过</option>
+					<option value="2">不通过</option>
+				</c:if>
+				<c:if test="${checkSchedule.checkState==1}">
+					<option value="0" >未审核</option>
+					<option value="1" selected="selected">通过</option>
+					<option value="2">不通过</option>
+				</c:if>
+				<c:if test="${checkSchedule.checkState==2 }">
+					<option value="0" >未审核</option>
+					<option value="1">通过</option>
+					<option value="2" selected="selected">不通过</option>
+				</c:if>
 			</select>
 		</div>
       </div>
@@ -46,7 +55,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <label>不通过原因：</label>
         </div>
         <div class="field">
-          <input type="text" class="input w50" name="workContent"  data-validate="required:请输入不通过原因！"/>
+          <input type="text" class="input w50" name="reason" value="${checkSchedule.reason }"/>
         </div>
       </div>
       <div class="clear"></div>
@@ -55,7 +64,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <label>责任方：</label>
         </div>
         <div class="field">
-          <input type="text" class="input w50" name="workContent"  data-validate="required:请输入责任方！"/>
+          <input type="text" class="input w50" name="responsibleParty" value="${checkSchedule.responsibleParty }"/>
         </div>
       </div>    
       <div class="form-group">

@@ -26,4 +26,6 @@ public interface ScheduleService {
 	public ModelAndView saveCheckSchedule(CheckSchedule checkSchedule);
 	
 	public ModelAndView findCheckSchedule();
+	
+	public ModelAndView checkLevel(int scheduleId);
 }

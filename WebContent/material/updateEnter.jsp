@@ -31,7 +31,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <label>项目名称：</label>
         </div>
         <div class="field">
-          <select name="enterProject.projectName" class="input" onchange="changesearch()" style="width:200px; line-height:17px; display:inline-block">
+          <select name="enterProject.projectName" class="input" onchange="changesearch()" style="width:200px; line-height:17px; display:inline-block" value="${matEnter.enterMat.matName }">
             <c:forEach var="i" items="${chooseProject}">
       		<tr>
 	      		<td><option value="${i.projectName}">${i.projectName}</option><p></td>	
@@ -45,7 +45,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <label>材料名称：</label>
         </div>
         <div class="field">
-          <input type="text" class="input w50"  name="enterMat.matName" data-validate="required:请输入材料名称" />
+          <input type="text" class="input w50"  name="enterMat.matName" data-validate="required:请输入材料名称" value="${matEnter.enterMat.matName }"/>
           <div class="tips"></div>
         </div>
       </div>
@@ -56,7 +56,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <label>进场数量：</label>
         </div>
         <div class="field">
-          <input type="text" class="input w50" name="enterNum"  data-validate="required:请输入材料数量"/>
+          <input type="text" class="input w50" name="enterNum"  data-validate="required:请输入材料数量" value="${matEnter.enterNum }"/>
         </div>
       </div>
       <div class="form-group">
@@ -64,7 +64,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <label>单位：</label>
         </div>
         <div class="field">
-          <input type="text" class="input w50" name="enterMat.matUnit" data-validate="required:请输入材料单位"/>
+          <input type="text" class="input w50" name="enterMat.matUnit" data-validate="required:请输入材料单位" value="${matEnter.enterMat.matUnit }"/>
         </div>
       </div>
 
@@ -74,7 +74,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </div>
         <div class="field"> 
           <script src="js/laydate/laydate.js"></script>
-          <input type="date" class="input w50" name="enterDate" />
+          <input type="date" class="input w50" name="enterDate" value="${matEnter.enterDate }"/>
           <div class="tips"></div>
         </div>
       </div>

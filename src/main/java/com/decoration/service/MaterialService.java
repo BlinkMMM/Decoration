@@ -46,6 +46,8 @@ public interface MaterialService {
 	public ModelAndView updateMatBean(MaterialBean matBean);
 	
 	public ModelAndView findMatBeanByPage(Page page,String searchName);
+	
+	public ModelAndView findMatBeanById(int matId);
 	/*
 	 * ===========材料进场========================================================================
 	 */
@@ -74,6 +76,8 @@ public interface MaterialService {
 	 */
 	public ModelAndView updateMatEnter(MaterialEnter matEnter);
 	
+	public ModelAndView findMatEnterById(int enterId); 
+	
 	/*
 	 * ===========材料使用========================================================================
 	 */
@@ -82,5 +86,7 @@ public interface MaterialService {
 	public ModelAndView saveMatUse(MaterialUse matUse);
 	public ModelAndView deleteUseMatById(int useId);
 	public ModelAndView updateMatUse(MaterialUse matUse);
+	
+	public ModelAndView findMatUseById(int useId);
 	
 }

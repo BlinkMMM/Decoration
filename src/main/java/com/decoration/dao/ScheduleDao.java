@@ -28,4 +28,5 @@ public interface ScheduleDao {
 	
 	public boolean saveCheckSchedule(CheckSchedule checkSchedule);
 	public List<CheckSchedule> findCheckSchedule(Map<String,Object> map);
+	public boolean updateCheckSchedule(CheckSchedule checkSchedule);
 }

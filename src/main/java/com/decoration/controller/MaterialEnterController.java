@@ -101,6 +101,7 @@ public class MaterialEnterController {
 	@RequestMapping(value = "/updateInfo/{enterId}", method=RequestMethod.GET)
 	public ModelAndView showUpdateInfo(@PathVariable int enterId){
 		ModelAndView mv = new ModelAndView();
+		mv = matService.findMatEnterById(enterId);
 		mv.addObject("page","enterUpdateInfo");
 		mv.addObject("enterUpdateId",enterId);
 		mv.setViewName("/home");

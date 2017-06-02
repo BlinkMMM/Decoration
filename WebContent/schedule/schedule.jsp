@@ -24,7 +24,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="js/pintuer.js"></script>
 </head>
 <body>
-
+	<c:if test="${result == false }">
+			<div class="alert alert-danger" role="alert" style="margin-top:5px color:red" id="tip">${reason }</div>
+	</c:if>   
   <div class="panel admin-panel">
     <div class="panel-head"><strong class="icon-reorder">工程进度</strong> <a href="" style="float:right; display:none;">添加字段</a></div>
     <div class="padding border-bottom">
@@ -66,7 +68,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      <div class="button-group"> 
 	       <a class="button border-main" href="schedule/updateInfo/${i.scheduleId}"><span class="icon-edit"></span> 更新</a>
 	       <a class="button border-red" href="schedule/delete/${i.scheduleId}" ><span class="icon-trash-o"></span> 删除</a>
-	       <a class="button border-red" href="schedule/checkInfo/${i.scheduleId}" ><span class="icon-trash-o"></span> 审核</a>
+	       <a class="button border-main" href="schedule/checkInfo/${i.scheduleId}" ><span class="icon-edit"></span> 审核</a>
 	      </div>
 	      </td>
 	      </tr>

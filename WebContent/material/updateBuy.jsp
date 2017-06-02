@@ -60,7 +60,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <label>材料名称：</label>
         </div>
         <div class="field">
-          <input type="text" class="input w50"  name="matName" data-validate="required:请输入材料名称" />
+          <input type="text" class="input w50"  name="matName" data-validate="required:请输入材料名称" value="${matBean.matName }"/>
           <div class="tips"></div>
         </div>
       </div>
@@ -71,7 +71,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <label>购买数量：</label>
         </div>
         <div class="field">
-          <input type="text" class="input w50" name="matNum"  data-validate="required:请输入材料数量"/>
+          <input type="text" class="input w50" name="matNum"  data-validate="required:请输入材料数量" value="${matBean.matNum }"/>
         </div>
       </div>
       <div class="form-group">
@@ -79,7 +79,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <label>单位：</label>
         </div>
         <div class="field">
-          <input type="text" class="input w50" name="matUnit" data-validate="required:请输入材料单位"/>
+          <input type="text" class="input w50" name="matUnit" data-validate="required:请输入材料单位" value="${matBean.matUnit }"/>
         </div>
       </div>
       <div class="form-group">
@@ -87,7 +87,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <label>材料价格：</label>
         </div>
         <div class="field">
-          <input type="text" class="input w50" name="matPrice"  data-validate="required:请输入材料价格"/>
+          <input type="text" class="input w50" name="matPrice"  data-validate="required:请输入材料价格" value="${matBean.matPrice }"/>
         </div>
       </div>
       <div class="form-group">
@@ -95,7 +95,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <label>材料品牌：</label>
         </div>
         <div class="field">
-          <input type="text" class="input w50" name="matBrand"  data-validate="required:请输入材料品牌名称"/>
+          <input type="text" class="input w50" name="matBrand"  data-validate="required:请输入材料品牌名称" value="${matBean.matBrand }"/>
         </div>
       </div>
       <div class="form-group">
@@ -104,7 +104,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </div>
         <div class="field"> 
           <script src="js/laydate/laydate.js"></script>
-          <input type="date" class="input w50" name="matBuyDate" />
+          <input type="date" class="input w50" name="matBuyDate" value="${matBean.matBuyDate }"/>
           <div class="tips"></div>
         </div>
       </div>

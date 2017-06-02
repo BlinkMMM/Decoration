@@ -27,7 +27,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div class="xs6 xm4 xs3-move xm4-move">
             <div style="height:80px;"></div>
             <div class="media media-y margin-big-bottom">           
-            </div>         
+            </div>   
+            <c:if test="${result == false }">
+			<div class="alert alert-danger" role="alert" style="margin-top:5px color:red" id="tip">${reason }</div>
+			</c:if>         
             <form action="user/register" method="post">  
             <div class="panel loginbox">
                 <div class="text-center margin-big padding-big-top"><h1>用户注册</h1></div>

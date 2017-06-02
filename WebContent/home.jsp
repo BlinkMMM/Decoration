@@ -53,12 +53,51 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <span class="icon-power-off"></span> 退出登录
   </a> </div>
   
-  <div id="loginuser">Hello! ${loginUser.userName}&nbsp;&nbsp;</div>
+  <div id="loginuser">Hello! ${loginUser.userName}&nbsp;&nbsp;职责：${loginUser.jobType}&nbsp;&nbsp;</div>
   
 </div>
 <div class="leftnav">
   <div class="leftnav-title"><strong><span class="icon-list"></span>菜单列表</strong></div>
-  <h2><span class="icon-user"></span>项目管理</h2>
+  <c:if test="${loginUser.jobType == '项目经理'}">
+	  <h2><span class="icon-user"></span>项目管理</h2>
+	  <ul style="display:block">
+	    <li><a href="material/buy"><span class="icon-caret-right" ></span>购买材料登记</a></li>
+	    <li><a href="material/enter"><span class="icon-caret-right"></span>材料进场登记</a></li>
+	    <li><a href="material/use"><span class="icon-caret-right"></span>材料使用登记</a></li>  
+	    <li><a href="schedule/schedule"><span class="icon-caret-right"></span>工程进度登记</a></li>   
+	    <li><a href="work/record"><span class="icon-caret-right"></span>工勤统计</a></li>     
+	  </ul>   
+	  <h2><span class="icon-pencil-square-o"></span>成本管理</h2>
+	  <ul style="display:block">
+	    <li><a href="cost/mat"><span class="icon-caret-right"></span>材料成本</a></li>
+	    <li><a href="cost/wage"><span class="icon-caret-right"></span>薪水成本</a></li>
+	    <li><a href="cost/total"><span class="icon-caret-right"></span>总成本</a></li>        
+	  </ul>  
+  </c:if>
+  <c:if test="${loginUser.jobType == '施工人员'}">
+  	  <h2><span class="icon-user"></span>项目管理</h2>
+	  <ul style="display:block">
+	    <li><a href="material/enter"><span class="icon-caret-right"></span>材料进场登记</a></li>
+	    <li><a href="material/use"><span class="icon-caret-right"></span>材料使用登记</a></li>  
+	    <li><a href="schedule/schedule"><span class="icon-caret-right"></span>工程进度登记</a></li>   
+	    <li><a href="work/record"><span class="icon-caret-right"></span>工勤统计</a></li>     
+	  </ul>     
+  </c:if>
+  <c:if test="${loginUser.jobType == '采购员'}">
+  	  <h2><span class="icon-user"></span>项目管理</h2>
+	  <ul style="display:block">
+	    <li><a href="material/buy"><span class="icon-caret-right" ></span>购买材料登记</a></li> 
+	  </ul>   	
+  </c:if>
+  <c:if test="${loginUser.jobType == '财务'}"> 	  
+	  <h2><span class="icon-pencil-square-o"></span>成本管理</h2>
+	  <ul style="display:block">
+	    <li><a href="cost/mat"><span class="icon-caret-right"></span>材料成本</a></li>
+	    <li><a href="cost/wage"><span class="icon-caret-right"></span>薪水成本</a></li>
+	    <li><a href="cost/total"><span class="icon-caret-right"></span>总成本</a></li>        
+	  </ul>  
+  </c:if>
+  <!-- <h2><span class="icon-user"></span>项目管理</h2>
   <ul style="display:block">
     <li><a href="material/buy"><span class="icon-caret-right" ></span>购买材料登记</a></li>
     <li><a href="material/enter"><span class="icon-caret-right"></span>材料进场登记</a></li>
@@ -71,7 +110,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <li><a href="cost/mat"><span class="icon-caret-right"></span>材料成本</a></li>
     <li><a href="cost/wage"><span class="icon-caret-right"></span>薪水成本</a></li>
     <li><a href="cost/total"><span class="icon-caret-right"></span>总成本</a></li>        
-  </ul>  
+  </ul>   -->
   
 </div>
 <div>
@@ -154,9 +193,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <c:if test="${page == 'checkScheduleInfo'}">
 <jsp:include page="schedule/checkSchedule.jsp"></jsp:include>
 </c:if>
-<!--========显示尚未登录错误界面  ==========-->
-<c:if test="${page == 'errorLogin'}">
-<jsp:include page="errorLogin.jsp"></jsp:include>
+<!--========显示错误信息显示界面  ==========-->
+<c:if test="${page == 'errorInfo'}">
+<jsp:include page="errorInfo.jsp"></jsp:include>
 </c:if>
 
 </div>

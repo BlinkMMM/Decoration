@@ -103,6 +103,7 @@ public class MaterialUseController {
 	@RequestMapping(value = "/updateInfo/{useId}", method=RequestMethod.GET)
 	public ModelAndView showUpdateInfo(@PathVariable int useId){
 		ModelAndView mv = new ModelAndView();
+		mv = matService.findMatUseById(useId);
 		mv.addObject("page","useUpdateInfo");
 		mv.addObject("useUpdateId",useId);
 		mv.setViewName("/home");

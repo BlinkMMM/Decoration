@@ -159,6 +159,20 @@
 		<if test="checkId != null">
 			and c.check_id =  #{checkId}
 		</if>
+		<if test="scheduleId != null">
+			and c.schedule_id =  #{scheduleId}
+		</if>
 	</select>
 	
+	<update id="updateCheckSchedule" parameterType="com.decoration.entity.CheckSchedule">
+		UPDATE t_check_schedule
+		SET 
+			check_state = #{checkState}, 
+			reason = #{reason}, 
+			responsible_party=#{responsibleParty}, 
+			check_date=#{checkDate},
+			t_user_user_id=#{checkUser.userId}
+		WHERE
+			check_id = #{checkId}
+	</update>
 </mapper>

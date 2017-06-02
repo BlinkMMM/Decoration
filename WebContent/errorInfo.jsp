@@ -18,5 +18,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="js/pintuer.js"></script>
 </head>
 <body>
-<span> 您尚未登录，请登录！</span>
+	<c:if test="${result == false }">
+		<div class="alert alert-danger" role="alert" style="margin-top:5px color:red" id="tip">${reason }</div>
+	</c:if>
 </body></html>

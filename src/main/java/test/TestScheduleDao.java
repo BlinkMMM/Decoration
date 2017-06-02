@@ -68,7 +68,7 @@ public class TestScheduleDao {
 	
 	@Test
 	public void testDeleteSchedule(){
-		boolean isOk = scheduleDao.deleleScheduleById(3);
+		boolean isOk = scheduleDao.deleleScheduleById(16);
 		System.out.println("isOk = " + isOk);
 	}
 	
@@ -85,10 +85,24 @@ public class TestScheduleDao {
 		System.out.println("isOk = " + isOk);
 	}
 	@Test
+	public void testUpdateCheckSchedule(){
+		CheckSchedule checkSchedule = new CheckSchedule();
+		checkSchedule.setCheckState(2);
+		checkSchedule.setCheckUser(userDao.findUserById(6));
+		checkSchedule.setCheckDate(new Date());
+		checkSchedule.setReason("做的太不好了");
+		checkSchedule.setResponsibleParty("是施工方责任");
+		checkSchedule.setScheduleId(1);
+		checkSchedule.setCheckId(4);
+		boolean isOk = scheduleDao.updateCheckSchedule(checkSchedule);
+		System.out.println("isOk = " + isOk);
+	}
+	@Test
 	public void testFindCheckSchedule(){
 		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("checkId", 2);
+		map.put("checkId", 1);
 		List<CheckSchedule> list = scheduleDao.findCheckSchedule(map);
-		System.out.println(list);
+		System.out.println(list.size());
+		//System.out.println(list.get(0));
 	}
 }

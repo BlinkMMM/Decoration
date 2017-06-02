@@ -153,6 +153,7 @@ public class MaterialController {
 	@RequestMapping(value = "/updateInfo/{matId} ", method = RequestMethod.GET)
 	public ModelAndView updateMatPurchase(@PathVariable int matId) {
 		ModelAndView mv = new ModelAndView();
+		mv = matService.findMatBeanById(matId);
 		mv.addObject("page", "updateInfo");
 		mv.addObject("updateId", matId); 
 		mv.setViewName("/home");

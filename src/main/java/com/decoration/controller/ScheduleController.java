@@ -110,7 +110,18 @@ public class ScheduleController {
 			mv.setViewName("/home");
 			return mv;
 		}
-		
+		/**
+		 * 执行删除操作
+		 * @param 
+		 * @return
+		 */
+		@RequestMapping(value = "/delete/{scheduleId}", method = RequestMethod.GET)
+		public ModelAndView deleteMatPurById(@PathVariable int scheduleId) {
+			ModelAndView mv = scheduleService.deleteScheduleById(scheduleId);
+			mv.addObject("page", "schedule");
+			mv.setViewName("/home");
+			return mv;
+		}
 		/**
 		 * 跳转到更新进度页面
 		 * @param binder
@@ -145,8 +156,7 @@ public class ScheduleController {
 		@RequestMapping(value = "/checkInfo/{scheduleId} ", method = RequestMethod.GET)
 		public ModelAndView checkScheduleInfo(@PathVariable int scheduleId) {
 			ModelAndView mv = new ModelAndView();
-			mv.addObject("page", "checkScheduleInfo");
-			mv.addObject("checkScheduleId",scheduleId);
+			mv = scheduleService.checkLevel(scheduleId);
 			mv.setViewName("/home");
 			return mv;
 		}
@@ -159,7 +169,7 @@ public class ScheduleController {
 		@RequestMapping(value = "/check/{id}", method = RequestMethod.POST)
 		public ModelAndView checkSchedule(CheckSchedule checkSchedule,@PathVariable int id) {
 			ModelAndView mv = new ModelAndView();
-			checkSchedule.setCheckId(id);
+			checkSchedule.setScheduleId(id);//点击审核按钮，传入该该条记录的schedulleId
 			mv = scheduleService.saveCheckSchedule(checkSchedule);
 			mv.addObject("page", "schedule");
 			mv.setViewName("/home");

@@ -45,7 +45,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <label>材料名称：</label>
         </div>
         <div class="field">
-          <input type="text" class="input w50"  name="useMat.matName" data-validate="required:请输入材料名称" />
+          <input type="text" class="input w50"  name="useMat.matName" data-validate="required:请输入材料名称" value="${matUse.useMat.matName }"/>
           <div class="tips"></div>
         </div>
       </div>
@@ -56,7 +56,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <label>使用数量：</label>
         </div>
         <div class="field">
-          <input type="text" class="input w50" name="useNum"  data-validate="required:请输入材料数量"/>
+          <input type="text" class="input w50" name="useNum"  data-validate="required:请输入材料数量" value="${matUse.useNum }"/>
         </div>
       </div>
       <div class="form-group">
@@ -64,7 +64,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <label>单位：</label>
         </div>
         <div class="field">
-          <input type="text" class="input w50" name="useMat.matUnit" data-validate="required:请输入材料单位"/>
+          <input type="text" class="input w50" name="useMat.matUnit" data-validate="required:请输入材料单位" value="${matUse.useMat.matUnit }"/>
         </div>
       </div>
 
@@ -74,7 +74,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </div>
         <div class="field"> 
           <script src="js/laydate/laydate.js"></script>
-          <input type="date" class="input w50" name="useDate" />
+          <input type="date" class="input w50" name="useDate" value="${matUse.useDate }"/>
           <div class="tips"></div>
         </div>
       </div>
