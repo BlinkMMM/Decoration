@@ -31,10 +31,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <label>项目名称：</label>
         </div>
         <div class="field">
-          <select name="useProject.projectName" class="input" onchange="changesearch()" style="width:200px; line-height:17px; display:inline-block">
+          <select name="useProject.projectName" class="input" onchange="changesearch()" style="width:200px; line-height:17px; display:inline-block" value="${matUse.useProject.projectName }">
             <c:forEach var="i" items="${chooseProject}">
       		<tr>
-	      		<td><option value="${i.projectName}">${i.projectName}</option><p></td>	
+      		<c:if test="${i.projectName == matUse.useProject.projectName}">
+      			<td><option value="${i.projectName}" selected>${i.projectName}</option><p></td>	
+      		</c:if>
+      		<c:if test="${i.projectName != matUse.useProject.projectName}">
+      			<td><option value="${i.projectName}">${i.projectName}</option><p></td>	
+      		</c:if>
+	      		
 	        </tr>
 	  		</c:forEach>
           </select>

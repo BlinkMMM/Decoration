@@ -34,7 +34,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <select name="matProject.projectName" class="input" onchange="changesearch()" style="width:200px; line-height:17px; display:inline-block">
             <c:forEach var="i" items="${chooseProject}">
       		<tr>
-	      		<td><option value="${i.projectName}">${i.projectName}</option><p></td>	
+      		<c:if test="${i.projectName == matBean.matProject.projectName }">
+      			<td><option value="${i.projectName}" selected>${i.projectName}</option><p></td>	
+      		</c:if>
+      		<c:if test="${i.projectName != matBean.matProject.projectName }">
+      			<td><option value="${i.projectName}">${i.projectName}</option><p></td>	
+      		</c:if>
 	        </tr>
 	  		</c:forEach>
           </select>
@@ -48,9 +53,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div class="field">
           <select name="matFlow.flowName" class="input" onchange="changesearch()" style="width:200px; line-height:17px; display:inline-block">
             <c:forEach var="i" items="${chooseFlow}">
-      		<tr>
-	      		<td><option value="${i.flowName}"><c:out value="${i.flowName}"/></option><p></td>	
-	        </tr>
+	            <tr>
+	             	<c:if test="${i.flowName == matBean.matFlow.flowName }">
+		      		<td><option value="${i.flowName}" selected>${i.flowName}</option><p></td>	
+		      		 </c:if>
+	             	<c:if test="${i.flowName != matBean.matFlow.flowName }">
+		      		<td><option value="${i.flowName}">${i.flowName}</option><p></td>	
+		      		 </c:if>
+		        </tr>
 	  		</c:forEach>
           </select>
         </div>

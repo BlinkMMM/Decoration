@@ -58,14 +58,12 @@ public class UtilServiceImpl implements UtilService{
 	}
 
 	@Override
-	public ModelAndView checkDateIsValid(Date InputDate) {
-		ModelAndView mv = new ModelAndView();
+	public boolean checkDateIsValid(Date InputDate) {
 		Date currentDate = new Date();
 		if(InputDate.after(currentDate)){
-			System.out.println("日期不能迟于当前日期");
-			throw new RuntimeException();
+			return false;
 		}
-		return mv;
+		return true;
 	}
 	
 	public ModelAndView choosePage(Page page , String parameter){

@@ -78,7 +78,7 @@ public class MaterialServiceImpl implements MaterialService {
 		mv.addObject("matPageData",pageList);
 		return mv;
 	}
-
+	
 	@Override
 	public ModelAndView saveMaterialBean(MaterialBean matBean) {
 		ModelAndView mv = new ModelAndView();
@@ -88,29 +88,33 @@ public class MaterialServiceImpl implements MaterialService {
 		Project project = proDao.findProByName(proName);
 		Flow flow = flowDao.findFlowByName(flowName);
 		Date buyDate = matBean.getMatBuyDate();
-		utilService.checkDateIsValid(buyDate);
-		User user = (User)session.getAttribute("loginUser");
-		if (project != null && flow != null && user != null) {
-			matBean.setMatProject(project);
-			matBean.setMatFlow(flow);
-			matBean.setMatUser(user);
-			Material mat = new Material();
-			mat.setMaterialName(matName);
-			mat.setMatProjectId(project.getProjectId());
-			boolean matIsExist = this.checkMatIsExistByNameAndProductId(mat);
-			if (matIsExist == true) {
-				mv.addObject("result", false);
-				mv.addObject("reason", "材料已存在！！");
-				mv.addObject("page", "addInfo");
-			} else {
+
+		User user = (User) session.getAttribute("loginUser");
+
+		matBean.setMatProject(project);
+		matBean.setMatFlow(flow);
+		matBean.setMatUser(user);
+
+		Material mat = new Material();
+		mat.setMaterialName(matName);
+		mat.setMatProjectId(project.getProjectId());
+
+		boolean matIsExist = this.checkMatIsExistByNameAndProductId(mat);
+		if (matIsExist == true) {
+			mv.addObject("result", false);
+			mv.addObject("reason", "材料已存在！！");
+			mv.addObject("page", "addInfo");
+		} else {
+			boolean isOk = utilService.checkDateIsValid(buyDate);
+			if (isOk == true) {
 				materialDao.saveMatBean(matBean);
 				mv = this.findMatByPageAfterOperation(mv);
 				mv.addObject("page", "buy");
+			} else {
+				mv.addObject("result", false);
+				mv.addObject("reason", "日期不能迟于当前日期！");
+				mv.addObject("page", "addInfo");
 			}
-		} else {
-			mv.addObject("result", false);
-			mv.addObject("reason", "输入的信息有误，请重新输入！");
-			mv.addObject("page", "addInfo");
 		}
 		return mv;
 	}

@@ -18,7 +18,7 @@ import util.Page;
 public interface UtilService {
 	public void chooseProjectAndFlow(String proData, String flowData);
 	
-	public ModelAndView checkDateIsValid(Date InputDate);
+	public boolean checkDateIsValid(Date InputDate);
 	
 	public ModelAndView choosePage(Page page ,String parameter);
 	
