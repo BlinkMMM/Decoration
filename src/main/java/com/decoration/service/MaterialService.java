@@ -48,6 +48,7 @@ public interface MaterialService {
 	public ModelAndView findMatBeanByPage(Page page,String searchName);
 	
 	public ModelAndView findMatBeanById(int matId);
+	
 	/*
 	 * ===========材料进场========================================================================
 	 */

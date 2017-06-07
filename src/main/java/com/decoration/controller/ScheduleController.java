@@ -129,7 +129,7 @@ public class ScheduleController {
 		@RequestMapping(value = "/updateInfo/{scheduleId} ", method = RequestMethod.GET)
 		public ModelAndView updateScheduleInfo(@PathVariable int scheduleId) {
 			ModelAndView mv = new ModelAndView();
-			mv.addObject("page", "scheduleUpdateInfo");
+			mv = scheduleService.checkScheduleRateById(scheduleId);
 			mv.addObject("scheduleUpdateId",scheduleId);
 			mv.setViewName("/home");
 			return mv;
@@ -144,7 +144,6 @@ public class ScheduleController {
 			ModelAndView mv = new ModelAndView();
 			schedule.setScheduleId(id);
 			mv = scheduleService.updateSchedule(schedule);
-			mv.addObject("page", "schedule");
 			mv.setViewName("/home");
 			return mv;
 		}

@@ -82,6 +82,7 @@ public class MaterialUseController {
 	@RequestMapping(value = "/addInfo", method=RequestMethod.GET)
 	public ModelAndView showUseInfo(){
 		ModelAndView mv = new ModelAndView();
+		mv = matService.findAllMatEnter();
 		mv.addObject("page","useAddInfo");
 		mv.setViewName("/home");
 		return mv;
@@ -118,8 +119,6 @@ public class MaterialUseController {
 		ModelAndView mv = new ModelAndView();
 		matUse.setUseId(id);
 		mv = matService.updateMatUse(matUse);
-		//mv = matService.findAllMatUse();
-		mv.addObject("page","use");
 		mv.setViewName("/home");
 		return mv;
 	}

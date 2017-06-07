@@ -169,8 +169,6 @@ public class MaterialController {
 		ModelAndView mv = new ModelAndView();
 		matBean.setMatId(id);
 		mv = matService.updateMatBean(matBean);
-		//mv = matService.findAllMatBean();
-		mv.addObject("page", "buy");
 		mv.setViewName("/home");
 		return mv;
 	}

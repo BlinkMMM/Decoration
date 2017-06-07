@@ -41,6 +41,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           </select>
         </div>
       </div>
+      
+      <div class="form-group">
+        <div class="label">
+          <label>材料名称：</label>
+        </div>
+        <div class="field">
+          <select name="useMat.matName" class="input" onchange="changesearch()" style="width:200px; line-height:17px; display:inline-block">
+            <c:forEach var="i" items="${enterData}">
+      		<tr>
+	      		<td><option value="${i.enterMat.matName}">${i.enterMat.matName}</option><p></td>	
+	        </tr>
+	  		</c:forEach>
+          </select>
+        </div>
+      </div>
+      <!-- 
          <div class="form-group">
         <div class="label">
           <label>材料名称：</label>
@@ -49,7 +65,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <input type="text" class="input w50"  name="useMat.matName" data-validate="required:请输入材料名称" />
           <div class="tips"></div>
         </div>
-      </div>
+      </div> -->
      
       <div class="clear"></div>
       <div class="form-group">

@@ -28,4 +28,6 @@ public interface ScheduleService {
 	public ModelAndView findCheckSchedule();
 	
 	public ModelAndView checkLevel(int scheduleId);
+	
+	public ModelAndView checkScheduleRateById(int scheduleId);
 }

@@ -67,13 +67,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  </c:forEach>
 
 <tr>
-		<form action="cost/wageCostPageNumber" method="post">
+		<form action="cost/totalCostPageNumber" method="post">
 			<td colspan="8">
 				<div class="pagelist" style="display:inline-block;">
-					<a href="<%=path%>/cost/wage/?wageCostFrom=firstPage">首页</a> 
-					<a href="<%=path%>/cost/wage/?wageCostFrom=previousPage">上一页</a> 
-					<a href="<%=path%>/cost/wage/?wageCostFrom=nextPage">下一页</a> 
-					<a href="<%=path%>/cost/wage/?wageCostFrom=finalPage">尾页</a>
+					<a href="<%=path%>/cost/total/?totalCostFrom=firstPage">首页</a> 
+					<a href="<%=path%>/cost/total/?totalCostFrom=previousPage">上一页</a> 
+					<a href="<%=path%>/cost/total/?totalCostFrom=nextPage">下一页</a> 
+					<a href="<%=path%>/cost/total/?totalCostFrom=finalPage">尾页</a>
 				</div>
 				<div style="display:inline-block;">&nbsp;&nbsp;&nbsp;&nbsp;当前页数</div>
 				

@@ -41,13 +41,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <table class="table table-hover text-center">
       <tr>
         <th>ID</th>
+        <th>项目</th>
+        <th>流程</th>
         <th>材料名称</th>
         <th>数量</th>
         <th>单位</th>
         <th>价格</th>
         <th>品牌</th>
-        <th>项目</th>
-        <th>流程</th>
         <th>购买人</th>
         <th width="10%">购买日期</th>
         <th width="310">操作</th>
@@ -56,20 +56,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <c:forEach var="i" items="${matPageData}" varStatus="rowCount">
       <tr>
 	      <td><c:out value="${matPage.startCode + rowCount.index+1}"/><p></td>	
+	      <td><c:out value="${i.matProject.projectName}"/><p></td>	
+	      <td><c:out value="${i.matFlow.flowName}"/><p></td>	
 	      <td><c:out value="${i.matName}"/><p></td>	
 	      <td><c:out value="${i.matNum}"/><p></td>	
 	      <td><c:out value="${i.matUnit}"/><p></td>	
 	      <td><c:out value="${i.matPrice}"/><p></td>	
 	      <td><c:out value="${i.matBrand}"/><p></td>	
-	      <td><c:out value="${i.matProject.projectName}"/><p></td>	
-	      <td><c:out value="${i.matFlow.flowName}"/><p></td>	
 	      <td><c:out value="${i.matUser.userName}"/><p></td>	
 	      <td><c:out value="${i.matBuyDate}"/><p></td>	
-	      
 	      <td>
 	      <div class="button-group"> 
 	       <a class="button border-main" href="material/updateInfo/${i.matId}"><span class="icon-edit"></span> 修改</a>
-	       <a class="button border-red" href="material/delete/${i.matId}" ><span class="icon-trash-o"></span> 删除</a>
+	       <a class="button border-red"  onclick="del(${i.matId});"><span class="icon-trash-o"></span> 删除</a>
+	      <%--  <a class="button border-red" href="material/delete/${i.matId}" onclick="del();"><span class="icon-trash-o"></span> 删除</a> --%>
 	      </div>
 	      </td>
 	  </tr>
@@ -105,5 +105,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</table>
   </div>
 </form>
+
+<script type="text/javascript">
+//单个删除
+function del(obj){
+	if(confirm("您确定要删除吗?")){
+		 location.href="material/delete/"+obj;
+	}
+	else{
+		
+	}
+}
+</script>
+
 </body>
 </html>

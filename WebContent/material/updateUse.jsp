@@ -31,7 +31,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <label>项目名称：</label>
         </div>
         <div class="field">
-          <select name="useProject.projectName" class="input" onchange="changesearch()" style="width:200px; line-height:17px; display:inline-block" value="${matUse.useProject.projectName }">
+          <select name="useProject.projectName" class="input" onchange="changesearch()" style="width:200px; line-height:17px; display:inline-block">
             <c:forEach var="i" items="${chooseProject}">
       		<tr>
       		<c:if test="${i.projectName == matUse.useProject.projectName}">
@@ -46,7 +46,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           </select>
         </div>
       </div>
-      <div class="form-group">
+     <div class="form-group">
+        <div class="label">
+          <label>材料名称：</label>
+        </div>
+        <div class="field">
+          <select name="useMat.matName" class="input" onchange="changesearch()" style="width:200px; line-height:17px; display:inline-block">
+            <c:forEach var="i" items="${enterData}">
+      		<tr>
+      		<c:if test="${i.enterMat.matName == matUse.useMat.matName}">
+      			<td><option value="${i.enterMat.matName}" selected>${i.enterMat.matName}</option><p></td>	
+      		</c:if>
+      		<c:if test="${i.enterMat.matName != matUse.useMat.matName}">
+      			<td><option value="${i.enterMat.matName}">${i.enterMat.matName}</option><p></td>	
+      		</c:if>
+	        </tr>
+	  		</c:forEach>
+          </select>
+        </div>
+     </div>
+<%--       <div class="form-group">
         <div class="label">
           <label>材料名称：</label>
         </div>
@@ -54,7 +73,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <input type="text" class="input w50"  name="useMat.matName" data-validate="required:请输入材料名称" value="${matUse.useMat.matName }"/>
           <div class="tips"></div>
         </div>
-      </div>
+      </div> --%>
      
       <div class="clear"></div>
       <div class="form-group">

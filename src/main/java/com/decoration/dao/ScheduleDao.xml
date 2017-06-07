@@ -164,6 +164,7 @@
 		</if>
 	</select>
 	
+	
 	<update id="updateCheckSchedule" parameterType="com.decoration.entity.CheckSchedule">
 		UPDATE t_check_schedule
 		SET 
@@ -175,4 +176,24 @@
 		WHERE
 			check_id = #{checkId}
 	</update>
+	
+	<select id="findLastSchedule" resultMap="ScheduleResult">
+		SELECT
+			*
+		FROM
+			t_schedule s
+		LEFT JOIN t_project p ON p.project_id = s.t_project_project_id
+		LEFT JOIN t_flow f ON f.flow_id = s.t_flow_flow_id
+		WHERE 1=1
+		<if test="projectId != null">
+			and p.project_id =  #{projectId}
+		</if>
+		<if test="flowId != null">
+			and f.flow_id =  #{flowId}
+		</if>
+		ORDER BY
+			s.schedule_id DESC
+		LIMIT 1;
+		
+	</select>
 </mapper>

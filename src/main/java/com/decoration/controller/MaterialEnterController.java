@@ -80,6 +80,7 @@ public class MaterialEnterController {
 	@RequestMapping(value = "/addInfo", method=RequestMethod.GET)
 	public ModelAndView showAddInfo(){
 		ModelAndView mv = new ModelAndView();
+		mv = matService.findAllMatBean();
 		mv.addObject("page","enterAddInfo");
 		mv.setViewName("/home");
 		return mv;
@@ -116,8 +117,6 @@ public class MaterialEnterController {
 		ModelAndView mv = new ModelAndView();
 		matEnter.setEnterId(id);
 		mv = matService.updateMatEnter(matEnter);
-		//mv = matService.findAllMatEnter();
-		mv.addObject("page","enter");
 		mv.setViewName("/home");
 		return mv;
 	}

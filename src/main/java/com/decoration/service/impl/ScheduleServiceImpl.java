@@ -48,12 +48,14 @@ public class ScheduleServiceImpl implements ScheduleService{
 	@Override
 	public ModelAndView saveSchedule(Schedule schedule) {
 		ModelAndView mv = new ModelAndView();
+		
 		String projectName = schedule.getScheduleProject().getProjectName();
 		String flowName = schedule.getScheduleFlow().getFlowName();
 		Date recordDate = new Date();
 		Project project = projectDao.findProByName(projectName);
 		Flow flow = flowDao.findFlowByName(flowName);
 		User user = (User)session.getAttribute("loginUser");
+		
 		if(project != null && flow != null && user != null){
 			schedule.setFinishedDays(0);
 			schedule.setRecordDate(recordDate);
@@ -65,7 +67,8 @@ public class ScheduleServiceImpl implements ScheduleService{
 			mv.addObject("page","schedule");
 		}else{
 			mv.addObject("result",false);
-			mv.addObject("page","scheduleAddInfo");
+			mv.addObject("reason","输入的信息有误！");
+			mv.addObject("page","errorInfo");
 		}
 		return mv;
 	}
@@ -73,32 +76,41 @@ public class ScheduleServiceImpl implements ScheduleService{
 	@Override
 	public ModelAndView updateSchedule(Schedule schedule) {
 		ModelAndView mv = new ModelAndView();
+		
+		Date recordDate = new Date();
 		User user = (User)session.getAttribute("loginUser");
-		String workContent = schedule.getWorkContent();
 		int todayFinishedDays = schedule.getFinishedDays();
-		System.out.println("workContent = " + workContent);
-		System.out.println("todayFinishedDays = " + todayFinishedDays);
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("scheduleId", schedule.getScheduleId());
 		List<Schedule> scheduleList = scheduleDao.findAllSchedule(map);
 		
-	    schedule = scheduleList.get(0);
-	    
-		int finishedDays = todayFinishedDays + schedule.getFinishedDays();	
-		int expectedDays = schedule.getExpectedDays();
-		double scheduleRate = (double)finishedDays/(double)expectedDays;
-		Date recordDate = new Date();
-		
-		schedule.setWorkContent(workContent);
-		schedule.setFinishedDays(finishedDays);
-		schedule.setRecordDate(recordDate);
-		schedule.setScheduleRate(scheduleRate);
-		schedule.setScheduleUser(user);
-		System.out.println("schedule = " + schedule);
-		scheduleDao.saveSchedule(schedule);
-		mv = this.findScheduleByPageAfterOperation(mv);
-		mv.addObject("page","schedule");
+		if(scheduleList.size() != 0 && user!=null){
+			schedule = scheduleList.get(0);
+			int finishedDays = todayFinishedDays + schedule.getFinishedDays();	
+			int expectedDays = schedule.getExpectedDays();
+			double scheduleRate = (double)finishedDays/(double)expectedDays;
+			if(scheduleRate > 1){
+				mv.addObject("result",false);
+				mv.addObject("reason","您的已完成工时已超过预计工时，请修改预计工时或重新输入");
+				mv.addObject("page","errorInfo");
+			}else{
+				
+				schedule.setFinishedDays(finishedDays);
+				schedule.setRecordDate(recordDate);
+				schedule.setScheduleRate(scheduleRate);
+				schedule.setScheduleUser(user);
+				
+				scheduleDao.saveSchedule(schedule);
+				mv = this.findScheduleByPageAfterOperation(mv);
+				mv.addObject("page","schedule");
+			}
+			
+		}else{
+			mv.addObject("result",false);
+			mv.addObject("reason","项目进度信息错误，请重新进行操作！");
+			mv.addObject("page","errorInfo");
+		}
 		return mv;
 	}
 	
@@ -237,10 +249,14 @@ public class ScheduleServiceImpl implements ScheduleService{
 				mv.addObject("page","errorInfo");
 			}else{
 				List<CheckSchedule> checkScheduleList = scheduleDao.findCheckSchedule(map);
-				CheckSchedule checkSchedule = checkScheduleList.get(0);
-				mv.addObject("checkSchedule",checkSchedule);
-				mv.addObject("page", "checkScheduleInfo");
-				mv.addObject("checkScheduleId",scheduleId);
+				if(checkScheduleList.size()!=0){
+					CheckSchedule checkSchedule = checkScheduleList.get(0);
+					mv.addObject("checkSchedule",checkSchedule);
+					mv.addObject("page", "checkScheduleInfo");
+					mv.addObject("checkScheduleId",scheduleId);
+				}else{
+					System.out.println("=====================");
+				}
 			}
 		}else{
 			mv.addObject("result",false);
@@ -249,5 +265,46 @@ public class ScheduleServiceImpl implements ScheduleService{
 		}
 		return mv;
 		
+	}
+	
+	@Override
+	public ModelAndView checkScheduleRateById(int scheduleId) {
+		ModelAndView mv = new ModelAndView();
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("scheduleId", scheduleId);
+		List<Schedule> scheduleList = scheduleDao.findAllSchedule(map);
+		
+		if(scheduleList.size()!=0){
+			Schedule schedule = scheduleList.get(0);
+			double scheduleRate = schedule.getScheduleRate();
+			if(scheduleRate==1){//判断项目进度是否已经完成，若已经完成则不能再操作
+				mv.addObject("result",false);
+				mv.addObject("reason","项目已经完成，无需再更新！");
+				mv.addObject("page","errorInfo");
+			}else{
+				map.put("projectId", schedule.getScheduleProject().getProjectId());
+				map.put("flowId", schedule.getScheduleFlow().getFlowId());
+				List<Schedule> scheduleList2 = scheduleDao.findLastSchedule(map);
+				if(scheduleList2.size() != 0){//判断是否在更新最新的记录
+					Schedule schedule2 = scheduleList2.get(0);
+					if(schedule.getScheduleId() != schedule2.getScheduleId()){
+						mv.addObject("result",false);
+						mv.addObject("reason","请更新最新的一条记录！");
+						mv.addObject("page","errorInfo");
+					}else{
+						mv.addObject("page", "scheduleUpdateInfo");
+					}
+				}else{
+					mv.addObject("result",false);
+					mv.addObject("reason","项目进度信息错误，请重新进行操作！");
+					mv.addObject("page","errorInfo");
+				}
+			}
+		}else{
+			mv.addObject("result",false);
+			mv.addObject("reason","项目进度信息错误，请重新进行操作！");
+			mv.addObject("page","errorInfo");
+		}
+		return mv;
 	}
 }

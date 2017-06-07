@@ -40,17 +40,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           </select>
         </div>
       </div>
-
-      <div class="form-group">
+      
+    <div class="form-group">
         <div class="label">
           <label>材料名称：</label>
         </div>
         <div class="field">
-          <input type="text" class="input w50"  name="enterMat.matName" data-validate="required:请输入材料名称" />
-          <div class="tips"></div>
+          <select name="enterMat.matName" class="input" onchange="changesearch()" style="width:200px; line-height:17px; display:inline-block">
+            <c:forEach var="i" items="${matData}">
+      		<tr>
+	      		<td><option value="${i.matName}">${i.matName}</option><p></td>	
+	        </tr>
+	  		</c:forEach>
+          </select>
         </div>
       </div>
-    
       <div class="clear"></div>
       <div class="form-group">
         <div class="label">

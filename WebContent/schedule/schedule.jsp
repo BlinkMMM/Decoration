@@ -67,7 +67,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      <td>
 	      <div class="button-group"> 
 	       <a class="button border-main" href="schedule/updateInfo/${i.scheduleId}"><span class="icon-edit"></span> 更新</a>
-	       <a class="button border-red" href="schedule/delete/${i.scheduleId}" ><span class="icon-trash-o"></span> 删除</a>
+	       <a class="button border-red" onclick="del(${i.scheduleId})" ><span class="icon-trash-o"></span> 删除</a>
+<%-- 	       <a class="button border-red" href="schedule/delete/${i.scheduleId}" ><span class="icon-trash-o"></span> 删除</a> --%>
 	       <a class="button border-main" href="schedule/checkInfo/${i.scheduleId}" ><span class="icon-edit"></span> 审核</a>
 	      </div>
 	      </td>
@@ -104,6 +105,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </table>
   </div>
 </form>
-
+<script type="text/javascript">
+//单个删除
+function del(obj){
+	if(confirm("您确定要删除吗?")){
+		 location.href="schedule/delete/"+obj;
+	}
+	else{
+		
+	}
+}
+</script>
 </body>
 </html>

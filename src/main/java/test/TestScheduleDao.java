@@ -105,4 +105,14 @@ public class TestScheduleDao {
 		System.out.println(list.size());
 		//System.out.println(list.get(0));
 	}
+	
+	@Test
+	public void testFindLastSchedule(){
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("projectId", 1);
+		map.put("flowId", 1);
+		List<Schedule> list = scheduleDao.findLastSchedule(map);
+		System.out.println(list.get(0));
+		//System.out.println(list.get(0));
+	}
 }
