@@ -117,6 +117,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div>
 
 <div class="admin">
+<jsp:include page="/first.jsp"></jsp:include>
 <!--========显示购买材料界面  ==========-->
 <c:if test="${page == 'buy'}">
 <jsp:include page="material/buy.jsp"></jsp:include>

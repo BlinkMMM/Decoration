@@ -254,8 +254,20 @@ public class ScheduleServiceImpl implements ScheduleService{
 					mv.addObject("checkSchedule",checkSchedule);
 					mv.addObject("page", "checkScheduleInfo");
 					mv.addObject("checkScheduleId",scheduleId);
+					System.out.println("================查到了");
+					System.out.println(checkSchedule);
 				}else{
-					System.out.println("=====================");
+					CheckSchedule checkSchedule = new CheckSchedule();
+					checkSchedule.setCheckState(0);
+					checkSchedule.setScheduleId(scheduleId);
+					this.saveCheckSchedule(checkSchedule);
+					List<CheckSchedule> checkScheduleList2 = scheduleDao.findCheckSchedule(map);
+					checkSchedule = checkScheduleList2.get(0);
+					mv.addObject("checkSchedule",checkSchedule);
+					mv.addObject("page", "checkScheduleInfo");
+					mv.addObject("checkScheduleId",scheduleId);
+					System.out.println("================没有");
+					System.out.println(checkSchedule);
 				}
 			}
 		}else{

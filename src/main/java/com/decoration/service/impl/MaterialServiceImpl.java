@@ -90,29 +90,35 @@ public class MaterialServiceImpl implements MaterialService {
 		Date buyDate = matBean.getMatBuyDate();
 		User user = (User) session.getAttribute("loginUser");
 
-		Material mat = new Material();
-		mat.setMaterialName(matName);
-		mat.setMatProjectId(project.getProjectId());
+		if(project != null && flow != null && user != null){
+			Material mat = new Material();
+			mat.setMaterialName(matName);
+			mat.setMatProjectId(project.getProjectId());
 
-		boolean matIsExist = this.checkMatIsExistByNameAndProductId(mat);
-		if (matIsExist == true) {
-			mv.addObject("result", false);
-			mv.addObject("reason", "材料已存在！！");
-			mv.addObject("page", "addInfo");
-		} else {
-			boolean isOk = utilService.checkDateIsValid(buyDate);
-			if (isOk == true) {
-				matBean.setMatProject(project);
-				matBean.setMatFlow(flow);
-				matBean.setMatUser(user);
-				materialDao.saveMatBean(matBean);
-				mv = this.findMatByPageAfterOperation(mv);
-				mv.addObject("page", "buy");
-			} else {
+			boolean matIsExist = this.checkMatIsExistByNameAndProductId(mat);
+			if (matIsExist == true) {
 				mv.addObject("result", false);
-				mv.addObject("reason", "日期不能迟于当前日期！");
+				mv.addObject("reason", "材料已存在！！");
 				mv.addObject("page", "addInfo");
+			} else {
+				boolean isOk = utilService.checkDateIsValid(buyDate);
+				if (isOk == true) {
+					matBean.setMatProject(project);
+					matBean.setMatFlow(flow);
+					matBean.setMatUser(user);
+					materialDao.saveMatBean(matBean);
+					mv = this.findMatByPageAfterOperation(mv);
+					mv.addObject("page", "buy");
+				} else {
+					mv.addObject("result", false);
+					mv.addObject("reason", "日期不能迟于当前日期！");
+					mv.addObject("page", "addInfo");
+				}
 			}
+		}else{
+			mv.addObject("result", false);
+			mv.addObject("reason", "材料信息错误！");
+			mv.addObject("page", "errorInfo");
 		}
 		return mv;
 	}
@@ -138,7 +144,7 @@ public class MaterialServiceImpl implements MaterialService {
 		Flow flow = flowDao.findFlowByName(flowName);
 		User user = (User)session.getAttribute("loginUser");
 		
-		if (project != null && flow != null) {
+		if (project != null && flow != null && user != null) {
 			Material mat = new Material();
 			mat.setMaterialName(matName);
 			mat.setMatProjectId(project.getProjectId());
@@ -271,7 +277,7 @@ public class MaterialServiceImpl implements MaterialService {
 		Project project = proDao.findProByName(projectName);
 		User user = (User)session.getAttribute("loginUser");
 		
-		if (project != null) {
+		if (project != null && user != null) {
 			Material material = new Material();
 			material.setMaterialName(enterName);
 			material.setMatProjectId(project.getProjectId());
@@ -412,7 +418,7 @@ public class MaterialServiceImpl implements MaterialService {
 		Project project = proDao.findProByName(proName);
 		User useUser = (User)session.getAttribute("loginUser");
 		
-		if(project != null){
+		if(project != null && useUser != null){
 			Material material = new Material();
 			material.setMatProjectId(project.getProjectId());
 			material.setMaterialName(matName);

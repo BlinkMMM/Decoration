@@ -30,7 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </div>
         <div class="field">
 			<select class="input w50" name="checkState">
-				<c:if test=" ${checkSchedule.checkState==0} ">
+				<c:if test="${checkSchedule.checkState==0}">
 					<option value="0" selected="selected">未审核</option>
 					<option value="1">通过</option>
 					<option value="2">不通过</option>

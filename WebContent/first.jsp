@@ -21,12 +21,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 body{
 	width:100%; 
 	height:100%; 
-	background-size:100% 100%;
 	position:absolute; 
-	background:url(../images/error.jpg) no-repeat;
-	
+	background:url(../images/first.jpg) no-repeat;
 }
-
 </style>
 <body>
 
