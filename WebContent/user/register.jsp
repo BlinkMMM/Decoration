@@ -37,13 +37,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="panel-body" style="padding:30px; padding-bottom:10px; padding-top:10px;">
                     <div class="form-group">
                         <div class="field field-icon-right">
-                            <input type="text" class="input input-big"  name="userName" placeholder="注册账号  2~8位" data-validate="required:请输入用户名">
+                            <input type="text" class="input input-big"  name="userName" placeholder="请输入注册账号" data-validate="required:请输入用户名">
                             <span class="icon icon-user margin-small"></span>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="field field-icon-right">
-                            <input type="password"  class="input input-big" name="password" placeholder="输入密码  6~12位" data-validate="required:请输入密码"/>
+                            <input type="password"  class="input input-big" name="password" placeholder="请输入密码 " data-validate="required:请输入密码"/>
                             <span class="icon icon-key margin-small"></span>
                         </div>
                     </div>

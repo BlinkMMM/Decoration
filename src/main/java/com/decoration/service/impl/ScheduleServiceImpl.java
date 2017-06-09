@@ -77,6 +77,7 @@ public class ScheduleServiceImpl implements ScheduleService{
 	public ModelAndView updateSchedule(Schedule schedule) {
 		ModelAndView mv = new ModelAndView();
 		
+		String workContent = schedule.getWorkContent();
 		Date recordDate = new Date();
 		User user = (User)session.getAttribute("loginUser");
 		int todayFinishedDays = schedule.getFinishedDays();
@@ -100,7 +101,7 @@ public class ScheduleServiceImpl implements ScheduleService{
 				schedule.setRecordDate(recordDate);
 				schedule.setScheduleRate(scheduleRate);
 				schedule.setScheduleUser(user);
-				
+				schedule.setWorkContent(workContent);
 				scheduleDao.saveSchedule(schedule);
 				mv = this.findScheduleByPageAfterOperation(mv);
 				mv.addObject("page","schedule");

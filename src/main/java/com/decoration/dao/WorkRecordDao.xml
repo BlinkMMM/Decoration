@@ -52,8 +52,8 @@
 		#{checkDate},
 		#{isFullWork},
 		#{remark},
-		#{recordProject.projectId},
-		#{recordUser.userId}
+		#{recordUser.userId},
+		#{recordProject.projectId}
 		)
 	</insert>
 	<delete id="deleteWorkRecordById" parameterType="INTEGER">

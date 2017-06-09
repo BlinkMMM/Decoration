@@ -65,6 +65,7 @@ public class UserServiceImpl implements UserService{
 				mv.addObject("reason", "登陆成功！");
 				utilService.initChooseProjectAndFlow();
 				mv.addObject("loginUser", user);
+				mv.addObject("page","first");
 				mv.setViewName("/home");
 			} else {
 				mv.addObject("result", false);
@@ -76,7 +77,6 @@ public class UserServiceImpl implements UserService{
 			mv.addObject("reason", "用户名或密码错误!");
 			mv.setViewName("/user/login");
 		}
-		
 		return mv;
 	}
 	

@@ -24,12 +24,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script src="js/jquery.js"></script>   
     <style type="text/css">
     	#loginuser{
-    		color:yellow;
+    		color:white;
     		font-size:25px;
     		padding-top:15px;
-    		/* padding-left:1000px; */
     		float:right;
     		font-weight:bold;
+    		font-family: 微软雅黑;
+    	}
+    	#jobType{
+    		padding-top:8px;
+    		color:white;
+    		font-size:20px;
+    		float:right;
+    		font-weight:bold;
+    		font-family: 微软雅黑;
     	}
     
     </style>
@@ -53,7 +61,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <span class="icon-power-off"></span> 退出登录
   </a> </div>
   
-  <div id="loginuser">Hello! ${loginUser.userName}&nbsp;&nbsp;职责：${loginUser.jobType}&nbsp;&nbsp;</div>
+  <div id="loginuser">Hello! ${loginUser.userName}&nbsp;&nbsp;<span id="jobType">职责：${loginUser.jobType}&nbsp;&nbsp;</span></div>
   
 </div>
 <div class="leftnav">
@@ -117,7 +125,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div>
 
 <div class="admin">
-<jsp:include page="/first.jsp"></jsp:include>
+<!--========显示首页面  ==========-->
+<c:if test="${page == 'first'}">
+<jsp:include page="first.jsp"></jsp:include>
+</c:if>
 <!--========显示购买材料界面  ==========-->
 <c:if test="${page == 'buy'}">
 <jsp:include page="material/buy.jsp"></jsp:include>

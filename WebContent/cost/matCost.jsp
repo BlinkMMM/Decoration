@@ -78,7 +78,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <th>项目</th>
         <th>流程</th>
         <th>材料名称</th>
-        <th>使用数量</th>
+        <th>材料数量</th>
         <th>单位</th>
         <th>价格</th>
         <th>总价</th>

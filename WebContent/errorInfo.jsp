@@ -17,8 +17,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="js/jquery.js"></script>
 <script src="js/pintuer.js"></script>
 </head>
+
+<style type="text/css">
+	#tip{
+		margin-top: 5px;
+		font-size: 30px;
+	}
+</style>
 <body>
 	<c:if test="${result == false }">
-		<div class="alert alert-danger" role="alert" style="margin-top:5px color:red" id="tip">${reason }</div>
+		<div class="alert alert-danger" role="alert" id="tip">${reason }</div>
 	</c:if>
 </body></html>

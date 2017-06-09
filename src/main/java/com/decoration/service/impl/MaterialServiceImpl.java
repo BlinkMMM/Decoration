@@ -148,11 +148,13 @@ public class MaterialServiceImpl implements MaterialService {
 			Material mat = new Material();
 			mat.setMaterialName(matName);
 			mat.setMatProjectId(project.getProjectId());
-			boolean matIsExist = this.checkMatIsExistByNameAndProductId(mat);
 			mat = materialDao.findMatByNameAndProjectId(mat);
-			if (matIsExist == true) {
+
+			MaterialBean matBean2 = materialDao.findMatBeanById(matBean.getMatId());
+			
+			if (mat != null &&  matBean2.getMatId()!= mat.getMaterialId()) {
 				mv.addObject("result", false);
-				mv.addObject("reason", "材料已存在,无法修改！！");
+				mv.addObject("reason", "您想要修改的材料已存在,无法修改！！");
 				mv.addObject("page","errorInfo");
 			} else {
 				boolean isOk = utilService.checkDateIsValid(buyDate);
