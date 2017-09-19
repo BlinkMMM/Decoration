@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.decoration.service;
 
 import org.springframework.web.servlet.ModelAndView;
@@ -16,23 +13,17 @@ public interface CostService {
 	/*
 	 * 材料成本
 	 */
-	public ModelAndView findMatCostByCondition(String projectName,String flowName);
+	ModelAndView findMatCostByCondition(String projectName,String flowName);
 	
-	public ModelAndView findMatCostByPage(Page page);
-	
-	
+	ModelAndView findMatCostByPage(Page page);
 	/*
 	 * 薪水成本
 	 */
-	public ModelAndView findWageCost();
-	public ModelAndView findWageCostByCondition(String projectName,String userName);
-	public ModelAndView findWageCostByPage(Page page);
-	
-	
+	ModelAndView findWageCost();
+	ModelAndView findWageCostByCondition(String projectName,String userName);
+	ModelAndView findWageCostByPage(Page page);
 	/*
 	 * 总成本
 	 */
-	public ModelAndView findTotalCost(String searchName);
-	
-
+	ModelAndView findTotalCost(String searchName);
 }

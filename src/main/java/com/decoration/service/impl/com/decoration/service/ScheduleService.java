@@ -14,20 +14,21 @@ import util.Page;
  *
  */
 public interface ScheduleService {
-	public ModelAndView saveSchedule(Schedule schedule);
-	public ModelAndView deleteScheduleById(int scheduleId);
+	ModelAndView saveSchedule(Schedule schedule);
+
+	ModelAndView deleteScheduleById(int scheduleId);
 	
-	public ModelAndView updateSchedule(Schedule schedule);
+	ModelAndView updateSchedule(Schedule schedule);
 	
-	public ModelAndView findAllSchedule();
+	ModelAndView findAllSchedule();
 	
-	public ModelAndView findAllScheduleByPage(Page page,String searchName);
+	ModelAndView findAllScheduleByPage(Page page,String searchName);
 	
-	public ModelAndView saveCheckSchedule(CheckSchedule checkSchedule);
+	ModelAndView saveCheckSchedule(CheckSchedule checkSchedule);
 	
-	public ModelAndView findCheckSchedule();
+	ModelAndView findCheckSchedule();
 	
-	public ModelAndView checkLevel(int scheduleId);
+	ModelAndView checkLevel(int scheduleId);
 	
-	public ModelAndView checkScheduleRateById(int scheduleId);
+	ModelAndView checkScheduleRateById(int scheduleId);
 }

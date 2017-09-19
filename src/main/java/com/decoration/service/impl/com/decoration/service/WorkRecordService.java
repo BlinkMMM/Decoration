@@ -17,13 +17,13 @@ import util.Page;
  */
 public interface WorkRecordService {
 
-	public ModelAndView saveWorkRecord(WorkRecord workRecord);
+	ModelAndView saveWorkRecord(WorkRecord workRecord);
 	
-	public ModelAndView deleteWorkRecord(int recordId);
+	ModelAndView deleteWorkRecord(int recordId);
 	
-	public ModelAndView findAllWorkRecrd();
+	ModelAndView findAllWorkRecrd();
 	
-	public ModelAndView findUserAllRecordByUserId();
+	ModelAndView findUserAllRecordByUserId();
 	
-	public ModelAndView findUserAllRecordByUserIdByPage(Page page);
+	ModelAndView findUserAllRecordByUserIdByPage(Page page);
 }

@@ -15,13 +15,13 @@ import java.util.Date;
  *
  */
 public interface UtilService {
-	public void chooseProjectAndFlow(String proData, String flowData);
+	void chooseProjectAndFlow(String proData, String flowData);
 	
-	public boolean checkDateIsValid(Date InputDate);
+	boolean checkDateIsValid(Date InputDate);
 	
-	public ModelAndView choosePage(Page page ,String parameter);
+	ModelAndView choosePage(Page page ,String parameter);
 	
-	public void initChooseProjectAndFlow();
+	void initChooseProjectAndFlow();
 	
-	public Page initPage(String type);
+	Page initPage(String type);
 }

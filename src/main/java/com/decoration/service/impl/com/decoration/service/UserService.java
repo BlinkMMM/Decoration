@@ -18,34 +18,34 @@ import java.util.List;
 public interface UserService {
 	/**
 	 * 注册用户
-	 * @param user
-	 * @return
+	 * @param user sth
+	 * @return ModelAndView
 	 */
-	public ModelAndView registerUser(User user);
+	ModelAndView registerUser(User user);
 	
 	/**
 	 * 验证登录
-	 * @param userName
-	 * @param password
-	 * @return
+	 * @param userName s
+	 * @param password s
+	 * @return ModelAndView
 	 */
-	public ModelAndView login(String userName,String password,HttpSession session);
+	ModelAndView login(String userName,String password,HttpSession session);
 	
-	public ModelAndView logout(HttpSession session);
+	ModelAndView logout(HttpSession session);
 	
-	public ModelAndView updateUser();
+	ModelAndView updateUser();
 	
 	/**
 	 * 根据用户id查找用户
-	 * @param userId
-	 * @return
+	 * @param userId sth
+	 * @return user
 	 */
-	public User findUserById(int userId);
+	User findUserById(int userId);
 	/**
 	 * 查找所有用户
-	 * @return
+	 * @return list
 	 */
-	public List<User> findAllUser(); 
+	List<User> findAllUser();
 	
-	public ModelAndView changePass(String oldPass,String newPass,String reNewPass,HttpSession session);
+	ModelAndView changePass(String oldPass,String newPass,String reNewPass,HttpSession session);
 }

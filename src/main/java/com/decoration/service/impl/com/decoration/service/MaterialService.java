@@ -1,16 +1,9 @@
-/**
- * 
- */
 package com.decoration.service;
-
-import java.util.Map;
-
-import org.springframework.web.servlet.ModelAndView;
 
 import com.decoration.bean.MaterialBean;
 import com.decoration.entity.MaterialEnter;
 import com.decoration.entity.MaterialUse;
-
+import org.springframework.web.servlet.ModelAndView;
 import util.Page;
 
 /**
@@ -23,71 +16,69 @@ public interface MaterialService {
 	
 	/**
 	 * 查找所有MaterialBean用于显示
-	 * @return
+	 * @return ModelAndView
 	 */
-	public ModelAndView findAllMatBean();
+	ModelAndView findAllMatBean();
 	/**
 	 * 添加材料
-	 * @param material
-	 * @return
+	 * @param matBean sth
+	 * @return ModelAndView
 	 */
-	public ModelAndView saveMaterialBean(MaterialBean matBean);
+	ModelAndView saveMaterialBean(MaterialBean matBean);
 	/**
 	 * 根据id删除材料
-	 * @param matId
-	 * @return
+	 * @param matId sth
+	 * @return ModelAndView
 	 */
-	public ModelAndView deleteMatById(int matId);
+	ModelAndView deleteMatById(int matId);
 	/**
 	 * 修改材料
-	 * @param matBean
-	 * @return
+	 * @param matBean sth
+	 * @return ModelAndView
 	 */
-	public ModelAndView updateMatBean(MaterialBean matBean);
+	ModelAndView updateMatBean(MaterialBean matBean);
 	
-	public ModelAndView findMatBeanByPage(Page page,String searchName);
+	ModelAndView findMatBeanByPage(Page page,String searchName);
 	
-	public ModelAndView findMatBeanById(int matId);
+	ModelAndView findMatBeanById(int matId);
 	
 	/*
 	 * ===========材料进场========================================================================
 	 */
 	/**
 	 * 查找出所有进场材料用于显示
-	 * @return
+	 * @return ModelAndView
 	 */
-	public ModelAndView findAllMatEnter();
+	ModelAndView findAllMatEnter();
 	
-	public ModelAndView findAllMatEnterByPage(Page page,String searchName);
+	ModelAndView findAllMatEnterByPage(Page page,String searchName);
 	/**
 	 * 添加进场材料
-	 * @return
+	 * @return ModelAndView
 	 */
-	public ModelAndView saveMatEnter(MaterialEnter matEnter);
+	ModelAndView saveMatEnter(MaterialEnter matEnter);
 	/**
 	 * 根据id删除材料
-	 * @param matId
-	 * @return
+	 * @param enterId sth
+	 * @return ModelAndView
 	 */
-	public ModelAndView deleteEnterMatById(int enterId);
+	ModelAndView deleteEnterMatById(int enterId);
 	/**
 	 * 修改进场材料
-	 * @param matEnter
-	 * @return
+	 * @param matEnter sth
+	 * @return ModelAndView
 	 */
-	public ModelAndView updateMatEnter(MaterialEnter matEnter);
+	ModelAndView updateMatEnter(MaterialEnter matEnter);
 	
-	public ModelAndView findMatEnterById(int enterId); 
+	ModelAndView findMatEnterById(int enterId);
 	
 	/*
 	 * ===========材料使用========================================================================
 	 */
-	public ModelAndView findAllMatUse();
-	public ModelAndView findAllMatUseByPage(Page page,String searchName);
-	public ModelAndView saveMatUse(MaterialUse matUse);
-	public ModelAndView deleteUseMatById(int useId);
-	public ModelAndView updateMatUse(MaterialUse matUse);
-	
-	public ModelAndView findMatUseById(int useId);
-	
+	ModelAndView findAllMatUse();
+	ModelAndView findAllMatUseByPage(Page page,String searchName);
+	ModelAndView saveMatUse(MaterialUse matUse);
+	ModelAndView deleteUseMatById(int useId);
+	ModelAndView updateMatUse(MaterialUse matUse);
+	ModelAndView findMatUseById(int useId);
 }
